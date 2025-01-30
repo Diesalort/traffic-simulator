@@ -72,6 +72,7 @@ public class Vehicle extends SimulatedObject {
 		this._contClass = c;
 	}
 	
+	@Override
 	void advance(int currTime) {
 		
 		if (this._status == VehicleStatus.TRAVELING) {
@@ -116,6 +117,7 @@ public class Vehicle extends SimulatedObject {
 	}
 	
 	
+	@Override
 	public JSONObject report() { //TODO
 		
 		
@@ -160,4 +162,6 @@ public class Vehicle extends SimulatedObject {
 		 
 		 //TODO Hay que devolver una copia!!
 	 }
+	 
+	 //TODO: Asegúrate de que la velocidad del vehı́culo es 0 cuando su estado no es Traveling. Poner en metodo advance?
 }
