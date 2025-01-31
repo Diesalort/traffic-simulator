@@ -2,10 +2,14 @@ package simulator.model;
 
 public class InterCityRoad extends Road {
 
-
-
 	InterCityRoad(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws IllegalArgumentException {
 		super(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
+	}
+
+
+	public InterCityRoad(InterCityRoad icr) {
+		super(icr);
+
 	}
 
 	@Override
@@ -56,6 +60,12 @@ public class InterCityRoad extends Road {
 		}
 		
 		return 0; //TODO: ¿QUÉ DEVUELVE? ESTE MÉTODO?
+	}
+
+	@Override
+	Road copy() {
+
+		return new InterCityRoad(this);
 	}
 
 	

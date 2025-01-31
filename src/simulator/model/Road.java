@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public abstract class Road extends SimulatedObject {
 
 	// TODO: protected xq van a heredar de esta clase nuevas clases
@@ -43,6 +46,21 @@ public abstract class Road extends SimulatedObject {
 
 	}
 
+	Road(Road r) { //TODO: constructor de copia
+		super(r._id);
+		
+		this._srcJunc = r._srcJunc;
+		this._destJunc = r._destJunc;
+		this._length = r._length;
+		this._maxSpeed = r._maxSpeed;
+		this._speedLimit = r._speedLimit;
+		this._contLimit = r._contLimit;
+		this._weather = r._weather;
+		this._totalCO2 = r._totalCO2;
+		this._vehicles = new ArrayList<>(r._vehicles);
+		
+	}
+	
 	void enter(Vehicle v) throws IllegalArgumentException {
 
 		if (v.getLocation() != 0 || v.getSpeed() != 0)
@@ -95,8 +113,25 @@ public abstract class Road extends SimulatedObject {
 	}
 
 	@Override
-	public JSONObject report() { // TODO
+	public JSONObject report() {
 
+		JSONObject jo = new JSONObject();
+		
+		jo.put("id", this._id);
+		jo.put("speedlimit", this._speedLimit);
+		jo.put("weather", this._weather);
+		jo.put("co2", this._totalCO2);
+		jo.put("vehicles", false);
+		
+		JSONArray ja = new JSONArray();
+		for (Vehicle v : this._vehicles) {
+			
+			ja.put(v.getId());
+		}
+		
+		jo.put("vehicles", ja);
+		
+		return jo;
 	}
 
 	int getLength() {
@@ -105,13 +140,21 @@ public abstract class Road extends SimulatedObject {
 	}
 
 	Junction getDest() {
-
+		
 		// TODO: ¡HAY QUE DEVOLVER COPIA!
+		
+		//return this._destJunc.copy();
+		
+		return null;
 	}
 
 	Junction getSrc() {
 
 		// TODO: ¡HAY QUE DEVOLVER COPIA!
+	
+		//return this._srcJunc.copy();
+		
+		return null;
 	}
 
 	Weather getWeather() {
@@ -144,5 +187,7 @@ public abstract class Road extends SimulatedObject {
 		return Collections.unmodifiableList(this._vehicles);
 	}
 	
+	//TODO REPASAR COPIA TAMBIÉN EN CLASES HIJAS
+	abstract Road copy();
 	
 }

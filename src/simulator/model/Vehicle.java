@@ -2,6 +2,7 @@ package simulator.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -15,7 +16,7 @@ public class Vehicle extends SimulatedObject {
 	private int _location;
 	private int _contClass;
 	private int _totalCO2;
-	private int _totalDistance;
+	private int _distance;
 
 	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws IllegalArgumentException {
 		super(id);
@@ -41,14 +42,9 @@ public class Vehicle extends SimulatedObject {
 		this._location = 0;
 		this._contClass = contClass;
 		this._totalCO2 = 0;
-		this._totalDistance = 0;
+		this._distance = 0;
 	}
 
-	@Override
-	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	void setSpeed(int s) throws IllegalArgumentException {
 		
@@ -80,13 +76,13 @@ public class Vehicle extends SimulatedObject {
 			int locAnterior = this._location;
 			
 			//Actualiza location
-			if (this._location + this._speed < this._road.getLongitud()) { //TODO
+			if (this._location + this._speed < this._road.getLength()) { //TODO
 				
 				this._location += this._speed;
 				
 			} else {
-				
-				this._location = this._road.getLongitud(); 
+
+				this._location = this._road.getLength(); 
 			}
 			
 			//Actualiza contaminación
@@ -97,11 +93,14 @@ public class Vehicle extends SimulatedObject {
 			// añade contProducida al grado de contaminación de la carretera actual, invocando al método correspondiente de la clase Road.
 			
 			
-			if (this._location >= this._road.getLongitud()) { //TODO
+			if (this._location >= this._road.getLength()) { //TODO
 				
 				//el vehı́culo entra en la cola del cruce correspondiente (llamando a un método de la clase Junction).
 				//Recuerda que debes modificar el estado del vehı́culo.
 			}
+		} else {
+			
+			this._speed = 0;
 		}
 		
 		
@@ -118,50 +117,67 @@ public class Vehicle extends SimulatedObject {
 	
 	
 	@Override
-	public JSONObject report() { //TODO
+	public JSONObject report() {
 		
+		JSONObject jo = new JSONObject();
 		
+		jo.put("id", this._id);
+		jo.put("speed", this._speed);
+		jo.put("distance", this._distance);
+		jo.put("co2", this._totalCO2);
+		jo.put("class", this._contClass);
+		jo.put("status", this._status);
+		
+		if (this._status != VehicleStatus.PENDING && this._status != VehicleStatus.ARRIVED) {
+			
+			jo.put("road", this._road);
+			jo.put("location", this._location);
+		}
+
+		return jo;
 	}
 	
-	int getLocation(){
+	public int getLocation(){
 		
 		return this._location;		
 	}
 	
-	int getSpeed(){
+	public int getSpeed(){
 		
 		return this._speed;
 	}
 	
-	int getMaxSpeed(){
+	public int getMaxSpeed(){
 		
 		return this._maxSpeed;
 	}
 
-	int getContClass() {
+	public int getContClass() {
 		
 		return this._contClass;
 	}
 	
-	VehicleStatus getStatus(){
+	public VehicleStatus getStatus(){
 		
 		return this._status;
 	}
 	
-	int getTotalCO2(){
+	public int getTotalCO2(){
 		
 		return this._totalCO2;
 	}
 	
-	 List<Junction> getItinerary(){
-		 
-		 //TODO Hay que devolver una copia!!		 
+	
+	 //TODO Repasar los dos siguientes métodos y el proceso realizado para devolver una copia!!
+	
+	 public List<Junction> getItinerary(){
+		 	 
+		 return new ArrayList<>(this._itinerary);
 	 }
 	
-	 Road getRoad(){
+	 public Road getRoad(){
 		 
-		 //TODO Hay que devolver una copia!!
+		 return this._road.copy();
 	 }
 	 
-	 //TODO: Asegúrate de que la velocidad del vehı́culo es 0 cuando su estado no es Traveling. Poner en metodo advance?
 }
