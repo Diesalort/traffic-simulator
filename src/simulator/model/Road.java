@@ -18,9 +18,10 @@ public abstract class Road extends SimulatedObject {
 	protected int _contLimit;
 	protected Weather _weather;
 	protected int _totalCO2;
-	protected List<Vehicle> _vehicles; // TODO: debe estar siempre ordenada por la localización de los vehı́culos
-										// (orden descendente)
+	protected List<Vehicle> _vehicles; // TODO: debe estar siempre ordenada por la localización de los vehı́culos (orden descendente)
 
+	private final VehicleDescLocationComparator _locComp;
+	
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather)
 			throws IllegalArgumentException {
 		super(id);
@@ -42,8 +43,8 @@ public abstract class Road extends SimulatedObject {
 		this._contLimit = contLimit;
 		this._weather = weather;
 		this._totalCO2 = 0;
-		this._vehicles = new ArrayList<>();
-
+		this._vehicles = new ArrayList<Vehicle>();
+		this._locComp = new VehicleDescLocationComparator();
 	}
 
 	Road(Road r) { //TODO: constructor de copia
@@ -57,8 +58,16 @@ public abstract class Road extends SimulatedObject {
 		this._contLimit = r._contLimit;
 		this._weather = r._weather;
 		this._totalCO2 = r._totalCO2;
-		this._vehicles = new ArrayList<>(r._vehicles);
+		this._vehicles = new ArrayList<Vehicle>();
 		
+		//TODO REPASAR: HAY QUE COPIAR CADA VEHICULO
+		for (Vehicle v : r._vehicles) {
+			
+			this._vehicles.add(v.copy());
+			
+		}
+		
+		this._locComp = new VehicleDescLocationComparator();
 	}
 	
 	void enter(Vehicle v) throws IllegalArgumentException {
@@ -67,12 +76,14 @@ public abstract class Road extends SimulatedObject {
 			throw new IllegalArgumentException("La localización del vehículo y/o la velocidad es distinta de 0");
 
 		this._vehicles.add(v);
+		Collections.sort(this._vehicles, this._locComp);
 
 	}
 
 	void exit(Vehicle v) {
 
-		this._vehicles.remove(v); // TODO: creo que deberiamos implementar el equals
+		this._vehicles.remove(v); // TODO: creo que deberiamos implementar el equals (Diapositiva 6 - Tema 2)
+		
 	}
 
 	void setWeather(Weather w) {
@@ -108,8 +119,8 @@ public abstract class Road extends SimulatedObject {
 			v.setSpeed(this.calculateVehicleSpeed(v));
 			v.advance(currTime);
 		}
-
-		// TODO: ¡HAY QUE ORDENAR LA LISTA DE VEHICULOS AQUÍ!
+		
+		Collections.sort(this._vehicles, this._locComp);
 	}
 
 	@Override

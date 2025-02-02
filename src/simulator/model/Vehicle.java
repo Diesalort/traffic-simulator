@@ -45,7 +45,23 @@ public class Vehicle extends SimulatedObject {
 		this._distance = 0;
 	}
 
-	
+	//TODO REPASAR constructor de copia
+	public Vehicle(Vehicle v) {
+		super(v._id);
+		
+		this._itinerary = Collections.unmodifiableList(new ArrayList<>(v._itinerary));
+		this._maxSpeed = v._maxSpeed;
+		this._speed = v._speed;
+		this._status = v._status;
+		this._road = v._road.copy();
+		this._location = v._location;
+		this._contClass = v._contClass;
+		this._totalCO2 = v._totalCO2;
+		this._distance = v._distance;
+
+	}
+
+
 	void setSpeed(int s) throws IllegalArgumentException {
 		
 		if (s < 0) throw new IllegalArgumentException("La velocidad no puede ser negativa");
@@ -172,12 +188,18 @@ public class Vehicle extends SimulatedObject {
 	
 	 public List<Junction> getItinerary(){
 		 	 
-		 return new ArrayList<>(this._itinerary);
+		 return new ArrayList<>(this._itinerary); //TODO creo que habria que copiar cada cruce y añadirlo al arrayList
 	 }
 	
-	 public Road getRoad(){
+	 public Road getRoad(){ //¡Hay que devolver una copia!
 		 
 		 return this._road.copy();
+	 }
+	 
+	 //TODO Repasar copy
+	 Vehicle copy() {
+		 
+		 return new Vehicle(this);
 	 }
 	 
 }
