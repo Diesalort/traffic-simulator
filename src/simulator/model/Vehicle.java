@@ -102,11 +102,9 @@ public class Vehicle extends SimulatedObject {
 			}
 			
 			//Actualiza contaminación
-			int contProducida = this._contClass * (this._location - locAnterior);
+			int contProducida = (this._location - locAnterior) * this._contClass;
 			this._totalCO2 += contProducida;
-			
-			//TODO
-			// añade contProducida al grado de contaminación de la carretera actual, invocando al método correspondiente de la clase Road.
+			this._road.addContamination(contProducida);
 			
 			
 			if (this._location >= this._road.getLength()) { //TODO
@@ -114,6 +112,7 @@ public class Vehicle extends SimulatedObject {
 				//el vehı́culo entra en la cola del cruce correspondiente (llamando a un método de la clase Junction).
 				//Recuerda que debes modificar el estado del vehı́culo.
 			}
+			
 		} else {
 			
 			this._speed = 0;
@@ -129,6 +128,7 @@ public class Vehicle extends SimulatedObject {
 			
 			throw new IllegalArgumentException("El estado del vehículo no es ni Pending ni Waiting");
 		}
+		
 	}
 	
 	
@@ -191,7 +191,7 @@ public class Vehicle extends SimulatedObject {
 		 return new ArrayList<>(this._itinerary); //TODO creo que habria que copiar cada cruce y añadirlo al arrayList
 	 }
 	
-	 public Road getRoad(){ //¡Hay que devolver una copia!
+	 public Road getRoad(){ //¿Hay que devolver una copia?
 		 
 		 return this._road.copy();
 	 }

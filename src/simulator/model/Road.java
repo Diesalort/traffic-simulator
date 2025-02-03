@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 public abstract class Road extends SimulatedObject {
 
-	// TODO: protected xq van a heredar de esta clase nuevas clases
+	// TODO: protected xq van a heredar de esta clase nuevas clases; o private, y en las clases hijas usar getters y setters?
 	protected Junction _srcJunc;
 	protected Junction _destJunc;
 	protected int _length;
@@ -152,20 +152,16 @@ public abstract class Road extends SimulatedObject {
 
 	Junction getDest() {
 		
-		// TODO: ¡HAY QUE DEVOLVER COPIA!
+		// TODO: ¿HAY QUE DEVOLVER COPIA?: return this._destJunc.copy();
 		
-		//return this._destJunc.copy();
-		
-		return null;
+		return this._destJunc;
 	}
 
 	Junction getSrc() {
 
-		// TODO: ¡HAY QUE DEVOLVER COPIA!
-	
-		//return this._srcJunc.copy();
-		
-		return null;
+		// TODO: ¿HAY QUE DEVOLVER COPIA?: return this._srcJunc.copy();
+
+		return this._srcJunc;
 	}
 
 	Weather getWeather() {

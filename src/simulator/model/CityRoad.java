@@ -32,9 +32,7 @@ public class CityRoad extends Road {
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
 		
-		v.setSpeed(((11-v.getContClass())*this._speedLimit)/11);
-		
-		return 0; //TODO: ¿QUÉ DEVUELVE ESTE MÉTODO? (o no hay que hacer setSpeed, y simplemente calcular la velocidad?)
+		return ((11-v.getContClass())*this._speedLimit)/11;
 	}
 
 	@Override

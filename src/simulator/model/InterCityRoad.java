@@ -50,16 +50,16 @@ public class InterCityRoad extends Road {
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
 
+
+		int velocidad = this._speedLimit;
+		
 		if (this._weather == Weather.STORM) {
 			
-			v.setSpeed((this._speedLimit*8)/10);
+			velocidad = (velocidad*8)/10;
 			
-		} else {
-			
-			v.setSpeed(this._speedLimit);
 		}
 		
-		return 0; //TODO: ¿QUÉ DEVUELVE? ESTE MÉTODO?
+		return velocidad;
 	}
 
 	@Override
