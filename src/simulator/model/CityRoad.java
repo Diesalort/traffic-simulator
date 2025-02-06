@@ -6,10 +6,6 @@ public class CityRoad extends Road {
 		super(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
 	}
 
-	public CityRoad(CityRoad cr) {
-		super(cr);
-	}
-
 	@Override
 	void reduceTotalContamination() {
 		int x = 2;
@@ -33,13 +29,5 @@ public class CityRoad extends Road {
 	int calculateVehicleSpeed(Vehicle v) {
 		
 		return ((11-v.getContClass())*this._speedLimit)/11;
-	}
-
-	@Override
-	Road copy() {
-
-		return new CityRoad(this);
-	}
-
-	
+	}	
 }

@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/mx22x/Desktop/Workspace java/Traffic Simulator/lib/commons-cli-1.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/mx22x/Desktop/Workspace java/Traffic Simulator/lib/json.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

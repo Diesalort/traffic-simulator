@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class Vehicle extends SimulatedObject {
 
 	private List<Junction> _itinerary;
+	private int _junctionIndex; //índice de itinerary en el que se encuentra el vehículo
 	private int _maxSpeed;
 	private int _speed;
 	private VehicleStatus _status;
@@ -18,7 +19,7 @@ public class Vehicle extends SimulatedObject {
 	private int _totalCO2;
 	private int _distance;
 
-	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws IllegalArgumentException {
+	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
 		super(id);
 		
 		if (maxSpeed <= 0) {
@@ -31,7 +32,7 @@ public class Vehicle extends SimulatedObject {
 			
 		} else if (itinerary.size() < 2) {
 			
-			throw new IllegalArgumentException("itinerario debe tener, como mínimo, 2 cruces");
+			throw new IllegalArgumentException("El itinerario debe tener, como mínimo, 2 cruces");
 		}
 		
 		this._itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
@@ -45,39 +46,25 @@ public class Vehicle extends SimulatedObject {
 		this._distance = 0;
 	}
 
-	//TODO REPASAR constructor de copia
-	public Vehicle(Vehicle v) {
-		super(v._id);
-		
-		this._itinerary = Collections.unmodifiableList(new ArrayList<>(v._itinerary));
-		this._maxSpeed = v._maxSpeed;
-		this._speed = v._speed;
-		this._status = v._status;
-		this._road = v._road.copy();
-		this._location = v._location;
-		this._contClass = v._contClass;
-		this._totalCO2 = v._totalCO2;
-		this._distance = v._distance;
-
-	}
-
-
-	void setSpeed(int s) throws IllegalArgumentException {
+	void setSpeed(int s) {
 		
 		if (s < 0) throw new IllegalArgumentException("La velocidad no puede ser negativa");
 		
-		if (s < this._maxSpeed) {
+		if (this._status == VehicleStatus.TRAVELING) {
 			
-			this._speed = s;
-			
-		} else {
-			
-			this._speed = this._maxSpeed;
-		}	
+			if (s < this._maxSpeed) {
+				
+				this._speed = s;
+				
+			} else {
+				
+				this._speed = this._maxSpeed;
+			}		
+		}
 	}
 	
 	
-	void setContaminationClass(int c) throws IllegalArgumentException {
+	void setContaminationClass(int c) {
 		
 		if (c < 0 || c > 10) throw new IllegalArgumentException("El grado de contaminacion debe estar comprendido entre 0 y 10 (incluidos)");
 		
@@ -92,7 +79,7 @@ public class Vehicle extends SimulatedObject {
 			int locAnterior = this._location;
 			
 			//Actualiza location
-			if (this._location + this._speed < this._road.getLength()) { //TODO
+			if (this._location + this._speed < this._road.getLength()) {
 				
 				this._location += this._speed;
 				
@@ -107,10 +94,12 @@ public class Vehicle extends SimulatedObject {
 			this._road.addContamination(contProducida);
 			
 			
-			if (this._location >= this._road.getLength()) { //TODO
+			if (this._location >= this._road.getLength()) { //TODO: el vehı́culo entra en la cola del cruce correspondiente 
 				
-				//el vehı́culo entra en la cola del cruce correspondiente (llamando a un método de la clase Junction).
-				//Recuerda que debes modificar el estado del vehı́culo.
+				Junction actualJunction = this._itinerary.get(this._junctionIndex);
+				actualJunction.enter(this);
+				this._status = VehicleStatus.WAITING;
+				this._speed = 0;
 			}
 			
 		} else {
@@ -122,15 +111,63 @@ public class Vehicle extends SimulatedObject {
 	}
 	
 	
-	void moveToNextRoad() throws IllegalArgumentException{ //TODO
+	void moveToNextRoad() { //TODO
 		
-		if (this._status != VehicleStatus.PENDING || this._status != VehicleStatus.WAITING) {
+		/*if (this._status != VehicleStatus.PENDING && this._status != VehicleStatus.WAITING) {
 			
 			throw new IllegalArgumentException("El estado del vehículo no es ni Pending ni Waiting");
 		}
 		
+		Junction actualJunction = this._itinerary.get(_junctionIndex);
+		this._junctionIndex++;
+			
+		if (this._junctionIndex >= this._itinerary.size()) { //Ha completado su recorrido
+			
+			this._road.exit(this);
+			this._road = null;
+			this._location = 0;
+			this._status = VehicleStatus.ARRIVED;		
+			
+		} else {
+			
+			if (this._status == VehicleStatus.WAITING) {
+				
+				this._road.exit(this); //Solo sale de la carretera si status = waiting
+			}
+			
+			Junction newJunction = this._itinerary.get(_junctionIndex);
+			this._road = actualJunction.roadTo(newJunction);
+			this._road.enter(this);
+			this._location = 0;
+			
+			this._status = VehicleStatus.TRAVELING;
+		}*/
+		
+		if (this._road != null || this._junctionIndex > 0) {
+			
+			this._road.exit(this);
+		}
+		
+		if (this._junctionIndex == this._itinerary.size() - 1) {
+			
+			this._status = VehicleStatus.ARRIVED;
+			this._road = null;
+			this._speed = 0;
+			this._location = 0;
+			
+		} else {
+			
+			Junction actualJunction = this._itinerary.get(_junctionIndex);
+			Junction nextJunction = this._itinerary.get(_junctionIndex + 1);
+			
+			this._junctionIndex++;
+			this._road = actualJunction.roadTo(nextJunction);
+			this._road.enter(this);
+			this._location = 0;
+			
+			this._status = VehicleStatus.TRAVELING;
+		}
 	}
-	
 	
 	@Override
 	public JSONObject report() {
@@ -142,7 +179,7 @@ public class Vehicle extends SimulatedObject {
 		jo.put("distance", this._distance);
 		jo.put("co2", this._totalCO2);
 		jo.put("class", this._contClass);
-		jo.put("status", this._status);
+		jo.put("status", this._status); 
 		
 		if (this._status != VehicleStatus.PENDING && this._status != VehicleStatus.ARRIVED) {
 			
@@ -183,23 +220,15 @@ public class Vehicle extends SimulatedObject {
 		return this._totalCO2;
 	}
 	
-	
-	 //TODO Repasar los dos siguientes métodos y el proceso realizado para devolver una copia!!
-	
+		
 	 public List<Junction> getItinerary(){
 		 	 
-		 return new ArrayList<>(this._itinerary); //TODO creo que habria que copiar cada cruce y añadirlo al arrayList
+		 return this._itinerary;
 	 }
 	
-	 public Road getRoad(){ //¿Hay que devolver una copia?
+	 public Road getRoad(){
 		 
-		 return this._road.copy();
-	 }
-	 
-	 //TODO Repasar copy
-	 Vehicle copy() {
-		 
-		 return new Vehicle(this);
+		 return this._road;
 	 }
 	 
 }

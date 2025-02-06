@@ -7,11 +7,6 @@ public class InterCityRoad extends Road {
 	}
 
 
-	public InterCityRoad(InterCityRoad icr) {
-		super(icr);
-
-	}
-
 	@Override
 	void reduceTotalContamination() {
 
@@ -60,14 +55,6 @@ public class InterCityRoad extends Road {
 		}
 		
 		return velocidad;
-	}
-
-	@Override
-	Road copy() {
-
-		return new InterCityRoad(this);
-	}
-
-	
+	}	
 	
 }
