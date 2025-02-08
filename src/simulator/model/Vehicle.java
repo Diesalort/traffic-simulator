@@ -3,6 +3,7 @@ package simulator.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.json.JSONObject;
 
@@ -45,7 +46,8 @@ public class Vehicle extends SimulatedObject {
 		this._totalCO2 = 0;
 		this._distance = 0;
 	}
-
+	
+	
 	void setSpeed(int s) {
 		
 		if (s < 0) throw new IllegalArgumentException("La velocidad no puede ser negativa");
@@ -88,6 +90,8 @@ public class Vehicle extends SimulatedObject {
 				this._location = this._road.getLength(); 
 			}
 			
+			this._distance += this._location - locAnterior;
+					
 			//Actualiza contaminación
 			int contProducida = (this._location - locAnterior) * this._contClass;
 			this._totalCO2 += contProducida;
@@ -111,14 +115,14 @@ public class Vehicle extends SimulatedObject {
 	}
 	
 	
-	void moveToNextRoad() { //TODO
+	void moveToNextRoad() { //TODO repasar
 		
-		/*if (this._status != VehicleStatus.PENDING && this._status != VehicleStatus.WAITING) {
+		if (this._status != VehicleStatus.PENDING && this._status != VehicleStatus.WAITING) {
 			
 			throw new IllegalArgumentException("El estado del vehículo no es ni Pending ni Waiting");
 		}
 		
-		Junction actualJunction = this._itinerary.get(_junctionIndex);
+		/*Junction actualJunction = this._itinerary.get(_junctionIndex);
 		this._junctionIndex++;
 			
 		if (this._junctionIndex >= this._itinerary.size()) { //Ha completado su recorrido
@@ -142,6 +146,7 @@ public class Vehicle extends SimulatedObject {
 			
 			this._status = VehicleStatus.TRAVELING;
 		}*/
+		
 		
 		if (this._road != null || this._junctionIndex > 0) {
 			
@@ -169,6 +174,7 @@ public class Vehicle extends SimulatedObject {
 		}
 	}
 	
+	
 	@Override
 	public JSONObject report() {
 		
@@ -179,11 +185,11 @@ public class Vehicle extends SimulatedObject {
 		jo.put("distance", this._distance);
 		jo.put("co2", this._totalCO2);
 		jo.put("class", this._contClass);
-		jo.put("status", this._status); 
+		jo.put("status", this._status.toString()); 
 		
 		if (this._status != VehicleStatus.PENDING && this._status != VehicleStatus.ARRIVED) {
 			
-			jo.put("road", this._road);
+			jo.put("road", this._road.getId());
 			jo.put("location", this._location);
 		}
 
@@ -230,5 +236,7 @@ public class Vehicle extends SimulatedObject {
 		 
 		 return this._road;
 	 }
+	 
+	 
 	 
 }

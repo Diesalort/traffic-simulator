@@ -7,7 +7,7 @@ public class RoundRobinStrategy implements LightSwitchingStrategy{
 	private int _timeSlot;
 	
 	
-	RoundRobinStrategy(int timeSlot) throws IllegalArgumentException {
+	RoundRobinStrategy(int timeSlot) {
 		
 		if (timeSlot <= 0) throw new IllegalArgumentException("timeSlot debe ser positivo");
 		

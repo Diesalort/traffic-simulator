@@ -6,14 +6,14 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy {
 
 	private int _timeSlot;
 	
-	MostCrowdedStrategy(int timeSlot) throws IllegalArgumentException {
+	MostCrowdedStrategy(int timeSlot) {
 		
 		if (timeSlot <= 0) throw new IllegalArgumentException("timeSlot debe ser positivo");
 		
 		this._timeSlot = timeSlot;
 	}
 
-	@Override
+	@Override //TODO Repasar este método
 	public int chooseNextGreen(List<Road> roads, List<List<Vehicle>> qs, int currGreen, int lastSwitchingTime, int currTime) {
 
 		if (roads.isEmpty()) return -1;

@@ -10,7 +10,7 @@ public class InterCityRoad extends Road {
 	@Override
 	void reduceTotalContamination() {
 
-		int x = 20;
+		int x = 20; //Storm
 		
 		if (this._weather == Weather.SUNNY) {
 			x = 2;
@@ -44,7 +44,6 @@ public class InterCityRoad extends Road {
 
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
-
 
 		int velocidad = this._speedLimit;
 		

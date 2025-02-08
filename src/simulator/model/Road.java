@@ -3,15 +3,17 @@ package simulator.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public abstract class Road extends SimulatedObject {
 
-	// TODO: protected xq van a heredar de esta clase nuevas clases; o private, y en las clases hijas usar getters y setters?
-	protected Junction _srcJunc;
-	protected Junction _destJunc;
+	// TODO: protected xq van a heredar de esta clase nuevas clases; o private, y en
+	// las clases hijas usar getters y setters?
+	protected Junction _source;
+	protected Junction _destination;
 	protected int _length;
 	protected int _maxSpeed;
 	protected int _speedLimit;
@@ -21,9 +23,8 @@ public abstract class Road extends SimulatedObject {
 	protected List<Vehicle> _vehicles;
 
 	private final VehicleDescLocationComparator _locComp;
-	
-	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather)
-			throws IllegalArgumentException {
+
+	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
 
 		if (maxSpeed <= 0)
@@ -32,18 +33,18 @@ public abstract class Road extends SimulatedObject {
 		if (contLimit < 0)
 			throw new IllegalArgumentException("El límite de contaminación no puede ser negativo");
 
-		if (length < 0)
+		if (length <= 0)
 			throw new IllegalArgumentException("La longitud de la carretera debe ser positiva");
 
 		if (srcJunc == null || destJunc == null || weather == null)
 			throw new IllegalArgumentException("El valor de los cruces o el tiempo es nulo");
 
-		this._srcJunc = srcJunc;
-		this._srcJunc.addOutGoingRoad(this); //TODO
-		
-		this._destJunc = destJunc;
-		this._destJunc.addIncommingRoad(this); //TODO
-		
+		this._source = srcJunc;
+		this._destination = destJunc;
+
+		this._source.addOutGoingRoad(this);
+		this._destination.addIncommingRoad(this);
+
 		this._length = length;
 		this._maxSpeed = maxSpeed;
 		this._speedLimit = maxSpeed;
@@ -54,7 +55,7 @@ public abstract class Road extends SimulatedObject {
 		this._locComp = new VehicleDescLocationComparator();
 	}
 
-	
+
 	void enter(Vehicle v) {
 
 		if (v.getLocation() != 0 || v.getSpeed() != 0)
@@ -78,7 +79,7 @@ public abstract class Road extends SimulatedObject {
 		this._weather = w;
 	}
 
-	void addContamination(int c)  {
+	void addContamination(int c) {
 
 		if (c < 0)
 			throw new IllegalArgumentException("La contaminación dada es negativa");
@@ -103,7 +104,7 @@ public abstract class Road extends SimulatedObject {
 			v.setSpeed(this.calculateVehicleSpeed(v));
 			v.advance(currTime);
 		}
-		
+
 		Collections.sort(this._vehicles, this._locComp);
 	}
 
@@ -111,21 +112,21 @@ public abstract class Road extends SimulatedObject {
 	public JSONObject report() {
 
 		JSONObject jo = new JSONObject();
-		
+
 		jo.put("id", this._id);
 		jo.put("speedlimit", this._speedLimit);
-		jo.put("weather", this._weather);
+		jo.put("weather", this._weather.toString());
 		jo.put("co2", this._totalCO2);
-		
+
 		JSONArray ja = new JSONArray();
-		
+
 		for (Vehicle v : this._vehicles) {
-			
+
 			ja.put(v.getId());
 		}
-		
+
 		jo.put("vehicles", ja);
-		
+
 		return jo;
 	}
 
@@ -135,13 +136,13 @@ public abstract class Road extends SimulatedObject {
 	}
 
 	Junction getDest() {
-				
-		return this._destJunc;
+
+		return this._destination;
 	}
 
 	Junction getSrc() {
 
-		return this._srcJunc;
+		return this._source;
 	}
 
 	Weather getWeather() {
@@ -173,5 +174,5 @@ public abstract class Road extends SimulatedObject {
 
 		return Collections.unmodifiableList(this._vehicles);
 	}
-		
+
 }
