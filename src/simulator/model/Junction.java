@@ -22,10 +22,10 @@ public class Junction extends SimulatedObject {
 	private LightSwitchingStrategy _lss; 
 	private DequeuingStrategy _dqs;
 
-	private int _x;
-	private int _y;
+	private int _xCoor;
+	private int _yCoor;
 	
-	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) throws IllegalArgumentException {
+	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		  super(id);
 		  
 		  if (lsStrategy == null || dqStrategy == null) {
@@ -46,8 +46,8 @@ public class Junction extends SimulatedObject {
 		  this._lastSwitchingTime = 0;
 		  this._lss = lsStrategy;
 		  this._dqs = dqStrategy;
-		  this._x = xCoor;
-		  this._y = yCoor;
+		  this._xCoor = xCoor;
+		  this._yCoor = yCoor;
 		}
 	
 	
