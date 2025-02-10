@@ -24,12 +24,12 @@ public abstract class Builder<T> {
 		info.put("desc", _desc);
 
 		JSONObject data = new JSONObject();
-		fill_in_fata(data);
+		fill_in_data(data);
 		info.put("data", data);
 		return info;
 	}
 
-	protected void fill_in_fata(JSONObject o) {
+	protected void fill_in_data(JSONObject o) {
 	}
 
 	@Override
