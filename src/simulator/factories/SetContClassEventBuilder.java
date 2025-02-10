@@ -1,4 +1,4 @@
-package simulator.model;
+package simulator.factories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import simulator.factories.Builder;
 import simulator.misc.Pair;
+import simulator.model.Event;
+import simulator.model.SetContClassEvent;
 
 public class SetContClassEventBuilder extends Builder<Event> {
 
