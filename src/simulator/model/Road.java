@@ -10,8 +10,6 @@ import org.json.JSONObject;
 
 public abstract class Road extends SimulatedObject {
 
-	// TODO: protected xq van a heredar de esta clase nuevas clases; o private, y en
-	// las clases hijas usar getters y setters?
 	protected Junction _source;
 	protected Junction _destination;
 	protected int _length;
@@ -55,7 +53,18 @@ public abstract class Road extends SimulatedObject {
 		this._locComp = new VehicleDescLocationComparator();
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(this._id);
+	}
 
+
+	@Override
+	public boolean equals(Object obj) {
+
+		return this == obj || obj != null && obj instanceof Road && ((Road)obj)._id.equals(this._id); 
+	}
+	
 	void enter(Vehicle v) {
 
 		if (v.getLocation() != 0 || v.getSpeed() != 0)
@@ -68,7 +77,7 @@ public abstract class Road extends SimulatedObject {
 
 	void exit(Vehicle v) {
 
-		this._vehicles.remove(v); // TODO: creo que deberiamos implementar el equals (Diapositiva 6 - Tema 2)
+		this._vehicles.remove(v);
 	}
 
 	void setWeather(Weather w) {

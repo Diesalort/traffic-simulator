@@ -51,7 +51,6 @@ public class Junction extends SimulatedObject {
 		}
 	
 	
-	//TODO necesario equals y hashcode?
 	@Override
 	public int hashCode() {
 		return Objects.hash(this._id);
@@ -68,7 +67,7 @@ public class Junction extends SimulatedObject {
 
 	void addIncommingRoad(Road r) {
 		
-		if (r.getDest().equals(this)) { //TODO usar == ?
+		if (r.getDest().equals(this)) {
 			
 			this._inRoads.add(r);
 
@@ -89,7 +88,7 @@ public class Junction extends SimulatedObject {
 			
 			throw new IllegalArgumentException("Ya existe una carretera que tiene ese cruce como destino");
 			
-		} else if (!r.getSrc().equals(this)) { //TODO usar != ?
+		} else if (!r.getSrc().equals(this)) {
 			
 			throw new IllegalArgumentException("La carretera dada no es una carretera saliente de este cruce");
 		}

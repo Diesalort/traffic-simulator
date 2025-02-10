@@ -75,8 +75,8 @@ public class RoadMap {
 			j2 = itinerary.get(i+1);
 			
 			for (Road r : _roads) {
-				//TODO Hace falta .equals ?
-				if (r.getSrc() == j1 && r.getDest() == j2) { //Si existe una carretera que una los cruces j1 y j2, seguimos buscando
+
+				if (r.getSrc().equals(j1) && r.getDest().equals(j2)) { //Si existe una carretera que una los cruces j1 y j2, seguimos buscando
 					
 					exist = true;
 				}

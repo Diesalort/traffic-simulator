@@ -23,14 +23,14 @@ public class TrafficSimulator {
 		if (e.getTime() <= this._time)
 			throw new IllegalArgumentException("El tiempo del evento es anterior al actual");
 		
-		this._events.add(e); //TODO creo que se mantiene el orden sin hacer nada más
+		this._events.add(e);
 	}
 	
 	public void advance() {
 		
 		this._time++;
 		
-		//TODO: ejecuta todos los eventos cuyo tiempo sea el tiempo actual de la simulación y los elimina de la lista.
+		//Ejecuta todos los eventos cuyo tiempo sea el tiempo actual de la simulación y los elimina de la lista.
 		while (!this._events.isEmpty() && this._events.peek().getTime() == this._time) {
 			
 			Event e = this._events.poll(); //Obtenemos y elminamos el evento de la cola
