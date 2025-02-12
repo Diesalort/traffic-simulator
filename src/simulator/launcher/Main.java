@@ -126,6 +126,7 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws IOException {
+		
 	}
 
 	private static void start(String[] args) throws IOException {
