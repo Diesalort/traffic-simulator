@@ -33,14 +33,14 @@ public abstract class NewRoadEventBuilder extends Builder<Event> { //TODO repasa
 	@Override
 	protected void fill_in_data(JSONObject o) {
 		
-		o.put("time", 1);
-		o.put("id", "r1");
-		o.put("src", "j1");
-		o.put("dest", "j2");
-		o.put("length", 10000);
-		o.put("co2limit", 500);
-		o.put("maxspeed", 120);
-		o.put("weather", Weather.SUNNY.toString());
+		o.put("time", "The time at which the event is executed");
+		o.put("id", "The road's ID");
+		o.put("src", "The road's source junction");
+		o.put("dest", "The road's destiny junction");
+		o.put("length", "The road's length");
+		o.put("co2limit", "The road's co2 limit");
+		o.put("maxspeed", "The max speed allowed on the road");
+		o.put("weather", "The actual road's weather");
 	}
 	
 	//TODO repasar este metodo creado por mi

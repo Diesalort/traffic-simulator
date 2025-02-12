@@ -13,7 +13,7 @@ import simulator.model.Weather;
 public class NewVehicleEventBuilder extends Builder<Event> { //TODO NO PASA EL TEST, (puede que el fallo no esté en esta clase)
 
 	public NewVehicleEventBuilder() {
-		super("new_vehicle", "Create a NewVehicleEvent object");
+		super("new_vehicle", "A new vehicle");
 	}
 
 	@Override
@@ -39,10 +39,10 @@ public class NewVehicleEventBuilder extends Builder<Event> { //TODO NO PASA EL T
 	@Override
 	protected void fill_in_data(JSONObject o) {
 		
-		o.put("time", 1);
-		o.put("id", "v1");
-		o.put("maxspeed", 100);
-		o.put("class", 3);
-		o.put("itinerary", "[\"j3\", \"j1\", ...]"); //TODO JSONArray?
+		o.put("time", "The time at which the event is executed");
+		o.put("id", "The vehicle's ID");
+		o.put("maxspeed", "The vehicle's max speed");
+		o.put("class", "The vehicle's contamination class");
+		o.put("itinerary", "The junctions which the vehicle must pass");
 	}
 }

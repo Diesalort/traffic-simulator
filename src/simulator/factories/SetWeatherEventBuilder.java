@@ -14,7 +14,7 @@ import simulator.model.Weather;
 public class SetWeatherEventBuilder extends Builder<Event> {
 
 	public SetWeatherEventBuilder() {
-		super("set_weather", "Create a SetWeatherEvent object");
+		super("set_weather", "A new SetWeatherEvent");
 	}
 
 	@Override
@@ -40,10 +40,7 @@ public class SetWeatherEventBuilder extends Builder<Event> {
 	@Override
 	protected void fill_in_data(JSONObject o) {
 		
-		o.put("time", 1);
-		o.put("info", "[ { \"road\" : r1, \"weather\": \"SUNNY\" },\r\n" //TODO
-				+ "      { \"road\" : r2, \"weather\": \"STORM\" },\r\n"
-				+ "      ...\r\n"
-				+ "    ]");
+		o.put("time", "The time at which the event is executed");
+		o.put("info", "A list of roads with their IDs and their weathers");
 	}
 }

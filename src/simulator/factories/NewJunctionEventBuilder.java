@@ -37,11 +37,11 @@ public class NewJunctionEventBuilder extends Builder<Event> {
 	@Override
 	protected void fill_in_data(JSONObject o) {
 		
-		o.put("time", 1);
-		o.put("id", "j1");
-		o.put("coor", "[100,200]"); //TODO JSONArray?
-		o.put("ls_strategy", new JSONObject()); //TODO new JSONObject.put("type", ....) ??
-		o.put("dq_strategy", new JSONObject());
+		o.put("time", "The time at which the event is executed");
+		o.put("id", "The junction's ID");
+		o.put("coor", "The junction's coordinates [x,y]");
+		o.put("ls_strategy", "Type and data (timeSlot) of ls_strategy");
+		o.put("dq_strategy", "Type and data (timeSlot) of dq_strategy");
 	}
 }
 

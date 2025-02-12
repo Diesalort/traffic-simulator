@@ -13,7 +13,7 @@ import simulator.model.SetContClassEvent;
 public class SetContClassEventBuilder extends Builder<Event> {
 
 	public SetContClassEventBuilder() {
-		super("set_cont_class", "Create a SetContClassEvent object");
+		super("set_cont_class", "A new SetContClassEvent");
 	}
 
 	@Override
@@ -39,11 +39,8 @@ public class SetContClassEventBuilder extends Builder<Event> {
 	@Override
 	protected void fill_in_data(JSONObject o) {
 		
-		o.put("time", 10);
-		o.put("info", "[ { \"vehicle\" : v1, \"class\": 3 },\r\n" //TODO
-				+ "      { \"vehicle\" : v4, \"class\": 2 },\r\n"
-				+ "      ...\r\n"
-				+ "    ]");	
+		o.put("time", "The time at which the event is executed");
+		o.put("info", "A list of vehicles with their IDs and their contamination classes");	
 
 	}
 

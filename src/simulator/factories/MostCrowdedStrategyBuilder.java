@@ -22,7 +22,7 @@ public class MostCrowdedStrategyBuilder extends Builder<LightSwitchingStrategy> 
 	@Override
 	protected void fill_in_data(JSONObject o) {
 		
-		o.put("timeslot", 1);	
+		o.put("timeslot", "Consecutive ticks during which the road can have the green traffic light");	
 	}
 	
 }
