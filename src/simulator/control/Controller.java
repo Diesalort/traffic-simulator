@@ -72,7 +72,7 @@ public class Controller { //TODO repasar
 		
 		jo.put("states", ja);
 		
-		
+		//TODO ver como hace print en guía de práctica
 		p.println(jo.toString(3));
 	}
 	
