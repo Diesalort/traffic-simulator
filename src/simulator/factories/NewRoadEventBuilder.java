@@ -4,9 +4,10 @@ import org.json.JSONObject;
 
 import simulator.model.Event;
 import simulator.model.NewInterCityRoadEvent;
+import simulator.model.NewRoadEvent;
 import simulator.model.Weather;
 
-public class NewRoadEventBuilder extends Builder<Event> { //TODO repasar esta clase y la herencia de las clases hijas
+public abstract class NewRoadEventBuilder extends Builder<Event> { //TODO repasar esta clase y la herencia de las clases hijas
 
 	public NewRoadEventBuilder(String typeTag, String desc) {
 		super(typeTag, desc);
@@ -26,7 +27,7 @@ public class NewRoadEventBuilder extends Builder<Event> { //TODO repasar esta cl
 		String ws = data.getString("weather"); //Pongo String porque se han guardado como String	
 		Weather w = Weather.valueOf(ws.toUpperCase()); //convertimos el String ws al enum Weather
 		
-		return new NewInterCityRoadEvent(time, id, src, dest, length, co2Limit, maxSpeed, w);
+		return this.newInstance(time, id, src, dest, length, co2Limit, maxSpeed, w);
 	}
 	
 	@Override
@@ -41,5 +42,9 @@ public class NewRoadEventBuilder extends Builder<Event> { //TODO repasar esta cl
 		o.put("maxspeed", 120);
 		o.put("weather", Weather.SUNNY.toString());
 	}
+	
+	//TODO repasar este metodo creado por mi
+	protected abstract NewRoadEvent newInstance(int time, String id, String src, String dest, int length, int co2Limit, int maxSpeed, Weather w);
+	
 
 }
