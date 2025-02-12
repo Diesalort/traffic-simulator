@@ -42,7 +42,7 @@ public class NewVehicleEvent extends Event {
 			Junction j = map.getJunction(jId);
 			
 			if (j == null)
-				throw new IllegalArgumentException("El cruce " + j.getId() + " no está en el mapa de carreteras");
+				throw new IllegalArgumentException("El cruce " + jId + " no está en el mapa de carreteras");
 			
 			itinerary.add(j);			
 		}
