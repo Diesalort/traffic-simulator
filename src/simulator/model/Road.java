@@ -58,13 +58,12 @@ public abstract class Road extends SimulatedObject {
 		return Objects.hash(this._id);
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 
-		return this == obj || obj != null && obj instanceof Road && ((Road)obj)._id.equals(this._id); 
+		return this == obj || obj != null && obj instanceof Road && ((Road) obj)._id.equals(this._id);
 	}
-	
+
 	void enter(Vehicle v) {
 
 		if (v.getLocation() != 0 || v.getSpeed() != 0)

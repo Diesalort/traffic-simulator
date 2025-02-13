@@ -11,63 +11,64 @@ public class TrafficSimulator {
 	private RoadMap _roadMap;
 	private Queue<Event> _events;
 	private int _time;
-	
+
 	public TrafficSimulator() {
-        _roadMap = new RoadMap();
-        _events = new PriorityQueue<>();
-        _time = 0;
-    }
-	
+		_roadMap = new RoadMap();
+		_events = new PriorityQueue<>();
+		_time = 0;
+	}
+
 	public void addEvent(Event e) {
-		
+
 		if (e.getTime() <= this._time)
 			throw new IllegalArgumentException("Event time is earlier than current");
-		
+
 		this._events.add(e);
 	}
-	
+
 	public void advance() {
-		
+
 		this._time++;
-		
-		//Ejecuta todos los eventos cuyo tiempo sea el tiempo actual de la simulación y los elimina de la lista.
+
+		// Ejecuta todos los eventos cuyo tiempo sea el tiempo actual de la simulación y
+		// los elimina de la lista.
 		while (!this._events.isEmpty() && this._events.peek().getTime() == this._time) {
-			
-			Event e = this._events.poll(); //Obtenemos y elminamos el evento de la cola
-			
+
+			Event e = this._events.poll(); // Obtenemos y elminamos el evento de la cola
+
 			e.execute(this._roadMap);
 		}
-		
-		//Advance junctions
+
+		// Advance junctions
 		List<Junction> junctions = this._roadMap.getJunctions();
 		for (Junction j : junctions) {
-			
+
 			j.advance(_time);
 		}
-		
-		//Advance roads
+
+		// Advance roads
 		List<Road> roads = this._roadMap.getRoads();
 		for (Road r : roads) {
-			
+
 			r.advance(_time);
 		}
 	}
-	
+
 	public void reset() {
-		
+
 		this._roadMap.reset();
 		this._events.clear();
-		this._time = 0;		
+		this._time = 0;
 	}
-	
+
 	public JSONObject report() {
-		
+
 		JSONObject jo = new JSONObject();
-		
+
 		jo.put("time", this._time);
 		jo.put("state", this._roadMap.report());
 
 		return jo;
 	}
-	
+
 }

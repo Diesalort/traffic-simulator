@@ -31,7 +31,8 @@ public abstract class Event implements Comparable<Event> {
 			return 1;
 		else if (this._time_stamp < o._time_stamp)
 			return -1;
-		else return 0;
+		else
+			return 0;
 	}
 
 	abstract void execute(RoadMap map);

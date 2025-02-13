@@ -6,9 +6,9 @@ import java.util.List;
 public class MoveAllStrategy implements DequeuingStrategy {
 
 	@Override
-	public List<Vehicle> dequeue(List<Vehicle> q) { //TODO comprobar que está bien
-		
-		return new ArrayList<>(q);	
+	public List<Vehicle> dequeue(List<Vehicle> q) { // TODO comprobar que está bien
+
+		return new ArrayList<>(q);
 	}
-	
+
 }

@@ -22,24 +22,24 @@ public class SetWeatherEventBuilder extends Builder<Event> {
 
 		int time = data.getInt("time");
 		JSONArray info = data.getJSONArray("info");
-		
+
 		List<Pair<String, Weather>> ws = new ArrayList<>();
-		
-		for (int i = 0; i < info.length(); i++) { //TODO esta bien hecho?
-			
+
+		for (int i = 0; i < info.length(); i++) { // TODO esta bien hecho?
+
 			JSONObject jo = info.getJSONObject(i);
 			String road = jo.getString("road");
 			String wStr = jo.getString("weather");
-			
-			ws.add(new Pair<>(road, Weather.valueOf(wStr.toUpperCase()))); //Añadimos el nuevo par a la lista
+
+			ws.add(new Pair<>(road, Weather.valueOf(wStr.toUpperCase()))); // Añadimos el nuevo par a la lista
 		}
-		
+
 		return new SetWeatherEvent(time, ws);
 	}
 
 	@Override
 	protected void fill_in_data(JSONObject o) {
-		
+
 		o.put("time", "The time at which the event is executed");
 		o.put("info", "A list of roads with their IDs and their weathers");
 	}

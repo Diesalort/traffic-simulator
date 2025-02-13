@@ -14,16 +14,16 @@ public class RoundRobinStrategyBuilder extends Builder<LightSwitchingStrategy> {
 	@Override
 	protected LightSwitchingStrategy create_instance(JSONObject data) {
 
-		//int timeSlot = data.has("timeslot") ? data.getInt("timeslot") : 1;		
+		// int timeSlot = data.has("timeslot") ? data.getInt("timeslot") : 1;
 		int timeSlot = data.optInt("timeslot", 1);
-		
+
 		return new RoundRobinStrategy(timeSlot);
 	}
 
 	@Override
 	protected void fill_in_data(JSONObject o) {
-		
-		o.put("timeslot", "Consecutive ticks during which the road can have the green traffic light");	
+
+		o.put("timeslot", "Consecutive ticks during which the road can have the green traffic light");
 	}
-	
+
 }

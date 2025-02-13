@@ -23,22 +23,22 @@ public class NewVehicleEventBuilder extends Builder<Event> {
 		String id = data.getString("id");
 		int maxSpeed = data.getInt("maxspeed");
 		int contClass = data.getInt("class");
-		
+
 		JSONArray itineraryJa = data.getJSONArray("itinerary");
 		List<String> itineraryStr = new ArrayList<>();
-		
-		for (int i = 0; i < itineraryJa.length(); i++) { //TODO esta bien hecho??
-			
+
+		for (int i = 0; i < itineraryJa.length(); i++) { // TODO esta bien hecho??
+
 			String jStr = itineraryJa.getString(i);
 			itineraryStr.add(jStr);
 		}
-		
+
 		return new NewVehicleEvent(time, id, maxSpeed, contClass, itineraryStr);
 	}
 
 	@Override
 	protected void fill_in_data(JSONObject o) {
-		
+
 		o.put("time", "The time at which the event is executed");
 		o.put("id", "The vehicle's ID");
 		o.put("maxspeed", "The vehicle's max speed");

@@ -43,7 +43,7 @@ public class Main {
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
 	private static Integer _timeLimit;
-	
+
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
@@ -85,7 +85,8 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
-		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator's main loop (default value is 10).").build());
+		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg()
+				.desc("Ticks to the simulator's main loop (default value is 10).").build());
 		return cmdLineOptions;
 	}
 
@@ -107,57 +108,58 @@ public class Main {
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
 	}
-	
+
 	private static void parseTicksOption(CommandLine line) {
-		
-		if(line.hasOption("t")) { //TODO necesario comprobar que sea válido?
-			_timeLimit = Integer.parseInt(line.getOptionValue("t")); //convertimos line.getOptionValue("t") (String) a Integer
+
+		if (line.hasOption("t")) { // TODO necesario comprobar que sea válido?
+			_timeLimit = Integer.parseInt(line.getOptionValue("t")); // convertimos line.getOptionValue("t") (String) a
+																		// Integer
 		} else {
 			_timeLimit = 10;
-		}	
+		}
 	}
 
+	private static void initFactories() {
 
-	private static void initFactories() {		
-		
-		//Factoría LightSwitchingStrategy
+		// Factoría LightSwitchingStrategy
 		List<Builder<LightSwitchingStrategy>> lsbs = new ArrayList<>();
-		lsbs.add( new RoundRobinStrategyBuilder());
-		lsbs.add( new MostCrowdedStrategyBuilder());
+		lsbs.add(new RoundRobinStrategyBuilder());
+		lsbs.add(new MostCrowdedStrategyBuilder());
 		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
-		
-		//Factoría DequeuingStrategy
+
+		// Factoría DequeuingStrategy
 		List<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
-		dqbs.add( new MoveFirstStrategyBuilder());
-		dqbs.add( new MoveAllStrategyBuilder());
+		dqbs.add(new MoveFirstStrategyBuilder());
+		dqbs.add(new MoveAllStrategyBuilder());
 		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
-		
-		//Factoría de eventos
+
+		// Factoría de eventos
 		List<Builder<Event>> ebs = new ArrayList<>();
-		ebs.add( new NewJunctionEventBuilder(lssFactory,dqsFactory));
-		ebs.add( new NewCityRoadEventBuilder());
-		ebs.add( new NewInterCityRoadEventBuilder());
+		ebs.add(new NewJunctionEventBuilder(lssFactory, dqsFactory));
+		ebs.add(new NewCityRoadEventBuilder());
+		ebs.add(new NewInterCityRoadEventBuilder());
 		ebs.add(new NewVehicleEventBuilder());
 		ebs.add(new SetWeatherEventBuilder());
 		ebs.add(new SetContClassEventBuilder());
-		
+
 		_eventsFactory = new BuilderBasedFactory<>(ebs);
-		
+
 	}
 
 	private static void startBatchMode() throws IOException {
-		
-		//try with resources
-		try(InputStream in = new BufferedInputStream(new FileInputStream(_inFile));
-			OutputStream out = _outFile == null ? System.out : new BufferedOutputStream(new FileOutputStream(_outFile));){
-			
+
+		// try with resources
+		try (InputStream in = new BufferedInputStream(new FileInputStream(_inFile));
+				OutputStream out = _outFile == null ? System.out
+						: new BufferedOutputStream(new FileOutputStream(_outFile));) {
+
 			TrafficSimulator _sim = new TrafficSimulator();
 			Controller c = new Controller(_sim, _eventsFactory);
-			
+
 			c.loadEvents(in);
-			c.run(_timeLimit, out);			
+			c.run(_timeLimit, out);
 		}
-		
+
 	}
 
 	private static void start(String[] args) throws IOException {

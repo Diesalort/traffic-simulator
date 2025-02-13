@@ -25,8 +25,9 @@ public class SetWeatherEvent extends Event {
 			Road r = map.getRoad(w.getFirst());
 
 			if (r == null)
-				throw new IllegalArgumentException("The road with identifier " + w.getFirst() + " is not on the road map");
-			
+				throw new IllegalArgumentException(
+						"The road with identifier " + w.getFirst() + " is not on the road map");
+
 			r.setWeather(w.getSecond());
 		}
 	}

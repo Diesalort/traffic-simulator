@@ -9,25 +9,26 @@ public class CityRoad extends Road {
 	@Override
 	void reduceTotalContamination() {
 		int x = 2;
-		
+
 		if (this._weather == Weather.WINDY || this._weather == Weather.STORM) {
-			
-			x = 10;	
+
+			x = 10;
 		}
-		
+
 		this._totalCO2 -= x;
-		
-		if (this._totalCO2 < 0) this._totalCO2 = 0;
+
+		if (this._totalCO2 < 0)
+			this._totalCO2 = 0;
 	}
 
 	@Override
 	void updateSpeedLimit() {
-		//La velocidad límite no cambia, es siempre la máxima
+		// La velocidad límite no cambia, es siempre la máxima
 	}
 
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
-		
-		return ((11-v.getContClass())*this._speedLimit)/11;
-	}	
+
+		return ((11 - v.getContClass()) * this._speedLimit) / 11;
+	}
 }

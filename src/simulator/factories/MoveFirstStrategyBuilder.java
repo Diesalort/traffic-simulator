@@ -17,5 +17,5 @@ public class MoveFirstStrategyBuilder extends Builder<DequeuingStrategy> {
 
 		return new MoveFirstStrategy();
 	}
-	
+
 }
