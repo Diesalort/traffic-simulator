@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-public class BuilderBasedFactory<T> implements Factory<T> { //TODO no pasa test 12!!
+public class BuilderBasedFactory<T> implements Factory<T> {
 	  private Map<String, Builder<T>> _builders;
 	  private List<JSONObject> _builders_info;
 

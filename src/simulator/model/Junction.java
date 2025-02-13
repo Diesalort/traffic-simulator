@@ -30,11 +30,11 @@ public class Junction extends SimulatedObject {
 		  
 		  if (lsStrategy == null || dqStrategy == null) {
 			  
-			  throw new IllegalArgumentException("Las estrategias no pueden ser nulas");
+			  throw new IllegalArgumentException("Strategys cannot be null");
 			  
 		  } else if (xCoor < 0 || yCoor < 0) {
 			  
-			  throw new IllegalArgumentException("Las coordenadas no pueden ser negativas");
+			  throw new IllegalArgumentException("Coordinates cannot be null");
 		  }
 		  
 		  this._inRoads = new ArrayList<>();
@@ -75,7 +75,7 @@ public class Junction extends SimulatedObject {
 			this._queues.add(queue);
 			this._queueByRoad.put(r, queue);
 			
-		} else throw new IllegalArgumentException("El cruce no es el destino de la carretera dada");
+		} else throw new IllegalArgumentException("The junction is not the destination of the given road");
 		
 		
 	}
@@ -86,11 +86,11 @@ public class Junction extends SimulatedObject {
 
 		if (this._outRoadByJunction.containsKey(j)) {
 			
-			throw new IllegalArgumentException("Ya existe una carretera que tiene ese cruce como destino");
+			throw new IllegalArgumentException("There is already a road that has that junction as its destination");
 			
 		} else if (!r.getSrc().equals(this)) {
 			
-			throw new IllegalArgumentException("La carretera dada no es una carretera saliente de este cruce");
+			throw new IllegalArgumentException("The given road is not an outgoing road from this junction");
 		}
 		
 		this._outRoadByJunction.put(j,  r);	
@@ -132,6 +132,7 @@ public class Junction extends SimulatedObject {
 			this._green = newGreenRoad;
 			this._lastSwitchingTime = currTime;
 		}
+		
 	}
 
 	@Override

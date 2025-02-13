@@ -10,7 +10,7 @@ import simulator.model.Event;
 import simulator.model.NewVehicleEvent;
 import simulator.model.Weather;
 
-public class NewVehicleEventBuilder extends Builder<Event> { //TODO NO PASA EL TEST, (puede que el fallo no esté en esta clase)
+public class NewVehicleEventBuilder extends Builder<Event> {
 
 	public NewVehicleEventBuilder() {
 		super("new_vehicle", "A new vehicle");

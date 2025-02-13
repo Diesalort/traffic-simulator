@@ -11,7 +11,7 @@ public class SetContClassEvent extends Event {
 		  super(time);
 		  
 		  if (cs == null)
-			  throw new IllegalArgumentException("La lista cs es nula");
+			  throw new IllegalArgumentException("ContClass list cannot be null");
 		  
 		this._cs = cs;  
 	}
@@ -24,7 +24,7 @@ public class SetContClassEvent extends Event {
 			Vehicle v = map.getVehicle(c.getFirst());
 			
 			if (v == null)
-				throw new IllegalArgumentException("El vehículo con id " + c.getFirst() + " no existe en el mapa de carreteras");
+				throw new IllegalArgumentException("The vehicle with identifier" + c.getFirst() + " is not on the road map");
 			
 			v.setContaminationClass(c.getSecond());
 		}

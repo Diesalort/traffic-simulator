@@ -15,15 +15,15 @@ public class NewVehicleEvent extends Event {
 		  
 			if (maxSpeed <= 0) {
 				
-				throw new IllegalArgumentException("La velocidad máxima debe ser positiva");
+				throw new IllegalArgumentException("maxSpeed must be positive");
 				
 			} else if (contClass < 0 || contClass > 10) {
 				
-				throw new IllegalArgumentException("contClass solo puede tomar valores de 0 a 10 (ambos inclusive)");
+				throw new IllegalArgumentException("Contamination class can only take values ​​between 0 and 10 (inclusive)");
 				
 			} else if (itinerary.size() < 2) {
 				
-				throw new IllegalArgumentException("El itinerario debe tener, como mínimo, 2 cruces");
+				throw new IllegalArgumentException("The itinerary must have, at least, 2 junctions");
 			}
 
 		  this._id = id;
@@ -42,7 +42,7 @@ public class NewVehicleEvent extends Event {
 			Junction j = map.getJunction(jId);
 			
 			if (j == null)
-				throw new IllegalArgumentException("El cruce " + jId + " no está en el mapa de carreteras");
+				throw new IllegalArgumentException("Junction " + jId + " it's not on the road map");
 			
 			itinerary.add(j);			
 		}

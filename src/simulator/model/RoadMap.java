@@ -34,7 +34,7 @@ public class RoadMap {
 	void addJunction(Junction j) {
 		
 		if (_junctionsMap.containsKey(j.getId()))
-			throw new IllegalArgumentException ("Ya existe un cruce con el identificador: " + j.getId());
+			throw new IllegalArgumentException ("There is already a junction with the identifier: " + j.getId());
 		
 		_junctions.add(j);
 		_junctionsMap.put(j.getId(), j);
@@ -43,13 +43,13 @@ public class RoadMap {
 	void addRoad(Road r) {
 		
 		if (_roadsMap.containsKey(r.getId()))
-			throw new IllegalArgumentException ("Ya existe una carretera con el identificador: " + r.getId());
+			throw new IllegalArgumentException ("There is already a road with the identifier: " + r.getId());
 		
 		Junction jSrc = r.getSrc();
 		Junction jDest = r.getDest();
 		
 		if (!_junctionsMap.containsKey(jSrc.getId()) || !_junctionsMap.containsKey(jDest.getId()))
-			throw new IllegalArgumentException ("Los cruces que conectan la carretera no se encuentran en el mapa de cruces");
+			throw new IllegalArgumentException ("The junctionns that connect the road are not on the junction map");
 		
 		_roads.add(r);
 		_roadsMap.put(r.getId(), r);
@@ -58,9 +58,8 @@ public class RoadMap {
 	void addVehicle(Vehicle v) { //TODO optimizar
 		
 		if (_vehiclesMap.containsKey(v.getId()))
-			throw new IllegalArgumentException ("Ya existe un vehículo con el identificador: " + v.getId());
+			throw new IllegalArgumentException ("There is already a vehicle with the identifier: " + v.getId());
 
-		//TODO
 		List<Junction> itinerary = v.getItinerary();
 		
 		//Cruces por los que deberá ir pasando el vehículo
@@ -85,7 +84,7 @@ public class RoadMap {
 			
 			//Si no se ha encontrado una carretera en roadList que una j1 y j2, lanzamos excepción
 			if (!exist)
-				throw new IllegalArgumentException("El itinerario del vehículo no es válido");
+				throw new IllegalArgumentException("Vehicle's itinerary is not valid");
 			
 			exist = false;
 		}

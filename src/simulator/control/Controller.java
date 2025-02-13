@@ -31,7 +31,7 @@ public class Controller { //TODO repasar
 		JSONObject jo = new JSONObject(new JSONTokener(in));
 		
 		//TODO Necesario comprobar que no sea vacío, o tenga cosas de más (jo.keySet().size() == 1), o que no está asociado a un JSONArray?
-		if (jo.has("events"))
+		if (!jo.has("events"))
 			throw new IllegalArgumentException("Invalid JSON object");
 		/*
 		 * try{

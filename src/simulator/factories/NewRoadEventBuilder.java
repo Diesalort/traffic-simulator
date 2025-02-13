@@ -43,8 +43,6 @@ public abstract class NewRoadEventBuilder extends Builder<Event> { //TODO repasa
 		o.put("weather", "The actual road's weather");
 	}
 	
-	//TODO repasar este metodo creado por mi
-	protected abstract NewRoadEvent newInstance(int time, String id, String src, String dest, int length, int co2Limit, int maxSpeed, Weather w);
 	
-
+	protected abstract NewRoadEvent newInstance(int time, String id, String src, String dest, int length, int co2Limit, int maxSpeed, Weather w);
 }

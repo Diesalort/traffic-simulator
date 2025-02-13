@@ -14,11 +14,11 @@ public class NewJunctionEvent extends Event {
 		  
 		  if (lsStrategy == null || dqStrategy == null) {
 			  
-			  throw new IllegalArgumentException("Las estrategias no pueden ser nulas");
+			  throw new IllegalArgumentException("Strategys cannot be null");
 			  
 		  } else if (xCoor < 0 || yCoor < 0) {
 			  
-			  throw new IllegalArgumentException("Las coordenadas no pueden ser negativas");
+			  throw new IllegalArgumentException("Coordinates cannot be null");
 		  }
 		  
 		  this._id = id;

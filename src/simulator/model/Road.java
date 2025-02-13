@@ -26,16 +26,16 @@ public abstract class Road extends SimulatedObject {
 		super(id);
 
 		if (maxSpeed <= 0)
-			throw new IllegalArgumentException("La velocidad máxima debe ser positiva");
+			throw new IllegalArgumentException("maxSpeed must be positive");
 
 		if (contLimit < 0)
-			throw new IllegalArgumentException("El límite de contaminación no puede ser negativo");
+			throw new IllegalArgumentException("Contamination limit cannot be negative");
 
 		if (length <= 0)
-			throw new IllegalArgumentException("La longitud de la carretera debe ser positiva");
+			throw new IllegalArgumentException("Road's length must be positive");
 
 		if (srcJunc == null || destJunc == null || weather == null)
-			throw new IllegalArgumentException("El valor de los cruces o el tiempo es nulo");
+			throw new IllegalArgumentException("Junctions or time are null");
 
 		this._source = srcJunc;
 		this._destination = destJunc;
@@ -68,7 +68,7 @@ public abstract class Road extends SimulatedObject {
 	void enter(Vehicle v) {
 
 		if (v.getLocation() != 0 || v.getSpeed() != 0)
-			throw new IllegalArgumentException("La localización del vehículo y/o la velocidad es distinta de 0");
+			throw new IllegalArgumentException("Vehicle's location and/or speed is different than 0");
 
 		this._vehicles.add(v);
 		Collections.sort(this._vehicles, this._locComp);
@@ -91,7 +91,7 @@ public abstract class Road extends SimulatedObject {
 	void addContamination(int c) {
 
 		if (c < 0)
-			throw new IllegalArgumentException("La contaminación dada es negativa");
+			throw new IllegalArgumentException("Contamination cannot be negative");
 
 		this._totalCO2 += c;
 	}

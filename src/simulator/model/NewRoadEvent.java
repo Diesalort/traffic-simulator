@@ -15,16 +15,16 @@ public abstract class NewRoadEvent extends Event {
 		super(time);
 
 		if (maxSpeed <= 0)
-			throw new IllegalArgumentException("La velocidad máxima debe ser positiva");
+			throw new IllegalArgumentException("maxSpeed must be positive");
 
 		if (co2Limit < 0)
-			throw new IllegalArgumentException("El límite de contaminación no puede ser negativo");
+			throw new IllegalArgumentException("Contamination limit cannot be negative");
 
 		if (length <= 0)
-			throw new IllegalArgumentException("La longitud de la carretera debe ser positiva");
+			throw new IllegalArgumentException("Road's length must be positive");
 
 		if (srcJunc == null || destJunc == null || weather == null)
-			throw new IllegalArgumentException("El valor de los cruces o el tiempo es nulo");
+			throw new IllegalArgumentException("Junctions or time are null");
 		
 		this._id = id;
 		this._srcJunc = srcJunc;

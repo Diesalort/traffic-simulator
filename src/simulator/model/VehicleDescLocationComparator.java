@@ -7,11 +7,11 @@ public class VehicleDescLocationComparator implements Comparator <Vehicle>{
 	@Override
 	public int compare(Vehicle v1, Vehicle v2) {
 
-		return Integer.compare(v2.getLocation(), v1.getLocation());
+		//return Integer.compare(v2.getLocation(), v1.getLocation());
 
-		/*if (v1.getLocation() < v2.getLocation()) return 1;
+		if (v1.getLocation() < v2.getLocation()) return 1;
 		else if(v1.getLocation() > v2.getLocation()) return -1;
-		else return 0;*/
+		else return 0;
 	}
 
 	

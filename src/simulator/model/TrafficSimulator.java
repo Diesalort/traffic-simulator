@@ -21,7 +21,7 @@ public class TrafficSimulator {
 	public void addEvent(Event e) {
 		
 		if (e.getTime() <= this._time)
-			throw new IllegalArgumentException("El tiempo del evento es anterior al actual");
+			throw new IllegalArgumentException("Event time is earlier than current");
 		
 		this._events.add(e);
 	}
@@ -66,7 +66,7 @@ public class TrafficSimulator {
 		
 		jo.put("time", this._time);
 		jo.put("state", this._roadMap.report());
-		
+
 		return jo;
 	}
 	

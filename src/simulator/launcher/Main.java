@@ -1,6 +1,12 @@
 package simulator.launcher;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +18,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import simulator.control.Controller;
 import simulator.factories.Builder;
 import simulator.factories.BuilderBasedFactory;
 import simulator.factories.Factory;
@@ -28,13 +35,15 @@ import simulator.factories.SetWeatherEventBuilder;
 import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
+import simulator.model.TrafficSimulator;
 
 public class Main {
 
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
-
+	private static Integer _timeLimit;
+	
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
@@ -49,6 +58,7 @@ public class Main {
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line);
+			parseTicksOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -75,7 +85,7 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
-
+		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator's main loop (default value is 10).").build());
 		return cmdLineOptions;
 	}
 
@@ -96,6 +106,15 @@ public class Main {
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
+	}
+	
+	private static void parseTicksOption(CommandLine line) {
+		
+		if(line.hasOption("t")) { //TODO necesario comprobar que sea válido?
+			_timeLimit = Integer.parseInt(line.getOptionValue("t")); //convertimos line.getOptionValue("t") (String) a Integer
+		} else {
+			_timeLimit = 10;
+		}	
 	}
 
 
@@ -122,10 +141,22 @@ public class Main {
 		ebs.add(new SetWeatherEventBuilder());
 		ebs.add(new SetContClassEventBuilder());
 		
-		Factory<Event> eventsFactory = new BuilderBasedFactory<>(ebs);
+		_eventsFactory = new BuilderBasedFactory<>(ebs);
+		
 	}
 
 	private static void startBatchMode() throws IOException {
+		
+		//try with resources
+		try(InputStream in = new BufferedInputStream(new FileInputStream(_inFile));
+			OutputStream out = _outFile == null ? System.out : new BufferedOutputStream(new FileOutputStream(_outFile));){
+			
+			TrafficSimulator _sim = new TrafficSimulator();
+			Controller c = new Controller(_sim, _eventsFactory);
+			
+			c.loadEvents(in);
+			c.run(_timeLimit, out);			
+		}
 		
 	}
 

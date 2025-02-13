@@ -12,7 +12,7 @@ public class SetWeatherEvent extends Event {
 		super(time);
 
 		if (ws == null)
-			throw new IllegalArgumentException("La lista ws es nula");
+			throw new IllegalArgumentException("SetWeather list cannot be null");
 
 		this._ws = ws;
 	}
@@ -25,7 +25,7 @@ public class SetWeatherEvent extends Event {
 			Road r = map.getRoad(w.getFirst());
 
 			if (r == null)
-				throw new IllegalArgumentException("La carretera con id " + w.getFirst() + " no existe en el mapa de carreteras");
+				throw new IllegalArgumentException("The road with identifier " + w.getFirst() + " is not on the road map");
 			
 			r.setWeather(w.getSecond());
 		}

@@ -8,7 +8,7 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy {
 	
 	public MostCrowdedStrategy(int timeSlot) {
 		
-		if (timeSlot <= 0) throw new IllegalArgumentException("timeSlot debe ser positivo");
+		if (timeSlot <= 0) throw new IllegalArgumentException("timeSlot must be positive");
 		
 		this._timeSlot = timeSlot;
 	}

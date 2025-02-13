@@ -11,11 +11,11 @@ public class NewCityRoadEvent extends NewRoadEvent {
 
 		Junction srcJunc = map.getJunction(this._srcJunc);
 		if (srcJunc == null)
-			throw new IllegalArgumentException("El cruce origen no se encuentra en el mapa de carreteras");
+			throw new IllegalArgumentException("The source junction is not on the road map");
 		
 		Junction destJunc = map.getJunction(this._destJunc);
 		if (destJunc == null)
-			throw new IllegalArgumentException("El cruce destino no se encuentra en el mapa de carreteras");
+			throw new IllegalArgumentException("The destiny junction is not on the road map");
 		
 		CityRoad r = new CityRoad(_id, srcJunc, destJunc, _maxSpeed, _co2Limit, _length, _weather);
 		
