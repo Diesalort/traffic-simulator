@@ -25,7 +25,7 @@ public abstract class NewRoadEvent extends Event {
 
 		if (srcJunc == null || destJunc == null || weather == null)
 			throw new IllegalArgumentException("Junctions or time are null");
-		
+
 		this._id = id;
 		this._srcJunc = srcJunc;
 		this._destJunc = destJunc;
@@ -35,5 +35,18 @@ public abstract class NewRoadEvent extends Event {
 		this._weather = weather;
 	}
 
-	// Método execute implementado en clases hijas
+	void execute(RoadMap map) {
+
+		Junction srcJunc = map.getJunction(this._srcJunc);
+		if (srcJunc == null)
+			throw new IllegalArgumentException("The source junction is not on the road map");
+
+		Junction destJunc = map.getJunction(this._destJunc);
+		if (destJunc == null)
+			throw new IllegalArgumentException("The destiny junction is not on the road map");
+
+		map.addRoad(this.newInstance(srcJunc, destJunc));
+	}
+
+	protected abstract Road newInstance(Junction src, Junction dest);
 }
