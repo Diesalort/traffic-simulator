@@ -12,16 +12,17 @@ public class InterCityRoad extends Road {
 
 		int x = 20; // Storm
 
-		if (this._weather == Weather.SUNNY) {
+		Weather w = this.getWeather();
+		if (w == Weather.SUNNY) {
 			x = 2;
 
-		} else if (this._weather == Weather.CLOUDY) {
+		} else if (w == Weather.CLOUDY) {
 			x = 3;
 
-		} else if (this._weather == Weather.RAINY) {
+		} else if (w == Weather.RAINY) {
 			x = 10;
 
-		} else if (this._weather == Weather.WINDY) {
+		} else if (w == Weather.WINDY) {
 			x = 15;
 		}
 
@@ -31,13 +32,13 @@ public class InterCityRoad extends Road {
 	@Override
 	void updateSpeedLimit() {
 
-		if (this._totalCO2 > this._contLimit) {
+		if (this.getTotalCO2() > this.getContLimit()) {
 
-			this._speedLimit = this._maxSpeed / 2;
+			this._speedLimit = this.getMaxSpeed() / 2;
 
 		} else {
 
-			this._speedLimit = this._maxSpeed;
+			this._speedLimit = this.getMaxSpeed();
 		}
 	}
 
@@ -46,7 +47,7 @@ public class InterCityRoad extends Road {
 
 		int velocidad = this._speedLimit;
 
-		if (this._weather == Weather.STORM) {
+		if (this.getWeather() == Weather.STORM) {
 
 			velocidad = (velocidad * 8) / 10;
 

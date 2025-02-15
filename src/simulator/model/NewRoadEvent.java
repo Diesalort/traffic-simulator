@@ -3,8 +3,8 @@ package simulator.model;
 public abstract class NewRoadEvent extends Event {
 
 	protected String _id;
-	protected String _srcJunc;
-	protected String _destJunc;
+	private String _srcJunc;
+	private String _destJunc;
 	protected int _length;
 	protected int _co2Limit;
 	protected int _maxSpeed;

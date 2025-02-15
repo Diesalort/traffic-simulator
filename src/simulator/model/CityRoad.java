@@ -10,7 +10,9 @@ public class CityRoad extends Road {
 	void reduceTotalContamination() {
 		int x = 2;
 
-		if (this._weather == Weather.WINDY || this._weather == Weather.STORM) {
+		Weather w = this.getWeather();
+
+		if (w == Weather.WINDY || w == Weather.STORM) {
 
 			x = 10;
 		}
@@ -29,6 +31,6 @@ public class CityRoad extends Road {
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
 
-		return ((11 - v.getContClass()) * this._speedLimit) / 11;
+		return ((11 - v.getContClass()) * this.getSpeedLimit()) / 11;
 	}
 }

@@ -10,15 +10,15 @@ import org.json.JSONObject;
 
 public abstract class Road extends SimulatedObject {
 
-	protected Junction _source;
-	protected Junction _destination;
-	protected int _length;
-	protected int _maxSpeed;
+	private Junction _source;
+	private Junction _destination;
+	private int _length;
+	private int _maxSpeed;
 	protected int _speedLimit;
-	protected int _contLimit;
-	protected Weather _weather;
+	private int _contLimit;
+	private Weather _weather;
 	protected int _totalCO2;
-	protected List<Vehicle> _vehicles;
+	private List<Vehicle> _vehicles;
 
 	private final VehicleDescLocationComparator _locComp;
 
