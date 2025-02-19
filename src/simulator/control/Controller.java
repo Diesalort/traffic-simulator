@@ -30,19 +30,8 @@ public class Controller { // TODO repasar
 
 		JSONObject jo = new JSONObject(new JSONTokener(in));
 
-		// TODO Necesario comprobar que no sea vacío, o tenga cosas de más
-		// (jo.keySet().size() == 1), o que no está asociado a un JSONArray?
-		if (!jo.has("events"))
+		if (!jo.has("events") || jo.keySet().size() != 1)
 			throw new IllegalArgumentException("Invalid JSON object");
-		/*
-		 * try{
-		 * 
-		 * JSONArray jArrayEvents = jo.getJSONArray("events");
-		 * 
-		 * } catch(JSONException e){ Excepcion: La key no existe o no tiene asociado un
-		 * JSONArray }
-		 * 
-		 */
 
 		JSONArray jArrayEvents = jo.getJSONArray("events");
 
@@ -51,29 +40,30 @@ public class Controller { // TODO repasar
 			JSONObject jEvent = jArrayEvents.getJSONObject(i);
 			Event e = this._eventsFactory.create_instance(jEvent);
 
-			this._sim.addEvent(e); // TODO Necesario comprobar que no hay errores?, es decir, try-catch y lanzar
-									// otra excepcion?
+			this._sim.addEvent(e);
 		}
-
 	}
 
 	public void run(int n, OutputStream out) {
 
 		PrintStream p = new PrintStream(out);
+		
+		p.print("{  \"states\": [");
 
-		JSONObject jo = new JSONObject();
-		JSONArray ja = new JSONArray();
-
-		for (int i = 0; i < n; i++) {
-
-			this._sim.advance();
-			ja.put(this._sim.report());
+		// loop for the first n-1 states (to print comma after each state)
+		for (int i = 0; i < n - 1; i++) {
+		    _sim.advance();
+		    p.print(_sim.report());
+		    p.println(",");
 		}
 
-		jo.put("states", ja);
+		// last step, only if 'n > 0'
+		if (n > 0) {
+		    _sim.advance();
+		    p.print(_sim.report());
+		}
 
-		// TODO ver como hace print en guía de práctica
-		p.println(jo.toString(3));
+		p.print("]}");
 	}
 
 	public void reset() {

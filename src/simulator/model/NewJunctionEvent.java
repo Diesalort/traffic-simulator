@@ -33,7 +33,7 @@ public class NewJunctionEvent extends Event {
 	@Override
 	void execute(RoadMap map) {
 
-		Junction j = new Junction(_id, _lss, _dqs, _xCoor, _xCoor);
+		Junction j = new Junction(_id, _lss, _dqs, _xCoor, _yCoor);
 		map.addJunction(j);
 	}
 }

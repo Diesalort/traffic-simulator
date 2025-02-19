@@ -37,7 +37,6 @@ public class NewVehicleEvent extends Event {
 	void execute(RoadMap map) {
 
 		List<Junction> itinerary = new ArrayList<>();
-		;
 
 		for (String jId : _itinerary) {
 
