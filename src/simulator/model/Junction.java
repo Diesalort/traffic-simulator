@@ -14,7 +14,7 @@ public class Junction extends SimulatedObject {
 
 	private List<Road> _inRoads;
 	private Map<Junction, Road> _outRoadByJunction;
-	private List<List<Vehicle>> _queues;
+	private List<List<Vehicle>> _queues; // Lista de colas para las carreteras entrantes
 	private Map<Road, List<Vehicle>> _queueByRoad;
 
 	private int _green;
@@ -30,16 +30,16 @@ public class Junction extends SimulatedObject {
 
 		if (lsStrategy == null || dqStrategy == null) {
 
-			throw new IllegalArgumentException("Strategys cannot be null");
+			throw new IllegalArgumentException("Strategies cannot be null");
 
 		} else if (xCoor < 0 || yCoor < 0) {
 
 			throw new IllegalArgumentException("Coordinates cannot be null");
 		}
 
-		this._inRoads = new ArrayList<>();
+		this._inRoads = new ArrayList<Road>();
 		this._outRoadByJunction = new HashMap<Junction, Road>();
-		this._queues = new ArrayList<>();
+		this._queues = new ArrayList<List<Vehicle>>();
 		this._queueByRoad = new HashMap<Road, List<Vehicle>>();
 
 		this._green = -1;
@@ -67,7 +67,7 @@ public class Junction extends SimulatedObject {
 
 			this._inRoads.add(r);
 
-			List<Vehicle> queue = new LinkedList<>();
+			List<Vehicle> queue = new LinkedList<Vehicle>();
 			this._queues.add(queue);
 			this._queueByRoad.put(r, queue);
 
@@ -80,11 +80,11 @@ public class Junction extends SimulatedObject {
 
 		Junction j = r.getDest();
 
-		if (this._outRoadByJunction.containsKey(j)) {
+		if (this._outRoadByJunction.containsKey(j)) { // Ninguna otra carretera debe ir desde this al cruce j
 
 			throw new IllegalArgumentException("There is already a road that has that junction as its destination");
 
-		} else if (!r.getSrc().equals(this)) {
+		} else if (!r.getSrc().equals(this)) { // Si la carretera no es saliente del cruce actual...
 
 			throw new IllegalArgumentException("The given road is not an outgoing road from this junction");
 		}
@@ -97,7 +97,6 @@ public class Junction extends SimulatedObject {
 		Road r = v.getRoad();
 		List<Vehicle> queue = _queueByRoad.get(r);
 		queue.add(v);
-
 	}
 
 	Road roadTo(Junction j) {
@@ -108,7 +107,7 @@ public class Junction extends SimulatedObject {
 	@Override
 	void advance(int currTime) {
 
-		if (this._green != -1) {
+		if (this._green != -1) { // Si algún semáforo está en verde...
 
 			Road greenLightRoad = this._inRoads.get(_green);
 			List<Vehicle> vehiclesInGreenRoad = this._queueByRoad.get(greenLightRoad);
@@ -139,17 +138,17 @@ public class Junction extends SimulatedObject {
 
 		jo.put("id", this._id);
 
-		String id = "none";
+		String greenRoadId = "none";
 
 		if (this._green != -1) {
 
 			Road greenRoad = this._inRoads.get(_green);
-			id = greenRoad.getId();
+			greenRoadId = greenRoad.getId();
 		}
 
-		jo.put("green", id);
+		jo.put("green", greenRoadId);
 
-		JSONArray jaQueues = new JSONArray(); // Array de colas
+		JSONArray jaQueues = new JSONArray(); // JArray de colas [Q1,Q2,....]
 
 		for (Road r : this._inRoads) { // recorremos las carreteras entrantes
 

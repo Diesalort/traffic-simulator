@@ -11,8 +11,8 @@ public class InterCityRoad extends Road {
 	void reduceTotalContamination() {
 
 		int x = 20; // Storm
-
 		Weather w = this.getWeather();
+		
 		if (w == Weather.SUNNY) {
 			x = 2;
 
@@ -32,14 +32,9 @@ public class InterCityRoad extends Road {
 	@Override
 	void updateSpeedLimit() {
 
-		if (this.getTotalCO2() > this.getContLimit()) {
-
-			this._speedLimit = this.getMaxSpeed() / 2;
-
-		} else {
-
-			this._speedLimit = this.getMaxSpeed();
-		}
+		int maxSpeed = this.getMaxSpeed();
+		
+		this._speedLimit = this.getTotalCO2() > this.getContLimit() ? maxSpeed/2 : maxSpeed;
 	}
 
 	@Override

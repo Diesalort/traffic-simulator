@@ -10,8 +10,8 @@ import org.json.JSONObject;
 
 public abstract class Road extends SimulatedObject {
 
-	private Junction _source;
-	private Junction _destination;
+	private Junction _srcJunc;
+	private Junction _destJunc;
 	private int _length;
 	private int _maxSpeed;
 	protected int _speedLimit;
@@ -37,11 +37,11 @@ public abstract class Road extends SimulatedObject {
 		if (srcJunc == null || destJunc == null || weather == null)
 			throw new IllegalArgumentException("Junctions or time are null");
 
-		this._source = srcJunc;
-		this._destination = destJunc;
+		this._srcJunc = srcJunc;
+		this._destJunc = destJunc;
 
-		this._source.addOutGoingRoad(this);
-		this._destination.addIncommingRoad(this);
+		this._srcJunc.addOutGoingRoad(this);
+		this._destJunc.addIncommingRoad(this);
 
 		this._length = length;
 		this._maxSpeed = maxSpeed;
@@ -70,8 +70,6 @@ public abstract class Road extends SimulatedObject {
 			throw new IllegalArgumentException("Vehicle's location and/or speed is different than 0");
 
 		this._vehicles.add(v);
-		Collections.sort(this._vehicles, this._locComp);
-
 	}
 
 	void exit(Vehicle v) {
@@ -82,7 +80,7 @@ public abstract class Road extends SimulatedObject {
 	void setWeather(Weather w) {
 
 		if (w == null)
-			throw new IllegalArgumentException("Weather es nulo");
+			throw new IllegalArgumentException("Weather cannot be null");
 
 		this._weather = w;
 	}
@@ -138,47 +136,47 @@ public abstract class Road extends SimulatedObject {
 		return jo;
 	}
 
-	int getLength() {
+	public int getLength() {
 
 		return this._length;
 	}
 
-	Junction getDest() {
+	public Junction getDest() {
 
-		return this._destination;
+		return this._destJunc;
 	}
 
-	Junction getSrc() {
+	public Junction getSrc() {
 
-		return this._source;
+		return this._srcJunc;
 	}
 
-	Weather getWeather() {
+	public Weather getWeather() {
 
 		return this._weather;
 	}
 
-	int getContLimit() {
+	public int getContLimit() {
 
 		return _contLimit;
 	}
 
-	int getMaxSpeed() {
+	public int getMaxSpeed() {
 
 		return _maxSpeed;
 	}
 
-	int getTotalCO2() {
+	public int getTotalCO2() {
 
 		return this._totalCO2;
 	}
 
-	int getSpeedLimit() {
+	public int getSpeedLimit() {
 
 		return this._speedLimit;
 	}
 
-	List<Vehicle> getVehicles() {
+	public List<Vehicle> getVehicles() {
 
 		return Collections.unmodifiableList(this._vehicles);
 	}

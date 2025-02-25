@@ -10,7 +10,7 @@ public class MoveFirstStrategy implements DequeuingStrategy {
 
 		List<Vehicle> list = new ArrayList<>();
 
-		if (!q.isEmpty())
+		if (!q.isEmpty()) // Si la carretera tiene al menos un vehículo...
 			list.add(q.get(0));
 
 		return list;

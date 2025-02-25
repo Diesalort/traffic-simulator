@@ -14,7 +14,7 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy {
 		this._timeSlot = timeSlot;
 	}
 
-	@Override // TODO Repasar este método
+	@Override
 	public int chooseNextGreen(List<Road> roads, List<List<Vehicle>> qs, int currGreen, int lastSwitchingTime,
 			int currTime) {
 
@@ -42,9 +42,10 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy {
 			return currGreen;
 
 		// Búsqueda circular
-		int startIndex = currGreen + 1;
-		int indexAct = 0;
+		int startIndex = currGreen + 1; // Índice desde el que empezamos a buscar
+		int indexAct = 0; // El índice en el que nos encontramos durante la búsqueda
 
+		// Longitud e índice de la carretera con la cola más larga
 		int longMaxCola = -1;
 		int indexMaxCola = 0;
 
