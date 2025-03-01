@@ -1,5 +1,7 @@
 package simulator.factories;
 
+
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -24,14 +26,14 @@ import simulator.model.SetWeatherEvent;
 
 class BuilderBasedFactoryTest {
 
-	private static Factory<LightSwitchingStrategy> createLSSFactory() {
+	private static  Factory<LightSwitchingStrategy> createLSSFactory() {
 		ArrayList<Builder<LightSwitchingStrategy>> lsbs = new ArrayList<>();
 		lsbs.add(new RoundRobinStrategyBuilder());
 		lsbs.add(new MostCrowdedStrategyBuilder());
 		return new BuilderBasedFactory<>(lsbs);
 	}
 
-	private static Factory<DequeuingStrategy> createDQSFactory() {
+	private static  Factory<DequeuingStrategy> createDQSFactory() {
 		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add(new MoveFirstStrategyBuilder());
 		dqbs.add(new MoveAllStrategyBuilder());
@@ -42,7 +44,7 @@ class BuilderBasedFactoryTest {
 
 		List<Builder<Event>> eventBuilders = new ArrayList<>();
 
-		eventBuilders.add(new NewJunctionEventBuilder(createLSSFactory(), createDQSFactory()));
+		eventBuilders.add(new NewJunctionEventBuilder(createLSSFactory(),createDQSFactory()));
 		eventBuilders.add(new NewCityRoadEventBuilder());
 		eventBuilders.add(new NewInterCityRoadEventBuilder());
 		eventBuilders.add(new NewVehicleEventBuilder());
@@ -99,6 +101,7 @@ class BuilderBasedFactoryTest {
 		assertThrows(Exception.class, () -> lssFactory.create_instance(new JSONObject(inputJSon)));
 	}
 
+	
 	@Test
 	void test_6() {
 		Factory<DequeuingStrategy> dqsFactory = createDQSFactory();
@@ -150,79 +153,112 @@ class BuilderBasedFactoryTest {
 	void test_11() {
 		Factory<Event> eFactory = createEventsFactory();
 
-		String inputJSon = " {\n" + "     \"type\" : \"new_junction\",\n" + "     \"data\" : {\n"
-				+ "     	 \"time\" : 1,\n" + "         \"id\"   : \"j1\",\n" + "      	 \"coor\" : [100,200],\n"
+		String inputJSon = " {\n"
+				+ "     \"type\" : \"new_junction\",\n"
+				+ "     \"data\" : {\n"
+				+ "     	 \"time\" : 1,\n"
+				+ "         \"id\"   : \"j1\",\n"
+				+ "      	 \"coor\" : [100,200],\n"
 				+ "      	 \"ls_strategy\" : { \"type\" : \"round_robin_lss\", \"data\" : {\"timeslot\" : 5} },\n"
-				+ "      	 \"dq_strategy\" : { \"type\" : \"move_first_dqs\",  \"data\" : {} }\n" + "   	 }\n"
+				+ "      	 \"dq_strategy\" : { \"type\" : \"move_first_dqs\",  \"data\" : {} }\n"
+				+ "   	 }\n"
 				+ "   }";
 
-		assertTrue(eFactory.create_instance(new JSONObject(inputJSon)) instanceof NewJunctionEvent);
+		assertTrue( eFactory.create_instance(new JSONObject(inputJSon)) instanceof NewJunctionEvent);
 	}
 
 	@Test
 	void test_12() {
 		Factory<Event> eFactory = createEventsFactory();
 
-		String inputJSon = "{\n" + "	  \"type\" : \"new_city_road\",\n" + "  	  \"data\" : {\n"
-				+ "    	  \"time\"     : 1,\n" + "    	   \"id\"       : \"r1\",\n"
-				+ "           \"src\"      : \"j1\",\n" + "           \"dest\"     : \"j3\",\n"
-				+ "           \"length\"   : 10000,\n" + "           \"co2limit\" : 500,\n"
-				+ "           \"maxspeed\" : 120,\n" + "           \"weather\"  : \"SUNNY\"\n" + "   	  }\n"
+		String inputJSon = "{\n"
+				+ "	  \"type\" : \"new_city_road\",\n"
+				+ "  	  \"data\" : {\n"
+				+ "    	  \"time\"     : 1,\n"
+				+ "    	   \"id\"       : \"r1\",\n"
+				+ "           \"src\"      : \"j1\",\n"
+				+ "           \"dest\"     : \"j3\",\n"
+				+ "           \"length\"   : 10000,\n"
+				+ "           \"co2limit\" : 500,\n"
+				+ "           \"maxspeed\" : 120,\n"
+				+ "           \"weather\"  : \"SUNNY\"\n"
+				+ "   	  }\n"
 				+ "   	}";
 
-		assertTrue(eFactory.create_instance(new JSONObject(inputJSon)) instanceof NewCityRoadEvent);
+		assertTrue( eFactory.create_instance(new JSONObject(inputJSon)) instanceof NewCityRoadEvent);
 	}
 
 	@Test
 	void test_13() {
 		Factory<Event> eFactory = createEventsFactory();
 
-		String inputJSon = "{\n" + "	  \"type\" : \"new_inter_city_road\",\n" + "  	  \"data\" : {\n"
-				+ "    	  \"time\"     : 1,\n" + "    	   \"id\"       : \"r3\",\n"
-				+ "           \"src\"      : \"j3\",\n" + "           \"dest\"     : \"j4\",\n"
-				+ "           \"length\"   : 10000,\n" + "           \"co2limit\" : 500,\n"
-				+ "           \"maxspeed\" : 120,\n" + "           \"weather\"  : \"SUNNY\"\n" + "   	  }\n"
+		String inputJSon = "{\n"
+				+ "	  \"type\" : \"new_inter_city_road\",\n"
+				+ "  	  \"data\" : {\n"
+				+ "    	  \"time\"     : 1,\n"
+				+ "    	   \"id\"       : \"r3\",\n"
+				+ "           \"src\"      : \"j3\",\n"
+				+ "           \"dest\"     : \"j4\",\n"
+				+ "           \"length\"   : 10000,\n"
+				+ "           \"co2limit\" : 500,\n"
+				+ "           \"maxspeed\" : 120,\n"
+				+ "           \"weather\"  : \"SUNNY\"\n"
+				+ "   	  }\n"
 				+ "   	}";
 
-		assertTrue(eFactory.create_instance(new JSONObject(inputJSon)) instanceof NewInterCityRoadEvent);
+		assertTrue( eFactory.create_instance(new JSONObject(inputJSon)) instanceof NewInterCityRoadEvent);
 	}
 
 	@Test
 	void test_14() {
 		Factory<Event> eFactory = createEventsFactory();
 
-		String inputJSon = "{\n" + "	  \"type\" : \"new_vehicle\",\n" + "  	  \"data\" : {\n"
-				+ "          \"time\"      : 1,\n" + "          \"id\"        : \"v1\",\n"
-				+ "          \"maxspeed\"  : 100,\n" + "          \"class\"     : 3,\n"
-				+ "          \"itinerary\" : [\"j1\", \"j3\", \"j4\"]\n" + "      }\n" + "    }";
+		String inputJSon = "{\n"
+				+ "	  \"type\" : \"new_vehicle\",\n"
+				+ "  	  \"data\" : {\n"
+				+ "          \"time\"      : 1,\n"
+				+ "          \"id\"        : \"v1\",\n"
+				+ "          \"maxspeed\"  : 100,\n"
+				+ "          \"class\"     : 3,\n"
+				+ "          \"itinerary\" : [\"j1\", \"j3\", \"j4\"]\n"
+				+ "      }\n"
+				+ "    }";
 
-		assertTrue(eFactory.create_instance(new JSONObject(inputJSon)) instanceof NewVehicleEvent);
+		assertTrue( eFactory.create_instance(new JSONObject(inputJSon)) instanceof NewVehicleEvent);
 	}
 
 	@Test
 	void test_15() {
 		Factory<Event> eFactory = createEventsFactory();
 
-		String inputJSon = "{\n" + "  	  \"type\" : \"set_weather\",\n" + "      \"data\" : {\n"
+		String inputJSon = "{\n"
+				+ "  	  \"type\" : \"set_weather\",\n"
+				+ "      \"data\" : {\n"
 				+ "          \"time\"     : 100,\n"
 				+ "          \"info\"     : [ { \"road\" : \"r1\", \"weather\": \"SUNNY\" }, \n"
 				+ "                         { \"road\" : \"r2\", \"weather\": \"STORM\" } \n"
-				+ "	                   ]\n" + "  	  }\n" + "    }";
+				+ "	                   ]\n"
+				+ "  	  }\n"
+				+ "    }";
 
-		assertTrue(eFactory.create_instance(new JSONObject(inputJSon)) instanceof SetWeatherEvent);
+		assertTrue( eFactory.create_instance(new JSONObject(inputJSon)) instanceof SetWeatherEvent);
 	}
 
 	@Test
 	void test_16() {
 		Factory<Event> eFactory = createEventsFactory();
 
-		String inputJSon = "{\n" + "      \"type\" : \"set_cont_class\",\n" + "      \"data\" : {\n"
+		String inputJSon = "{\n"
+				+ "      \"type\" : \"set_cont_class\",\n"
+				+ "      \"data\" : {\n"
 				+ "          \"time\"     : 50,\n"
 				+ "          \"info\"     : [ { \"vehicle\" : \"v1\", \"class\": 5 }, \n"
-				+ "                         { \"vehicle\" : \"v2\", \"class\": 2 } \n" + "                       ]\n"
-				+ "      }\n" + "    }";
+				+ "                         { \"vehicle\" : \"v2\", \"class\": 2 } \n"
+				+ "                       ]\n"
+				+ "      }\n"
+				+ "    }";
 
-		assertTrue(eFactory.create_instance(new JSONObject(inputJSon)) instanceof SetContClassEvent);
+		assertTrue( eFactory.create_instance(new JSONObject(inputJSon)) instanceof SetContClassEvent);
 	}
 
 	@Test
@@ -244,5 +280,7 @@ class BuilderBasedFactoryTest {
 
 		assertThrows(Exception.class, () -> eFactory.create_instance(new JSONObject(inputJSon)));
 	}
+
+
 
 }

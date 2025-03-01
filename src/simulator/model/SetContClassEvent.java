@@ -28,7 +28,7 @@ public class SetContClassEvent extends Event {
 				throw new IllegalArgumentException(
 						"The vehicle with identifier " + c.getFirst() + " is not on the road map");
 
-			v.setContaminationClass(c.getSecond());
+			v.setContClass(c.getSecond());
 		}
 	}
 
