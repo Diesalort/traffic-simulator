@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import simulator.model.Event;
 import simulator.model.NewVehicleEvent;
-import simulator.model.Weather;
 
 public class NewVehicleEventBuilder extends Builder<Event> {
 
