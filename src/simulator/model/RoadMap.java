@@ -72,11 +72,13 @@ public class RoadMap {
 			j1 = itinerary.get(i);
 			j2 = itinerary.get(i + 1);
 
+			Road roadBuscada = j1.roadTo(j2); // roadBuscada es la carretera que une j1 y j2
+
 			for (Road r : _roads) { // Buscamos si existe una carretera que una j1 y j2 (que tenga como src j1 y
 									// dest j2)
 
-				if (r.getSrc().equals(j1) && r.getDest().equals(j2)) { // Si existe una carretera que una los cruces j1
-																		// y j2, seguimos buscando
+				if (roadBuscada == r) { // Si existe una carretera que una los cruces j1
+										// y j2, seguimos buscando
 					exist = true;
 				}
 			}
