@@ -20,7 +20,7 @@ public class NewJunctionEventBuilder extends Builder<Event> {
 	}
 
 	@Override
-	protected Event create_instance(JSONObject data) { // TODO
+	protected Event create_instance(JSONObject data) {
 
 		int time = data.getInt("time");
 		String id = data.getString("id");

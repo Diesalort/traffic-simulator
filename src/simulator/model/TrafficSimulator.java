@@ -21,7 +21,7 @@ public class TrafficSimulator {
 	public void addEvent(Event e) {
 
 		if (e.getTime() <= this._time)
-			throw new IllegalArgumentException("Event time is earlier than current");
+			throw new IllegalArgumentException("Event time is earlier than current time");
 
 		this._events.add(e);
 	}
@@ -32,9 +32,10 @@ public class TrafficSimulator {
 
 		// Ejecuta todos los eventos cuyo tiempo sea el tiempo actual de la simulación y
 		// los elimina de la lista.
+		// Con peek, obtenemos el primer evento de la cola
 		while (!this._events.isEmpty() && this._events.peek().getTime() == this._time) {
 
-			Event e = this._events.poll(); // Obtenemos y elminamos el evento de la cola
+			Event e = this._events.poll(); // Con poll, obtenemos y eliminamos el primer evento de la cola
 
 			e.execute(this._roadMap);
 		}

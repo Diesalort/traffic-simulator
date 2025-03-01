@@ -48,13 +48,13 @@ public class RoadMap {
 		Junction jDest = r.getDest();
 
 		if (!_junctionsMap.containsKey(jSrc.getId()) || !_junctionsMap.containsKey(jDest.getId()))
-			throw new IllegalArgumentException("The junctionns that connect the road are not on the junction map");
+			throw new IllegalArgumentException("The junctions that connect the road are not on the junction map");
 
 		_roads.add(r);
 		_roadsMap.put(r.getId(), r);
 	}
 
-	void addVehicle(Vehicle v) { // TODO optimizar
+	void addVehicle(Vehicle v) {
 
 		if (_vehiclesMap.containsKey(v.getId()))
 			throw new IllegalArgumentException("There is already a vehicle with the identifier: " + v.getId());
@@ -67,16 +67,15 @@ public class RoadMap {
 
 		boolean exist = false;
 
-		for (int i = 0; i < itinerary.size() - 1; i++) {
+		for (int i = 0; i < itinerary.size() - 1; i++) { // Recorremos los cruces del itinerario
 
 			j1 = itinerary.get(i);
 			j2 = itinerary.get(i + 1);
 
-			for (Road r : _roads) {
+			for (Road r : _roads) { // Buscamos si existe una carretera que una j1 y j2 (Una road que tenga como src j1 y dest j2)
 
 				if (r.getSrc().equals(j1) && r.getDest().equals(j2)) { // Si existe una carretera que una los cruces j1
 																		// y j2, seguimos buscando
-
 					exist = true;
 				}
 
@@ -87,7 +86,7 @@ public class RoadMap {
 			if (!exist)
 				throw new IllegalArgumentException("Vehicle's itinerary is not valid");
 
-			exist = false;
+			exist = false; // Ponemos exist a false para volver a buscar otra carretera que una los cruces siguientes
 		}
 
 		_vehicles.add(v);
@@ -140,7 +139,7 @@ public class RoadMap {
 		JSONObject jo = new JSONObject();
 
 		// Junctions
-		JSONArray jaJunctions = new JSONArray();
+		JSONArray jaJunctions = new JSONArray(); // Creamos JSONArray donde meteremos los reports de cada junction de la lista
 		for (Junction j : this._junctions) {
 
 			jaJunctions.put(j.report());
@@ -160,6 +159,7 @@ public class RoadMap {
 			jaVehicles.put(v.report());
 		}
 
+		// Metemos los JSONArray en jo y lo devolvemos
 		jo.put("junctions", jaJunctions);
 		jo.put("roads", jaRoads);
 		jo.put("vehicles", jaVehicles);

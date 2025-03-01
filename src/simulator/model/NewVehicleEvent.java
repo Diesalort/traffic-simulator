@@ -20,7 +20,7 @@ public class NewVehicleEvent extends Event {
 		} else if (contClass < 0 || contClass > 10) {
 
 			throw new IllegalArgumentException(
-					"Contamination class can only take values ​​between 0 and 10 (inclusive)");
+					"Contamination class can only take values ​​between 0 and 10 (both inclusive)");
 
 		} else if (itinerary.size() < 2) {
 
@@ -36,6 +36,7 @@ public class NewVehicleEvent extends Event {
 	@Override
 	void execute(RoadMap map) {
 
+		// Hay que convertir el itinerario List<String> a uno que sea del tipo List<Junction>, para pasarle al constructor
 		List<Junction> itinerary = new ArrayList<>();
 
 		for (String jId : _itinerary) {
@@ -43,7 +44,7 @@ public class NewVehicleEvent extends Event {
 			Junction j = map.getJunction(jId);
 
 			if (j == null)
-				throw new IllegalArgumentException("Junction " + jId + " it's not on the road map");
+				throw new IllegalArgumentException("Junction with identifier " + jId + " it's not on the road map");
 
 			itinerary.add(j);
 		}

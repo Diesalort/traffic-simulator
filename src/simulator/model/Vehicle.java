@@ -30,7 +30,7 @@ public class Vehicle extends SimulatedObject {
 		} else if (contClass < 0 || contClass > 10) {
 
 			throw new IllegalArgumentException(
-					"Contamination class can only take values ​​between 0 and 10 (inclusive)");
+					"Contamination class can only take values ​​between 0 and 10 (both inclusive)");
 
 		} else if (itinerary.size() < 2) {
 

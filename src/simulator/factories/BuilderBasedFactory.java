@@ -10,11 +10,11 @@ import org.json.JSONObject;
 
 public class BuilderBasedFactory<T> implements Factory<T> {
 	private Map<String, Builder<T>> _builders;
-	private List<JSONObject> _builders_info;
+	private List<JSONObject> _buildersInfo;
 
 	public BuilderBasedFactory() {
 		this._builders = new HashMap<>();
-		this._builders_info = new LinkedList<>();
+		this._buildersInfo = new LinkedList<>();
 	}
 
 	public BuilderBasedFactory(List<Builder<T>> builders) {
@@ -33,13 +33,13 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		this._builders.put(tag, b);
 
 		JSONObject info = b.get_info();
-		this._builders_info.add(info);
+		this._buildersInfo.add(info);
 	}
 
 	@Override
 	public T create_instance(JSONObject info) {
 		if (info == null) {
-			throw new IllegalArgumentException("’info’ cannot be null");
+			throw new IllegalArgumentException("'info' cannot be null");
 		}
 
 		String type = info.getString("type");
@@ -54,12 +54,12 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 				return instance;
 		}
 
-		throw new IllegalArgumentException("Unrecognized ‘info’:" + info.toString());
+		throw new IllegalArgumentException("Unrecognized 'info':" + info.toString());
 	}
 
 	@Override
 	public List<JSONObject> get_info() {
-		return Collections.unmodifiableList(_builders_info);
+		return Collections.unmodifiableList(_buildersInfo);
 	}
 
 }
