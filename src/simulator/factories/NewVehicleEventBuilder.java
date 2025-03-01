@@ -27,10 +27,10 @@ public class NewVehicleEventBuilder extends Builder<Event> {
 		JSONArray itineraryJa = data.getJSONArray("itinerary");
 		List<String> itineraryStr = new ArrayList<>();
 
-		for (int i = 0; i < itineraryJa.length(); i++) { // TODO esta bien hecho??
+		for (int i = 0; i < itineraryJa.length(); i++) {
 
-			String jStr = itineraryJa.getString(i);
-			itineraryStr.add(jStr);
+			String junctionId = itineraryJa.getString(i);
+			itineraryStr.add(junctionId);
 		}
 
 		return new NewVehicleEvent(time, id, maxSpeed, contClass, itineraryStr);
@@ -43,6 +43,6 @@ public class NewVehicleEventBuilder extends Builder<Event> {
 		o.put("id", "The vehicle's ID");
 		o.put("maxspeed", "The vehicle's max speed");
 		o.put("class", "The vehicle's contamination class");
-		o.put("itinerary", "The junctions which the vehicle must pass");
+		o.put("itinerary", "The IDs of the junctions which the vehicle must pass");
 	}
 }

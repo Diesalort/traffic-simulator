@@ -7,7 +7,7 @@ import simulator.model.Weather;
 public class NewCityRoadEventBuilder extends NewRoadEventBuilder {
 
 	public NewCityRoadEventBuilder() {
-		super("new_city_road", "Create a NewCityRoadEvent object");
+		super("new_city_road", "A new cityRoad");
 	}
 
 	@Override

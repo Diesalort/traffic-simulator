@@ -7,8 +7,7 @@ import simulator.model.NewInterCityRoadEvent;
 import simulator.model.NewRoadEvent;
 import simulator.model.Weather;
 
-public abstract class NewRoadEventBuilder extends Builder<Event> { // TODO repasar esta clase y la herencia de las
-																	// clases hijas
+public abstract class NewRoadEventBuilder extends Builder<Event> {
 
 	public NewRoadEventBuilder(String typeTag, String desc) {
 		super(typeTag, desc);
@@ -25,7 +24,7 @@ public abstract class NewRoadEventBuilder extends Builder<Event> { // TODO repas
 		int co2Limit = data.getInt("co2limit");
 		int maxSpeed = data.getInt("maxspeed");
 
-		String ws = data.getString("weather"); // Pongo String porque se han guardado como String
+		String ws = data.getString("weather"); // Enum guardado como String
 		Weather w = Weather.valueOf(ws.toUpperCase()); // convertimos el String ws al enum Weather
 
 		return this.newInstance(time, id, src, dest, length, co2Limit, maxSpeed, w);
@@ -36,8 +35,8 @@ public abstract class NewRoadEventBuilder extends Builder<Event> { // TODO repas
 
 		o.put("time", "The time at which the event is executed");
 		o.put("id", "The road's ID");
-		o.put("src", "The road's source junction");
-		o.put("dest", "The road's destiny junction");
+		o.put("src", "The road's source junction ID");
+		o.put("dest", "The road's destiny junction ID");
 		o.put("length", "The road's length");
 		o.put("co2limit", "The road's co2 limit");
 		o.put("maxspeed", "The max speed allowed on the road");

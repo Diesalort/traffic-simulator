@@ -24,11 +24,11 @@ public class SetContClassEventBuilder extends Builder<Event> {
 
 		List<Pair<String, Integer>> cs = new ArrayList<>();
 
-		for (int i = 0; i < info.length(); i++) { // TODO esta bien hecho??
+		for (int i = 0; i < info.length(); i++) {
 
 			JSONObject jo = info.getJSONObject(i);
-			String vehicle = jo.getString("vehicle");
-			int contClass = jo.getInt("class");
+			String vehicle = jo.getString("vehicle"); //Obtenemos id
+			int contClass = jo.getInt("class"); //Obtenemos class
 
 			cs.add(new Pair<>(vehicle, contClass));
 		}
