@@ -3,7 +3,6 @@ package simulator.model;
 public abstract class Event implements Comparable<Event> {
 
 	private static long _counter = 0;
-
 	protected int _time;
 	protected long _time_stamp;
 

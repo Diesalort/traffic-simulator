@@ -63,7 +63,7 @@ public class Controller {
 			p.print(_sim.report());
 		}
 
-		p.print("]}");
+		p.print("] }");
 	}
 
 	public void reset() {

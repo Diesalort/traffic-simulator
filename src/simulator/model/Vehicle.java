@@ -10,7 +10,7 @@ import org.json.JSONObject;
 public class Vehicle extends SimulatedObject {
 
 	private List<Junction> _itinerary;
-	private int _junctionIndex; // índice de itinerary en el que se encuentra el vehículo
+	private int _junctionIndex; // índice de itinerary hacia el que se dirige el vehículo
 	private int _maxSpeed;
 	private int _speed; // Velocidad actual
 	private VehicleStatus _status;
@@ -38,6 +38,7 @@ public class Vehicle extends SimulatedObject {
 		}
 
 		this._itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
+		this._junctionIndex = 0;
 		this._maxSpeed = maxSpeed;
 		this._speed = 0;
 		this._status = VehicleStatus.PENDING;
@@ -79,14 +80,11 @@ public class Vehicle extends SimulatedObject {
 			int locAnterior = this._location;
 
 			// Actualiza location
-			if (this._location + this._speed < this._road.getLength()) {
+			this._location += this._speed;
 
-				this._location += this._speed;
-
-			} else {
-
+			if (this._location > this._road.getLength()) // Si location supera la longitud de la carretera, _location =
+															// _road.getLength();
 				this._location = this._road.getLength();
-			}
 
 			// Actualizamos distancia recorrida
 			this._distance += this._location - locAnterior;
@@ -124,7 +122,10 @@ public class Vehicle extends SimulatedObject {
 			this._road.exit(this);
 		}
 
-		if (this._junctionIndex == this._itinerary.size() - 1) { // Ha completado el itinerario
+		if (this._junctionIndex == this._itinerary.size() - 1 && this._status == VehicleStatus.WAITING) { // Ha
+																											// completado
+																											// el
+																											// itinerario
 
 			this._status = VehicleStatus.ARRIVED;
 			this._road = null;
@@ -133,11 +134,11 @@ public class Vehicle extends SimulatedObject {
 
 		} else {
 
-			Junction actualJunction = this._itinerary.get(_junctionIndex);
+			Junction currentJunction = this._itinerary.get(_junctionIndex);
 			Junction nextJunction = this._itinerary.get(_junctionIndex + 1);
 
-			this._junctionIndex++;
-			this._road = actualJunction.roadTo(nextJunction); // Nueva carretera del vehículo
+			this._junctionIndex++; // Incrementamos índice del itinerario
+			this._road = currentJunction.roadTo(nextJunction); // Nueva carretera del vehículo
 			this._location = 0;
 			this._speed = 0;
 			this._road.enter(this);

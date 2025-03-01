@@ -20,7 +20,7 @@ public abstract class Road extends SimulatedObject {
 	protected int _totalCO2;
 	private List<Vehicle> _vehicles;
 
-	private final VehicleDescLocationComparator _locComp;
+	private final VehicleDescLocationComparator _locComp; // Comparator
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);

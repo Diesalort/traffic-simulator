@@ -17,7 +17,7 @@ public class Junction extends SimulatedObject {
 	private List<List<Vehicle>> _queues; // Lista de colas para las carreteras entrantes
 	private Map<Road, List<Vehicle>> _queueByRoad;
 
-	private int _green;
+	private int _greenLightIndex;
 	private int _lastSwitchingTime;
 	private LightSwitchingStrategy _lss;
 	private DequeuingStrategy _dqs;
@@ -42,7 +42,7 @@ public class Junction extends SimulatedObject {
 		this._queues = new ArrayList<List<Vehicle>>();
 		this._queueByRoad = new HashMap<Road, List<Vehicle>>();
 
-		this._green = -1;
+		this._greenLightIndex = -1;
 		this._lastSwitchingTime = 0;
 		this._lss = lsStrategy;
 		this._dqs = dqStrategy;
@@ -67,7 +67,7 @@ public class Junction extends SimulatedObject {
 
 			this._inRoads.add(r);
 
-			List<Vehicle> queue = new LinkedList<Vehicle>();
+			List<Vehicle> queue = new LinkedList<>();
 			this._queues.add(queue);
 			this._queueByRoad.put(r, queue);
 
@@ -107,9 +107,9 @@ public class Junction extends SimulatedObject {
 	@Override
 	void advance(int currTime) {
 
-		if (this._green != -1) { // Si algún semáforo está en verde...
+		if (this._greenLightIndex != -1) { // Si algún semáforo está en verde...
 
-			Road greenLightRoad = this._inRoads.get(_green);
+			Road greenLightRoad = this._inRoads.get(_greenLightIndex);
 			List<Vehicle> vehiclesInGreenRoad = this._queueByRoad.get(greenLightRoad);
 			List<Vehicle> vehiclesToMove = this._dqs.dequeue(vehiclesInGreenRoad);
 
@@ -120,12 +120,12 @@ public class Junction extends SimulatedObject {
 			}
 		}
 
-		int newGreenRoad = this._lss.chooseNextGreen(this._inRoads, this._queues, this._green, this._lastSwitchingTime,
-				currTime);
+		int newGreenRoad = this._lss.chooseNextGreen(this._inRoads, this._queues, this._greenLightIndex,
+				this._lastSwitchingTime, currTime);
 
-		if (newGreenRoad != this._green) {
+		if (newGreenRoad != this._greenLightIndex) {
 
-			this._green = newGreenRoad;
+			this._greenLightIndex = newGreenRoad;
 			this._lastSwitchingTime = currTime;
 		}
 
@@ -140,9 +140,9 @@ public class Junction extends SimulatedObject {
 
 		String greenRoadId = "none";
 
-		if (this._green != -1) {
+		if (this._greenLightIndex != -1) {
 
-			Road greenRoad = this._inRoads.get(_green);
+			Road greenRoad = this._inRoads.get(_greenLightIndex);
 			greenRoadId = greenRoad.getId();
 		}
 

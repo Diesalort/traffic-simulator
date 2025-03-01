@@ -37,7 +37,7 @@ public class NewVehicleEvent extends Event {
 	void execute(RoadMap map) {
 
 		// Hay que convertir el itinerario List<String> a uno que sea del tipo
-		// List<Junction>, para pasarle al constructor
+		// List<Junction>, para pasárselo al constructor
 		List<Junction> itinerary = new ArrayList<>();
 
 		for (String jId : _itinerary) {

@@ -21,7 +21,6 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		this();
 
 		for (Builder<T> b : builders) {
-
 			this.add_builder(b);
 		}
 
@@ -43,18 +42,18 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		}
 
 		String type = info.getString("type");
-		Builder<T> b = this._builders.get(type);
+		Builder<T> builder = this._builders.get(type);
 
-		if (b != null) {
+		if (builder != null) {
 
 			JSONObject data = info.has("data") ? info.getJSONObject("data") : new JSONObject();
-			T instance = b.create_instance(data);
+			T instance = builder.create_instance(data);
 
 			if (instance != null)
 				return instance;
 		}
 
-		throw new IllegalArgumentException("Unrecognized 'info':" + info.toString());
+		throw new IllegalArgumentException("Unrecognized 'info': " + info.toString());
 	}
 
 	@Override
