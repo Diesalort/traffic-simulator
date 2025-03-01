@@ -13,21 +13,21 @@ class MoveAllStrategyBuilderTest {
 	@Test
 	void test_1() {
 		MoveAllStrategyBuilder eb = new MoveAllStrategyBuilder();
-		
+
 		String dataJSon = "{}";
 		DequeuingStrategy o = eb.create_instance(new JSONObject(dataJSon));
-		assertTrue( o instanceof MoveAllStrategy );
-		
+		assertTrue(o instanceof MoveAllStrategy);
+
 	}
 
 	@Test
 	void test_2() {
 		MoveAllStrategyBuilder eb = new MoveAllStrategyBuilder();
-		
+
 		String dataJSon = "{}";
 		DequeuingStrategy o = eb.create_instance(new JSONObject(dataJSon));
-		assertTrue( o instanceof MoveAllStrategy );
-		
+		assertTrue(o instanceof MoveAllStrategy);
+
 	}
 
 }

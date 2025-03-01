@@ -21,7 +21,7 @@ public class RoundRobinStrategy implements LightSwitchingStrategy {
 		if (roads.isEmpty())
 			return -1;
 
-		if (currGreen == -1) //Todos los semáforos están en rojo
+		if (currGreen == -1) // Todos los semáforos están en rojo
 			return 0; // Se pone en verde el primer semáforo
 
 		if (currTime - lastSwitchingTime < this._timeSlot) // Sigue el semáforo actual en verde

@@ -72,7 +72,8 @@ public class RoadMap {
 			j1 = itinerary.get(i);
 			j2 = itinerary.get(i + 1);
 
-			for (Road r : _roads) { // Buscamos si existe una carretera que una j1 y j2 (Una road que tenga como src j1 y dest j2)
+			for (Road r : _roads) { // Buscamos si existe una carretera que una j1 y j2 (Una road que tenga como src
+									// j1 y dest j2)
 
 				if (r.getSrc().equals(j1) && r.getDest().equals(j2)) { // Si existe una carretera que una los cruces j1
 																		// y j2, seguimos buscando
@@ -86,7 +87,8 @@ public class RoadMap {
 			if (!exist)
 				throw new IllegalArgumentException("Vehicle's itinerary is not valid");
 
-			exist = false; // Ponemos exist a false para volver a buscar otra carretera que una los cruces siguientes
+			exist = false; // Ponemos exist a false para volver a buscar otra carretera que una los cruces
+							// siguientes
 		}
 
 		_vehicles.add(v);
@@ -139,7 +141,8 @@ public class RoadMap {
 		JSONObject jo = new JSONObject();
 
 		// Junctions
-		JSONArray jaJunctions = new JSONArray(); // Creamos JSONArray donde meteremos los reports de cada junction de la lista
+		JSONArray jaJunctions = new JSONArray(); // Creamos JSONArray donde meteremos los reports de cada junction de la
+													// lista
 		for (Junction j : this._junctions) {
 
 			jaJunctions.put(j.report());

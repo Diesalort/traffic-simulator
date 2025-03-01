@@ -111,7 +111,7 @@ public class Main {
 
 	private static void parseTicksOption(CommandLine line) {
 
-		if (line.hasOption("t")) { // TODO necesario comprobar que sea válido?
+		if (line.hasOption("t")) {
 			_timeLimit = Integer.parseInt(line.getOptionValue("t")); // convertimos line.getOptionValue("t") (String) a
 																		// Integer
 		} else {

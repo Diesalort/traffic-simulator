@@ -8,7 +8,7 @@ public class CityRoad extends Road {
 
 	@Override
 	void reduceTotalContamination() {
-		
+
 		int x = 2;
 		Weather w = this.getWeather();
 

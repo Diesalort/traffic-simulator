@@ -25,7 +25,7 @@ public class SetWeatherEventBuilder extends Builder<Event> {
 
 		List<Pair<String, Weather>> ws = new ArrayList<>();
 
-		for (int i = 0; i < info.length(); i++) { // TODO esta bien hecho?
+		for (int i = 0; i < info.length(); i++) {
 
 			JSONObject jo = info.getJSONObject(i);
 			String road = jo.getString("road");

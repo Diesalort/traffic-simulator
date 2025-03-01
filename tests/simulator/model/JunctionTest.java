@@ -20,33 +20,37 @@ class JunctionTest {
 		Road r2 = new InterCityRoad("r2", j2, j3, 100, 500, 1000, Weather.SUNNY);
 		Road r3 = new InterCityRoad("r3", j3, j4, 100, 500, 1000, Weather.SUNNY);
 		Road r4 = new InterCityRoad("r4", j3, j5, 100, 500, 1000, Weather.SUNNY);
-		
+
 		// check that junctions stores roads correctly
 		assertEquals(r1, j1.roadTo(j3));
 		assertEquals(r2, j2.roadTo(j3));
 		assertEquals(r3, j3.roadTo(j4));
 		assertEquals(r4, j3.roadTo(j5));
-		
+
 		assertNull(j1.roadTo(j4));
 		assertNull(j2.roadTo(j4));
 		assertNull(j3.roadTo(j1));
 		assertNull(j3.roadTo(j2));
 
 	}
-	
+
 	@Test
 	void error_handling() {
 		// id must be a non-empty string
-		assertThrows(Exception.class, () -> new Junction(null, new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0));
-		assertThrows(Exception.class, () -> new Junction("", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0));
-		
+		assertThrows(Exception.class,
+				() -> new Junction(null, new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0));
+		assertThrows(Exception.class,
+				() -> new Junction("", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0));
+
 		// strategies cannot be null
 		assertThrows(Exception.class, () -> new Junction("j1", null, new MoveFirstStrategy(), 0, 0));
 		assertThrows(Exception.class, () -> new Junction("j1", new RoundRobinStrategy(10), null, 0, 0));
-		
+
 		// coordinates are non-negative
-		assertThrows(Exception.class, () -> new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), -1, 0));
-		assertThrows(Exception.class, () -> new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, -1));
+		assertThrows(Exception.class,
+				() -> new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), -1, 0));
+		assertThrows(Exception.class,
+				() -> new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, -1));
 	}
 
 }

@@ -56,9 +56,9 @@ public class Vehicle extends SimulatedObject {
 		if (this._status == VehicleStatus.TRAVELING) {
 
 			this._speed = s < this._maxSpeed ? s : this._maxSpeed;
-					
+
 		} else { // Si no está viajando, ponemos su velocidad a 0
-			
+
 			this._speed = 0;
 		}
 	}
@@ -96,7 +96,8 @@ public class Vehicle extends SimulatedObject {
 			this._totalCO2 += contProducida;
 			this._road.addContamination(contProducida);
 
-			// Si location >= roadLength, el vehículo entra en la cola del cruce correspondiente
+			// Si location >= roadLength, el vehículo entra en la cola del cruce
+			// correspondiente
 			if (this._location >= this._road.getLength()) { // El vehı́culo entra en la cola del cruce correspondiente
 
 				Junction actualJunction = this._itinerary.get(this._junctionIndex);
@@ -104,9 +105,9 @@ public class Vehicle extends SimulatedObject {
 				this._status = VehicleStatus.WAITING;
 				this._speed = 0;
 			}
-			
+
 		} else { // Si su estado no es Travelling, ponemos su velocidad a 0
-			
+
 			this._speed = 0;
 		}
 	}

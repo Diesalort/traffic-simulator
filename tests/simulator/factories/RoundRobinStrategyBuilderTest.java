@@ -13,32 +13,31 @@ class RoundRobinStrategyBuilderTest {
 	@Test
 	void test_1() {
 		RoundRobinStrategyBuilder eb = new RoundRobinStrategyBuilder();
-		
+
 		String inputJSon = "{ \"type\" : \"round_robin_lss\", \"data\" : {\"timeslot\" : 5} }";
 		LightSwitchingStrategy o = eb.create_instance(new JSONObject(inputJSon));
-		assertTrue( o instanceof RoundRobinStrategy );
-		
+		assertTrue(o instanceof RoundRobinStrategy);
+
 	}
 
 	@Test
 	void test_2() {
 		RoundRobinStrategyBuilder eb = new RoundRobinStrategyBuilder();
-		
+
 		String inputJSon = "{ \"type\" : \"round_robin_lss\", \"data\" : {} }";
 		LightSwitchingStrategy o = eb.create_instance(new JSONObject(inputJSon));
-		assertTrue( o instanceof RoundRobinStrategy );
-		
+		assertTrue(o instanceof RoundRobinStrategy);
+
 	}
 
 	@Test
 	void test_4() {
 		RoundRobinStrategyBuilder eb = new RoundRobinStrategyBuilder();
-		
+
 		String inputJSon = "{ \"type\" : \"round_robin_lss\" }";
 		LightSwitchingStrategy o = eb.create_instance(new JSONObject(inputJSon));
-		assertTrue( o instanceof RoundRobinStrategy );
-		
-	}
+		assertTrue(o instanceof RoundRobinStrategy);
 
+	}
 
 }

@@ -12,12 +12,12 @@ class NewVehicleEventTest {
 	@Test
 	void test_1() {
 		RoadMap map = new RoadMap();
-		//  junctions
+		// junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j3 = new Junction("j3", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 
-		//  roads
+		// roads
 		Road r1 = new CityRoad("r1", j1, j2, 100, 500, 1000, Weather.SUNNY);
 		Road r2 = new CityRoad("r2", j2, j3, 100, 500, 1000, Weather.SUNNY);
 
@@ -29,20 +29,20 @@ class NewVehicleEventTest {
 		map.addRoad(r2);
 
 		// add a new vehicle via an event
-		Event e = new NewVehicleEvent(10,"v1", 50, 1, Arrays.asList("j1", "j2"));
+		Event e = new NewVehicleEvent(10, "v1", 50, 1, Arrays.asList("j1", "j2"));
 		e.execute(map);
-		
+
 		// check that the vehicle was added to the map correctly
 		List<Vehicle> l = map.getVehicles();
-		
+
 		assertEquals(1, l.size());
-		
+
 		Vehicle v = l.get(0);
-		
+
 		assertEquals("v1", v.getId());
 		assertEquals(50, v.getMaxSpeed());
 		assertEquals(1, v.getContClass());
-		assertEquals(Arrays.asList(j1,j2), v.getItinerary());
+		assertEquals(Arrays.asList(j1, j2), v.getItinerary());
 	}
 
 }

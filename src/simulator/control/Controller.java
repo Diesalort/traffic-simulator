@@ -12,7 +12,7 @@ import simulator.factories.Factory;
 import simulator.model.Event;
 import simulator.model.TrafficSimulator;
 
-public class Controller { // TODO repasar
+public class Controller {
 
 	private TrafficSimulator _sim;
 	private Factory<Event> _eventsFactory;
@@ -47,20 +47,20 @@ public class Controller { // TODO repasar
 	public void run(int n, OutputStream out) {
 
 		PrintStream p = new PrintStream(out);
-		
+
 		p.print("{  \"states\": [");
 
 		// loop for the first n-1 states (to print comma after each state)
 		for (int i = 0; i < n - 1; i++) {
-		    _sim.advance();
-		    p.print(_sim.report());
-		    p.println(",");
+			_sim.advance();
+			p.print(_sim.report());
+			p.println(",");
 		}
 
 		// last step, only if 'n > 0'
 		if (n > 0) {
-		    _sim.advance();
-		    p.print(_sim.report());
+			_sim.advance();
+			p.print(_sim.report());
 		}
 
 		p.print("]}");

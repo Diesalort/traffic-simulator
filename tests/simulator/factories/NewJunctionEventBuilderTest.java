@@ -30,8 +30,8 @@ class NewJunctionEventBuilderTest {
 		dqbs.add(new MoveAllStrategyBuilder());
 		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 
-		String dataJson = "{\n"
-				+ "     	 \"time\" : 1,\n" + "         \"id\"   : \"j1\",\n" + "      	 \"coor\" : [100,200],\n"
+		String dataJson = "{\n" + "     	 \"time\" : 1,\n" + "         \"id\"   : \"j1\",\n"
+				+ "      	 \"coor\" : [100,200],\n"
 				+ "      	 \"ls_strategy\" : { \"type\" : \"round_robin_lss\", \"data\" : {\"timeslot\" : 5} },\n"
 				+ "      	 \"dq_strategy\" : { \"type\" : \"move_first_dqs\",  \"data\" : {} }\n" + "   	 }";
 
@@ -62,8 +62,8 @@ class NewJunctionEventBuilderTest {
 		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 
 		// error in id
-		String dataJson = "{\n"
-				+ "     	 \"time\" : 1,\n" + "         \"id\"   : 44,\n" + "      	 \"coor\" : [100,200],\n"
+		String dataJson = "{\n" + "     	 \"time\" : 1,\n" + "         \"id\"   : 44,\n"
+				+ "      	 \"coor\" : [100,200],\n"
 				+ "      	 \"ls_strategy\" : { \"type\" : \"round_robin_lss\", \"data\" : {\"timeslot\" : 5} },\n"
 				+ "      	 \"dq_strategy\" : { \"type\" : \"move_first_dqs\",  \"data\" : {} }\n" + "   	 }";
 
