@@ -48,7 +48,8 @@ public class RoadMap {
 		Junction jDest = r.getDest();
 
 		if (!_junctionsMap.containsKey(jSrc.getId()) || !_junctionsMap.containsKey(jDest.getId()))
-			throw new IllegalArgumentException("The junctions that connect the road are not on the junction map");
+			throw new IllegalArgumentException("The junctions " + jSrc.getId() + ", " + jDest.getId()
+					+ "that connect the road, are not on the junction map");
 
 		_roads.add(r);
 		_roadsMap.put(r.getId(), r);

@@ -34,7 +34,7 @@ public class Junction extends SimulatedObject {
 
 		} else if (xCoor < 0 || yCoor < 0) {
 
-			throw new IllegalArgumentException("Coordinates cannot be null");
+			throw new IllegalArgumentException("Coordinates [" + xCoor + "," + yCoor + "] cannot be negative");
 		}
 
 		this._inRoads = new ArrayList<Road>();
@@ -63,17 +63,14 @@ public class Junction extends SimulatedObject {
 
 	void addIncommingRoad(Road r) {
 
-		if (r.getDest().equals(this)) {
+		if (!r.getDest().equals(this))
+			throw new IllegalArgumentException(
+					"The junction: " + _id + " is not the destination of the given road: " + r.getId());
 
-			this._inRoads.add(r);
-
-			List<Vehicle> queue = new LinkedList<>();
-			this._queues.add(queue);
-			this._queueByRoad.put(r, queue);
-
-		} else
-			throw new IllegalArgumentException("The junction is not the destination of the given road");
-
+		this._inRoads.add(r);
+		List<Vehicle> queue = new LinkedList<>();
+		this._queues.add(queue);
+		this._queueByRoad.put(r, queue);
 	}
 
 	void addOutGoingRoad(Road r) {
@@ -82,11 +79,13 @@ public class Junction extends SimulatedObject {
 
 		if (this._outRoadByJunction.containsKey(j)) { // Ninguna otra carretera debe ir desde this al cruce j
 
-			throw new IllegalArgumentException("There is already a road that has that junction as its destination");
+			throw new IllegalArgumentException(
+					"There is already a road that has junction " + _id + " as its destination");
 
 		} else if (!r.getSrc().equals(this)) { // Si la carretera no es saliente del cruce actual...
 
-			throw new IllegalArgumentException("The given road is not an outgoing road from this junction");
+			throw new IllegalArgumentException(
+					"The given road: " + r.getId() + " is not an outgoing road from this junction: " + _id);
 		}
 
 		this._outRoadByJunction.put(j, r);

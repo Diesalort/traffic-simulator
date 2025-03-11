@@ -145,7 +145,7 @@ class InterCityRoadTest {
 
 		r1.advance(1);
 
-		s="{\"speedlimit\":100,\"co2\":350,\"weather\":\"SUNNY\",\"vehicles\":[\"v2\",\"v1\"],\"id\":\"r1\"}\n";
+		s = "{\"speedlimit\":100,\"co2\":350,\"weather\":\"SUNNY\",\"vehicles\":[\"v2\",\"v1\"],\"id\":\"r1\"}\n";
 		assertTrue(new JSONObject(s).similar(r1.report()));
 	}
 

@@ -24,16 +24,17 @@ public class Vehicle extends SimulatedObject {
 
 		if (maxSpeed <= 0) {
 
-			throw new IllegalArgumentException("maxSpeed must be positive");
+			throw new IllegalArgumentException("maxSpeed (" + maxSpeed + ") must be positive");
 
 		} else if (contClass < 0 || contClass > 10) {
 
 			throw new IllegalArgumentException(
-					"Contamination class can only take values ​​between 0 and 10 (both inclusive)");
+					"Contamination class (" + contClass + ") can only take values ​​between 0 and 10 (both inclusive)");
 
 		} else if (itinerary.size() < 2) {
 
-			throw new IllegalArgumentException("The itinerary must have, at least, 2 junctions");
+			throw new IllegalArgumentException(
+					"The itinerary must have, at least, 2 junctions. Actual size: " + itinerary.size());
 		}
 
 		this._itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
@@ -66,7 +67,8 @@ public class Vehicle extends SimulatedObject {
 	void setContClass(int c) {
 
 		if (c < 0 || c > 10)
-			throw new IllegalArgumentException("Contamination class mmust be between 0 and 10 (both inclusive)");
+			throw new IllegalArgumentException(
+					"Contamination class (" + c + ") must be between 0 and 10 (both inclusive)");
 
 		this._contClass = c;
 	}
@@ -103,9 +105,6 @@ public class Vehicle extends SimulatedObject {
 				this._speed = 0;
 			}
 
-		} else { // Si su estado no es Travelling, ponemos su velocidad a 0
-
-			this._speed = 0;
 		}
 	}
 

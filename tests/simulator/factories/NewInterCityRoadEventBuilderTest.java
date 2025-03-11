@@ -27,16 +27,15 @@ class NewInterCityRoadEventBuilderTest {
 		dqbs.add(new MoveAllStrategyBuilder());
 		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 
-		String dataJson1 = "{\n"
-				+ "     	 \"time\" : 1,\n" + "         \"id\"   : \"j1\",\n" + "      	 \"coor\" : [100,200],\n"
+		String dataJson1 = "{\n" + "     	 \"time\" : 1,\n" + "         \"id\"   : \"j1\",\n"
+				+ "      	 \"coor\" : [100,200],\n"
 				+ "      	 \"ls_strategy\" : { \"type\" : \"round_robin_lss\", \"data\" : {\"timeslot\" : 5} },\n"
 				+ "      	 \"dq_strategy\" : { \"type\" : \"move_first_dqs\",  \"data\" : {} }\n" + "   	 }";
 
-		String dataJson2 = "{\n"
-				+ "     	 \"time\" : 1,\n" + "         \"id\"   : \"j2\",\n" + "      	 \"coor\" : [100,200],\n"
+		String dataJson2 = "{\n" + "     	 \"time\" : 1,\n" + "         \"id\"   : \"j2\",\n"
+				+ "      	 \"coor\" : [100,200],\n"
 				+ "      	 \"ls_strategy\" : { \"type\" : \"round_robin_lss\", \"data\" : {\"timeslot\" : 5} },\n"
 				+ "      	 \"dq_strategy\" : { \"type\" : \"move_first_dqs\",  \"data\" : {} }\n" + "   	 }";
-
 
 		NewJunctionEventBuilder jeb = new NewJunctionEventBuilder(lssFactory, dqsFactory);
 		ts.addEvent(jeb.create_instance(new JSONObject(dataJson1)));
@@ -50,8 +49,7 @@ class NewInterCityRoadEventBuilderTest {
 	void test_1() {
 		TrafficSimulator ts = createSim();
 
-		String dataJson = "{\n"
-				+ "    	  \"time\"     : 1,\n" + "    	   \"id\"       : \"r1\",\n"
+		String dataJson = "{\n" + "    	  \"time\"     : 1,\n" + "    	   \"id\"       : \"r1\",\n"
 				+ "           \"src\"      : \"j1\",\n" + "           \"dest\"     : \"j2\",\n"
 				+ "           \"length\"   : 10000,\n" + "           \"co2limit\" : 500,\n"
 				+ "           \"maxspeed\" : 120,\n" + "           \"weather\"  : \"SUNNY\"\n" + "   	  }";
@@ -71,8 +69,7 @@ class NewInterCityRoadEventBuilderTest {
 	void test_2() {
 
 		// error in src junction
-		String dataJson = "{\n"
-				+ "    	  \"time\"     : 1,\n" + "    	   \"id\"       : \"r1\",\n"
+		String dataJson = "{\n" + "    	  \"time\"     : 1,\n" + "    	   \"id\"       : \"r1\",\n"
 				+ "           \"src\"      : 99999,\n" + "           \"dest\"     : \"j2\",\n"
 				+ "           \"length\"   : 10000,\n" + "           \"co2limit\" : 500,\n"
 				+ "           \"maxspeed\" : 120,\n" + "           \"weather\"  : \"SUNNY\"\n" + "   	  }";
@@ -83,26 +80,25 @@ class NewInterCityRoadEventBuilderTest {
 	}
 
 	/*
-	@Test
-	void test_3() {
-		// if no type an exception is thrown (by getString("type"))
-		String inputJson = "{ }";
-
-		NewInterCityRoadEventBuilder reb = new NewInterCityRoadEventBuilder();
-		assertThrows(Exception.class, () -> reb.create_instance(new JSONObject(inputJson)));
-
-	}
-	@Test
-	void test_4() {
-
-		// if type is not new_inter_city_road it returns null
-		String inputJson = "{ \"type\" : \"bla\", "data }";
-
-		NewInterCityRoadEventBuilder reb = new NewInterCityRoadEventBuilder();
-		assertNull(reb.create_instance(new JSONObject(inputJson)));
-
-	}
-	
-	*/
+	 * @Test void test_3() { // if no type an exception is thrown (by
+	 * getString("type")) String inputJson = "{ }";
+	 * 
+	 * NewInterCityRoadEventBuilder reb = new NewInterCityRoadEventBuilder();
+	 * assertThrows(Exception.class, () -> reb.create_instance(new
+	 * JSONObject(inputJson)));
+	 * 
+	 * }
+	 * 
+	 * @Test void test_4() {
+	 * 
+	 * // if type is not new_inter_city_road it returns null String inputJson =
+	 * "{ \"type\" : \"bla\", "data }";
+	 * 
+	 * NewInterCityRoadEventBuilder reb = new NewInterCityRoadEventBuilder();
+	 * assertNull(reb.create_instance(new JSONObject(inputJson)));
+	 * 
+	 * }
+	 * 
+	 */
 
 }

@@ -21,7 +21,7 @@ public class TrafficSimulator {
 	public void addEvent(Event e) {
 
 		if (e.getTime() <= this._time)
-			throw new IllegalArgumentException("Event time is earlier than current time");
+			throw new IllegalArgumentException("Event time (" + e.getTime() + ") is earlier than current time");
 
 		this._events.add(e);
 	}

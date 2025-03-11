@@ -15,16 +15,16 @@ public abstract class NewRoadEvent extends Event {
 		super(time);
 
 		if (maxSpeed <= 0)
-			throw new IllegalArgumentException("maxSpeed must be positive");
+			throw new IllegalArgumentException("maxSpeed (" + maxSpeed + ") must be positive");
 
 		if (co2Limit < 0)
-			throw new IllegalArgumentException("Contamination limit cannot be negative");
+			throw new IllegalArgumentException("Contamination limit (" + co2Limit + ") cannot be negative");
 
 		if (length <= 0)
-			throw new IllegalArgumentException("Road's length must be positive");
+			throw new IllegalArgumentException("Road's length (" + length + ") must be positive");
 
 		if (srcJunc == null || destJunc == null || weather == null)
-			throw new IllegalArgumentException("Junctions or time are null");
+			throw new IllegalArgumentException("Junctions or weather are null");
 
 		this._id = id;
 		this._srcJunc = srcJunc;
@@ -39,11 +39,11 @@ public abstract class NewRoadEvent extends Event {
 
 		Junction srcJunc = map.getJunction(this._srcJunc);
 		if (srcJunc == null)
-			throw new IllegalArgumentException("The source junction is not on the road map");
+			throw new IllegalArgumentException("The source junction " + srcJunc.getId() + " is not on the road map");
 
 		Junction destJunc = map.getJunction(this._destJunc);
 		if (destJunc == null)
-			throw new IllegalArgumentException("The destiny junction is not on the road map");
+			throw new IllegalArgumentException("The destiny junction " + destJunc.getId() + " is not on the road map");
 
 		map.addRoad(this.newInstance(srcJunc, destJunc));
 	}

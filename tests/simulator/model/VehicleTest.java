@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 class VehicleTest {
 
-		
 	@Test
 	void getset_contamination_class() {
 
@@ -73,17 +72,17 @@ class VehicleTest {
 
 		// a vehicle
 		Vehicle v1 = new Vehicle("v1", 50, 1, Arrays.asList(j1, j2));
-		
+
 		// check that the report/toString is OK
 		String s = "{\"distance\":0,\"co2\":0,\"id\":\"v1\",\"class\":1,\"speed\":0,\"status\":\"PENDING\"}";
 		JSONObject jo = new JSONObject(s);
-		
+
 		JSONObject report = v1.report();
 		assertTrue(jo.similar(report));
-		
+
 		assertEquals("v1", v1.getId());
 	}
-	
+
 	// when asking for the itinerary, it should be returned as read only
 	@Test
 	void test_iterinary_is_readonly() {
@@ -97,7 +96,7 @@ class VehicleTest {
 		assertThrows(UnsupportedOperationException.class, () -> v1.getItinerary().add(j3));
 
 	}
-	
+
 	// some basic tests of the different methods
 	@Test
 	void test_1() {
@@ -142,21 +141,21 @@ class VehicleTest {
 
 		// the last advance should move vehicle 'v1' for 50 units
 		assertEquals(50, v1.getLocation());
-		
+
 		// check the vehicle's contamination
-		assertEquals(50,v1.getTotalCO2());
+		assertEquals(50, v1.getTotalCO2());
 
 		// check that the report/toString is OK
 		String s = "{\"distance\":50,\"road\":\"r1\",\"co2\":50,\"location\":50,\"id\":\"v1\",\"class\":1,\"speed\":50,\"status\":\"TRAVELING\"}";
 		JSONObject jo = new JSONObject(s);
-		
+
 		JSONObject report = v1.report();
 		assertTrue(jo.similar(report));
 	}
 
 	@Test
 	void error_handling() {
-		
+
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);

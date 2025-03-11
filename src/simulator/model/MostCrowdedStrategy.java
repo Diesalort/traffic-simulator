@@ -9,7 +9,7 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy {
 	public MostCrowdedStrategy(int timeSlot) {
 
 		if (timeSlot <= 0)
-			throw new IllegalArgumentException("timeSlot must be positive");
+			throw new IllegalArgumentException("timeSlot (" + timeSlot + ") must be positive");
 
 		this._timeSlot = timeSlot;
 	}
@@ -21,33 +21,24 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy {
 		if (roads.isEmpty())
 			return -1;
 
-		if (currGreen == -1) {
-
-			int longMaxCola = -1;
-			int indexMaxCola = 0;
-
-			for (int i = 0; i < qs.size(); i++) {
-
-				if (qs.get(i).size() > longMaxCola) {
-
-					longMaxCola = qs.get(i).size();
-					indexMaxCola = i;
-				}
-			}
-
-			return indexMaxCola;
-		}
-
 		if (currTime - lastSwitchingTime < this._timeSlot)
 			return currGreen;
 
-		// Búsqueda circular
-		int startIndex = currGreen + 1; // Índice desde el que empezamos a buscar
-		int indexAct = 0; // El índice en el que nos encontramos durante la búsqueda
+		// Casos en los que hay que realizar búsqueda (currGreen == -1, o que no se haya
+		// cumplido ninguno anterior y currGreen != -1)
 
 		// Longitud e índice de la carretera con la cola más larga
 		int longMaxCola = -1;
 		int indexMaxCola = 0;
+		int indexAct = 0; // El índice en el que nos encontramos durante la búsqueda
+
+		// Búsqueda circular
+		int startIndex = 0; // Índice desde el que empezamos a buscar
+
+		if (currGreen != -1) {
+
+			startIndex = currGreen + 1;
+		}
 
 		for (int i = 0; i < qs.size(); i++) {
 

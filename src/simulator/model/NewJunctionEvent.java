@@ -19,7 +19,7 @@ public class NewJunctionEvent extends Event {
 
 		} else if (xCoor < 0 || yCoor < 0) {
 
-			throw new IllegalArgumentException("Coordinates cannot be null");
+			throw new IllegalArgumentException("Coordinates [" + xCoor + "," + yCoor + "] cannot be negative");
 		}
 
 		this._id = id;

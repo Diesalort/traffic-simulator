@@ -20,11 +20,12 @@ public class NewVehicleEvent extends Event {
 		} else if (contClass < 0 || contClass > 10) {
 
 			throw new IllegalArgumentException(
-					"Contamination class can only take values ​​between 0 and 10 (both inclusive)");
+					"Contamination class (" + contClass + ") can only take values ​​between 0 and 10 (both inclusive)");
 
 		} else if (itinerary.size() < 2) {
 
-			throw new IllegalArgumentException("The itinerary must have, at least, 2 junctions");
+			throw new IllegalArgumentException(
+					"The itinerary must have, at least, 2 junctions. Actual size: " + itinerary.size());
 		}
 
 		this._id = id;
