@@ -205,5 +205,10 @@ public class Vehicle extends SimulatedObject {
 
 		return this._road;
 	}
+	
+	public int getDistance() {
+		
+		return this._distance;
+	}
 
 }

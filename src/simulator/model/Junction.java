@@ -173,4 +173,24 @@ public class Junction extends SimulatedObject {
 
 		return jo;
 	}
+	
+	public int getX() {
+		
+		return this._xCoor;
+	}
+	
+	public int getY() {
+		
+		return this._yCoor;
+	}
+	
+	public int getGreenLightIndex() {
+		
+		return this._greenLightIndex;
+	}
+	
+	public List<Road> getInRoads(){ //TODO devolver collection.unmodificable...?
+		
+		return this._inRoads;
+	}
 }
