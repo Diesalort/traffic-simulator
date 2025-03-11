@@ -39,11 +39,11 @@ public abstract class NewRoadEvent extends Event {
 
 		Junction srcJunc = map.getJunction(this._srcJunc);
 		if (srcJunc == null)
-			throw new IllegalArgumentException("The source junction " + srcJunc.getId() + " is not on the road map");
+			throw new IllegalArgumentException("The source junction is not on the road map");
 
 		Junction destJunc = map.getJunction(this._destJunc);
 		if (destJunc == null)
-			throw new IllegalArgumentException("The destiny junction " + destJunc.getId() + " is not on the road map");
+			throw new IllegalArgumentException("The destiny junction is not on the road map");
 
 		map.addRoad(this.newInstance(srcJunc, destJunc));
 	}
