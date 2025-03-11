@@ -32,4 +32,9 @@ public class SetContClassEvent extends Event {
 		}
 	}
 
+	@Override
+	public String toString() { //TODO
+		
+		return "New SetContClass '" + _cs + "'";
+	}
 }

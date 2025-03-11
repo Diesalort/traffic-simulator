@@ -12,4 +12,10 @@ public class NewCityRoadEvent extends NewRoadEvent {
 
 		return new CityRoad(_id, srcJunc, destJunc, _maxSpeed, _co2Limit, _length, _weather);
 	}
+	
+	@Override
+	public String toString() {
+		
+		return "New CityRoad '" + _id + "'";
+	}
 }

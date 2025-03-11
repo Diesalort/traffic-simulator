@@ -26,7 +26,7 @@
      "data" : {
      	 "time" : 1,
          "id"   : "j3",
-      	 "coor" : [150,100],
+      	 "coor" : [50,250],
       	 "ls_strategy" : { "type" : "round_robin_lss", "data" : {"timeslot" : 5} },
       	 "dq_strategy" : { "type" : "move_first_dqs",  "data" : {} }
    	 }
@@ -36,7 +36,17 @@
      "data" : {
      	 "time" : 1,
          "id"   : "j4",
-      	 "coor" : [250,100],
+      	 "coor" : [150,150],
+      	 "ls_strategy" : { "type" : "most_crowded_lss", "data" : {"timeslot" : 1} },
+      	 "dq_strategy" : { "type" : "move_first_dqs",  "data" : {} }
+   	 }
+   },	
+   {
+     "type" : "new_junction",
+     "data" : {
+     	 "time" : 1,
+         "id"   : "j5",
+      	 "coor" : [150,250],
       	 "ls_strategy" : { "type" : "round_robin_lss", "data" : {"timeslot" : 5} },
       	 "dq_strategy" : { "type" : "move_first_dqs",  "data" : {} }
    	 }
@@ -47,9 +57,9 @@
     	  "time"     : 1,
     	   "id"       : "r1",
            "src"      : "j1",
-           "dest"     : "j3",
+           "dest"     : "j4",
            "length"   : 10000,
-           "co2limit" : 500,
+           "co2limit" : 10000,
            "maxspeed" : 120,
            "weather"  : "SUNNY"
    	  }
@@ -60,22 +70,35 @@
     	  "time"     : 1,
     	   "id"       : "r2",
            "src"      : "j2",
-           "dest"     : "j3",
+           "dest"     : "j4",
            "length"   : 10000,
-           "co2limit" : 500,
+           "co2limit" : 10000,
            "maxspeed" : 120,
            "weather"  : "SUNNY"
    	  }
    	},
     {
-	  "type" : "new_inter_city_road",
+	  "type" : "new_city_road",
   	  "data" : {
     	  "time"     : 1,
     	   "id"       : "r3",
            "src"      : "j3",
            "dest"     : "j4",
            "length"   : 10000,
-           "co2limit" : 500,
+           "co2limit" : 10000,
+           "maxspeed" : 120,
+           "weather"  : "SUNNY"
+   	  }
+   	},
+    {
+	  "type" : "new_city_road",
+  	  "data" : {
+    	  "time"     : 1,
+    	   "id"       : "r4",
+           "src"      : "j4",
+           "dest"     : "j5",
+           "length"   : 10000,
+           "co2limit" : 10000,
            "maxspeed" : 120,
            "weather"  : "SUNNY"
    	  }
@@ -86,8 +109,8 @@
           "time"      : 1,
           "id"        : "v1",
           "maxspeed"  : 100,
-          "class"     : 3,
-          "itinerary" : ["j1", "j3", "j4"]
+          "class"     : 0,
+          "itinerary" : ["j1", "j4", "j5"]
       }
     },
    	{
@@ -95,28 +118,50 @@
   	  "data" : {
           "time"      : 1,
           "id"        : "v2",
-          "maxspeed"  : 50,
+          "maxspeed"  : 100,
           "class"     : 0,
-          "itinerary" : ["j2", "j3", "j4"]
+          "itinerary" : ["j1", "j4", "j5"]
       }
     },
-	{
-  	  "type" : "set_weather",
-      "data" : {
-          "time"     : 100,
-          "info"     : [ { "road" : "r1", "weather": "SUNNY" }, 
-                         { "road" : "r2", "weather": "STORM" } 
-	                   ]
-  	  }
-    },
-    {
-      "type" : "set_cont_class",
-      "data" : {
-          "time"     : 50,
-          "info"     : [ { "vehicle" : "v1", "class": 5 }, 
-                         { "vehicle" : "v2", "class": 2 } 
-                       ]
+  	{
+	  "type" : "new_vehicle",
+  	  "data" : {
+          "time"      : 1,
+          "id"        : "v3",
+          "maxspeed"  : 100,
+          "class"     : 0,
+          "itinerary" : ["j1", "j4", "j5"]
       }
-    }  
+    },
+   	{
+	  "type" : "new_vehicle",
+  	  "data" : {
+          "time"      : 1,
+          "id"        : "v4",
+          "maxspeed"  : 100,
+          "class"     : 0,
+          "itinerary" : ["j2", "j4", "j5"]
+      }
+    },
+  	{
+	  "type" : "new_vehicle",
+  	  "data" : {
+          "time"      : 1,
+          "id"        : "v5",
+          "maxspeed"  : 100,
+          "class"     : 0,
+          "itinerary" : ["j2", "j4", "j5"]
+       }
+      },
+  	 {
+	  "type" : "new_vehicle",
+  	  "data" : {
+          "time"      : 1,
+          "id"        : "v6",
+          "maxspeed"  : 100,
+          "class"     : 0,
+          "itinerary" : ["j3", "j4", "j5"]
+      }
+    }        
    ]
 }

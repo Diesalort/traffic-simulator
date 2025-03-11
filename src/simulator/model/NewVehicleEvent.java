@@ -56,5 +56,11 @@ public class NewVehicleEvent extends Event {
 		map.addVehicle(v);
 		v.moveToNextRoad();
 	}
+	
+	@Override
+	public String toString() {
+		
+		return "New Vehicle '" + _id + "'";
+	}
 
 }
