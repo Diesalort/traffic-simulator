@@ -17,7 +17,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 	private static final long serialVersionUID = 1L;
 
 	private List<Vehicle> _vehicles;
-	private String[] _colNames = {"Time", "Desc." };
+	private String[] _colNames = {"Id", "Location", "Itinerary", "CO2 Class", "Max. Speed", "Speed", "Total CO2", "Distance"};
 
 	private Controller _ctrl;
 

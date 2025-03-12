@@ -17,7 +17,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	private static final long serialVersionUID = 1L;
 
 	private List<Junction> _junctions;
-	private String[] _colNames = {"Time", "Desc." };
+	private String[] _colNames = {"Id", "Green", "Queues" };
 
 	private Controller _ctrl;
 

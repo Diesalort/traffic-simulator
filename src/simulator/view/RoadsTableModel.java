@@ -17,7 +17,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	private static final long serialVersionUID = 1L;
 
 	private List<Road> _roads;
-	private String[] _colNames = {"Time", "Desc." };
+	private String[] _colNames = {"Id", "Length", "Weather", "Max. Speed", "Speed Limit", "Total CO2", "CO2 Limit" };
 
 	private Controller _ctrl;
 

@@ -45,17 +45,17 @@ public class MainWindow extends JFrame {
 		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(eventsView);
-		// TODO add other tables
-		JPanel vehiclesView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Vehicles");
-		eventsView.setPreferredSize(new Dimension(500, 200));
+
+		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
+		vehiclesView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(vehiclesView);
 		
-		JPanel roadsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Roads");
-		eventsView.setPreferredSize(new Dimension(500, 200));
+		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
+		roadsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(roadsView);
 		
-		JPanel junctionsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Junctions");
-		eventsView.setPreferredSize(new Dimension(500, 200));
+		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel(_ctrl)), "Junctions");
+		junctionsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(junctionsView);
 		
 
@@ -68,7 +68,7 @@ public class MainWindow extends JFrame {
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapView);
 		
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE); //TODO antes ponia DO_NOTHING_ON_CLOSE
 		this.pack();
 		this.setVisible(true);
 	}
