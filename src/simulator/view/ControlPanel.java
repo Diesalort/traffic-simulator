@@ -13,10 +13,13 @@ import java.util.Collection;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -25,8 +28,8 @@ import simulator.model.TrafficSimObserver;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver{
 
-	// TODO Usar toolbar
-	
+
+	private JToolBar toolBar;
 	private Controller _ctrl;
 	private JButton fileChooser;
 
@@ -40,19 +43,33 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private void initGUI() {
 
 		this.setLayout(new BorderLayout()); //TODO
-		JToolBar toolBar = new JToolBar();
+		toolBar = new JToolBar();
 		this.add(toolBar, BorderLayout.PAGE_START);
-		
+
+		this.fileChooserConf();
+		this.setContClassConf();
+
+
+
+
+		//Cambio de las condiciones atmosféricas de una carretera co2class TODO
+
+	}
+
+	private void fileChooserConf() {
+
 		// FileChooser
 		JButton fileChooserButton = new JButton();
 		fileChooserButton.setIcon(new ImageIcon("resources/icons/open.png"));
+		toolBar.add(fileChooserButton); // Añadimos el button a la toolbar
 
 		fileChooserButton.addActionListener(new ActionListener() { //TODO
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser(new File("resources")); // Abre por defecto la carpeta resources
+
 				int selection = fileChooser.showOpenDialog(fileChooserButton);
 
 				if (selection == JFileChooser.APPROVE_OPTION) { // Aceptar
@@ -77,45 +94,34 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 				} else if(selection == JFileChooser.CANCEL_OPTION) { // Cancelar
 
 					//TODO CANCELAR
-					
+
 				}
 
 			}
+
 		});
-		
+	}
+
+	private void setContClassConf() {
+
 		// SetContClass on vehicle TODO
 		JButton setContClassButton = new JButton();
 		setContClassButton.setIcon(new ImageIcon("resources/icons/co2class.png"));
+		toolBar.add(setContClassButton); // Añadimos el button a la toolBar
 		
 		setContClassButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
+				//TODO getWindowAncestor??, o pasar frame a constructor de controlPanel y guardarlo en un atributo, para pasarlo aqui?
+				ChangeCO2ClassDialog dialog = new ChangeCO2ClassDialog((JFrame) SwingUtilities.getWindowAncestor(ControlPanel.this), null);
+				dialog.setVisible(true);
 				
 			}			
 
 		});
-
-		
-		
-		//Cambio de las condiciones atmosféricas de una carretera co2class TODO
-		
-		
-		
-		
-		
-		
-
-
-		
-		// Añadimos los componentes
-		toolBar.add(fileChooserButton);		
 	}
-
-
-
-
 
 
 
