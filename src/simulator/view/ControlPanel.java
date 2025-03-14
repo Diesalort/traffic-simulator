@@ -31,7 +31,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private JToolBar toolBar;
 	private Controller _ctrl;
-	private JButton fileChooser;
 
 	public ControlPanel(Controller ctrl) {
 
@@ -44,16 +43,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 		this.setLayout(new BorderLayout()); //TODO
 		toolBar = new JToolBar();
+		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
 		this.add(toolBar, BorderLayout.PAGE_START);
 
 		this.fileChooserConf();
 		this.setContClassConf();
-
-
-
-
-		//Cambio de las condiciones atmosféricas de una carretera co2class TODO
-
+		this.changeRoadWeatherConf();
+		this.runConf();
+		this.stopConf();
+		this.ticksConf();
+		this.exitConf();
 	}
 
 	private void fileChooserConf() {
@@ -125,10 +125,83 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 
 
+	private void changeRoadWeatherConf() {
+		
+		JButton roadWeatherButton = new JButton();
+		roadWeatherButton.setIcon(new ImageIcon("resources/icons/weather.png"));
+		toolBar.add(roadWeatherButton); // Añadimos el button a la toolBar
 
+		roadWeatherButton.addActionListener(new ActionListener () {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO LISTENER changeRoadWeather
+				
+			}
+			
+		});
+		
+	}
+	
+	private void runConf() {
+		
+		JButton runButton = new JButton();
+		runButton.setIcon(new ImageIcon("resources/icons/run.png"));
+		toolBar.add(runButton); // Añadimos el button a la toolBar
 
+		runButton.addActionListener(new ActionListener () {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO LISTENER run
+				
+			}
+			
+		});
+	}
+
+	private void stopConf() {
+		
+		JButton stopButton = new JButton();
+		stopButton.setIcon(new ImageIcon("resources/icons/weather.png"));
+		toolBar.add(stopButton); // Añadimos el button a la toolBar
+
+		stopButton.addActionListener(new ActionListener () {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO LISTENER stop
+				
+			}
+			
+		});
+		
+	}
+	
+	private void ticksConf() {
+		
+		//TODO
+		
+		
+	}
+
+	private void exitConf() {
+		
+		JButton exitButton = new JButton();
+		exitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
+		toolBar.add(exitButton); // Añadimos el button a la toolBar
+
+		exitButton.addActionListener(new ActionListener () {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO LISTENER exit
+				
+			}
+			
+		});
+	}
+	
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
 		// TODO Auto-generated method stub
