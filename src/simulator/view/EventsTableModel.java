@@ -23,11 +23,6 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		ctrl.addObserver(this);
 	}	
 
-	public void reset() {
-		_events.clear();
-		fireTableDataChanged();
-	}
-
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
@@ -65,7 +60,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	private void update(Collection<Event> events) {
 		
 		_events = new ArrayList<>(events);
-		fireTableDataChanged() ; // We need to notify changes, otherwise the table does not refresh.
+		fireTableStructureChanged() ; // We need to notify changes, otherwise the table does not refresh.
 	}
 
 	@Override
@@ -81,7 +76,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {		
 		_events.clear();
-		fireTableDataChanged();
+		fireTableStructureChanged();
 	}
 
 	@Override

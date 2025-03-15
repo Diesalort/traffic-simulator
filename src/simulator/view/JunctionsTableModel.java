@@ -65,7 +65,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	private void update(RoadMap map) {
 		
 		_junctions = new ArrayList<>(map.getJunctions());
-		fireTableDataChanged();
+		fireTableStructureChanged();
 	}
 	
 	@Override
@@ -81,7 +81,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
 		_junctions.clear();
-		fireTableDataChanged();
+		fireTableStructureChanged();
 	}
 
 	@Override
