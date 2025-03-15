@@ -18,10 +18,6 @@ import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
 public class StatusBar extends JPanel implements TrafficSimObserver{
-
-	private Controller _ctrl;
-	private int _time;
-	private String _message;
 	
 	private JLabel _timeLabel;
 	private JSeparator _separator;
@@ -29,7 +25,9 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 	
 	StatusBar(Controller ctrl){
 		
-		_ctrl = ctrl;
+		_timeLabel = new JLabel("Time: 0");
+		_eventLabel = new JLabel("Welcome!");
+		ctrl.addObserver(this);
 		initGUI();
 	}
 	
@@ -38,47 +36,41 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 		
 		this.setLayout(new BoxLayout (this, BoxLayout.LINE_AXIS));
 		
-		_timeLabel = new JLabel("Time: 70");
 		_separator = new JSeparator(SwingConstants.VERTICAL);
 		_separator.setPreferredSize(new Dimension(10, 20));
 		_separator.setMaximumSize(new Dimension(10, 20));
 		_separator.setMinimumSize(new Dimension(10, 20));
-		_separator.setForeground(Color.gray);
-		_eventLabel = new JLabel("Event added (Change CO2 class: [(v2,0)])");
-		
+		_separator.setForeground(Color.gray);		
 		
 		this.add(_timeLabel);
 		this.add(Box.createRigidArea(new Dimension(115, 0)));
 		this.add(_separator);
 		this.add(_eventLabel);
-
 	}
 	
+	private void update(int time) {
+		_timeLabel.setText("Time: " + time);
+		_eventLabel.setText("");
+	}
 	
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(time);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+		update(time);
+		_eventLabel.setText("Event added " + "(" + e.toString() + ")");
 	}
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(time); //time = 0
 	}
 
 	@Override
 	public void onRegister(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		_timeLabel.setText("Time: " + time);
 	}
-	
-	
-
 }

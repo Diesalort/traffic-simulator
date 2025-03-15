@@ -33,8 +33,8 @@ public class SetContClassEvent extends Event {
 	}
 
 	@Override
-	public String toString() { //TODO
+	public String toString() {
 		
-		return "New SetContClass '" + _cs + "'";
+		return "Change CO2 class: " + _cs;
 	}
 }

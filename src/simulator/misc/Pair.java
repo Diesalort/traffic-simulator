@@ -18,8 +18,8 @@ public class Pair<T1, T2> {
 	}
 
 	@Override
-	public String toString() { //TODO
+	public String toString() {
 		
-		return _first + ", " + _second;
+		return "(" + _first + "," + _second + ")";
 	}
 }
