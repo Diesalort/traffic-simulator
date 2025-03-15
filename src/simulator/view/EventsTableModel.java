@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -60,6 +61,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	private void update(Collection<Event> events) {
 		
 		_events = new ArrayList<>(events);
+		Collections.sort(_events); // Para que se muestren en el orden correcto
 		fireTableStructureChanged() ; // We need to notify changes, otherwise the table does not refresh.
 	}
 
@@ -70,7 +72,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		_events.add(e);
+		update(events);
 	}
 
 	@Override
