@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
 
 		mainPanel.add(new ControlPanel(_ctrl), BorderLayout.PAGE_START);
 		mainPanel.add(new StatusBar(_ctrl),BorderLayout.PAGE_END);
-		
+
 		JPanel viewsPanel = new JPanel(new GridLayout(1, 2));
 		mainPanel.add(viewsPanel, BorderLayout.CENTER);
 
@@ -47,6 +47,11 @@ public class MainWindow extends JFrame {
 		viewsPanel.add(mapsPanel);
 
 		// tables
+
+		//TODO Para quitar las lineas de las celdas
+		//JTable eventsTable = new JTable(new EventsTableModel(_ctrl));
+		//eventsTable.setShowGrid(false);
+		//JPanel eventsView = createViewPanel(eventsTable, "Events");
 		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
 		eventsView.setBorder(BorderFactory. createTitledBorder (b, "Events", TitledBorder.LEFT, TitledBorder.TOP));
@@ -57,18 +62,18 @@ public class MainWindow extends JFrame {
 		vehiclesView.setBorder(BorderFactory. createTitledBorder (b, "Vehicles", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(vehiclesView);
 
-		
+
 		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
 		roadsView.setPreferredSize(new Dimension(500, 200));
 		roadsView.setBorder(BorderFactory. createTitledBorder (b, "Roads", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(roadsView);
 
-		
+
 		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel(_ctrl)), "Junctions");
 		junctionsView.setPreferredSize(new Dimension(500, 200));
 		junctionsView.setBorder(BorderFactory. createTitledBorder (b, "Junctions", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(junctionsView);
-		
+
 
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
@@ -78,7 +83,7 @@ public class MainWindow extends JFrame {
 		JPanel mapByRoadView = createViewPanel(new MapComponent(_ctrl), "Map by Road");
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapView);
-		
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE); //TODO antes ponia DO_NOTHING_ON_CLOSE
 		this.pack();
 		this.setVisible(true);
@@ -86,7 +91,7 @@ public class MainWindow extends JFrame {
 
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel( new BorderLayout() );
-            // TODO add a framed border to p with title
+		// TODO add a framed border to p with title
 		p.add(new JScrollPane(c));
 		return p;
 	}
