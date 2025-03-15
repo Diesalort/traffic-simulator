@@ -11,6 +11,7 @@ import simulator.model.Event;
 import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
 
 public class RoadsTableModel extends AbstractTableModel implements TrafficSimObserver {
 
@@ -19,21 +20,9 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	private List<Road> _roads;
 	private String[] _colNames = {"Id", "Length", "Weather", "Max. Speed", "Speed Limit", "Total CO2", "CO2 Limit" };
 
-	private Controller _ctrl;
-
 	public RoadsTableModel(Controller ctrl) {
 		_roads = new ArrayList<>();
-		_ctrl = ctrl;
-	}
-
-	public void addVehicle(Road r) {
-		_roads.add(r);
-		fireTableDataChanged();
-	}
-
-	public void reset() {
-		_roads.clear();
-		fireTableDataChanged();
+		ctrl.addObserver(this);
 	}
 
 	@Override
@@ -85,28 +74,31 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 		return s;
 	}
 
+	private void update(RoadMap map) {
+		
+		_roads = new ArrayList<>(map.getRoads());
+		fireTableDataChanged();
+	}
+	
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(map);
 	}
 
 	@Override
-	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {	
+		update(map);
 	}
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		_roads.clear();
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onRegister(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(map);
 	}
 }
 

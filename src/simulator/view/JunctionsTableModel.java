@@ -19,21 +19,9 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	private List<Junction> _junctions;
 	private String[] _colNames = {"Id", "Green", "Queues" };
 
-	private Controller _ctrl;
-
 	public JunctionsTableModel(Controller ctrl) {
 		_junctions = new ArrayList<>();
-		_ctrl = ctrl;
-	}
-
-	public void addVehicle(Junction j) {
-		_junctions.add(j);
-		fireTableDataChanged();
-	}
-
-	public void reset() {
-		_junctions.clear();
-		fireTableDataChanged();
+		ctrl.addObserver(this);
 	}
 
 	@Override
@@ -73,28 +61,31 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 		
 		return s;
 	}
-
+	
+	private void update(RoadMap map) {
+		
+		_junctions = new ArrayList<>(map.getJunctions());
+		fireTableDataChanged();
+	}
+	
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(map);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+		update(map);
 	}
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		_junctions.clear();
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onRegister(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(map);
 	}
 }

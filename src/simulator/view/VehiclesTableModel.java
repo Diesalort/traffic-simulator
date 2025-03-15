@@ -19,21 +19,9 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 	private List<Vehicle> _vehicles;
 	private String[] _colNames = {"Id", "Location", "Itinerary", "CO2 Class", "Max. Speed", "Speed", "Total CO2", "Distance"};
 
-	private Controller _ctrl;
-
 	public VehiclesTableModel(Controller ctrl) {
 		_vehicles = new ArrayList<>();
-		_ctrl = ctrl;
-	}
-
-	public void addVehicle(Vehicle v) {
-		_vehicles.add(v);
-		fireTableDataChanged();
-	}
-
-	public void reset() {
-		_vehicles.clear();
-		fireTableDataChanged();
+		ctrl.addObserver(this);
 	}
 
 	@Override
@@ -64,7 +52,26 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 			s = _vehicles.get(rowIndex).getId();
 			break;
 		case 1:
-			s = _vehicles.get(rowIndex).getLocation();
+
+			Vehicle v = _vehicles.get(rowIndex);
+			switch(v.getStatus()) {
+
+			case PENDING:
+				s = "Pending";
+				break;
+
+			case TRAVELING:
+				s = v.getRoad() + ":" + v.getLocation();
+				break;
+
+			case WAITING:
+				s = "Waiting:"; // TODO + cruce que está esperando. (Creo que hay que añadir nuevo getter en vehicle)
+				break;
+
+			case ARRIVED:
+				s = "Arrived";
+				break;
+			}
 			break;
 		case 2:
 			s = _vehicles.get(rowIndex).getItinerary();
@@ -83,31 +90,34 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		case 7:
 			s = _vehicles.get(rowIndex).getDistance();
 		}
-		
+
 		return s;
+	}
+
+	private void update(RoadMap map) {
+
+		_vehicles = new ArrayList<>(map.getVehicles());
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(map);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+		update(map);
 	}
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		_vehicles.clear();
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onRegister(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(map);
 	}
 }

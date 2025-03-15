@@ -1,12 +1,9 @@
 package simulator.view;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -20,18 +17,11 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	private List<Event> _events;
 	private String[] _colNames = {"Time", "Desc." };
-
-	private Controller _ctrl;
 	
 	public EventsTableModel(Controller ctrl) {
 		_events = new ArrayList<>();
-		_ctrl = ctrl;
+		ctrl.addObserver(this);
 	}	
-	
-	public void addEvent(Event e) {
-		_events.add(e);
-		fireTableDataChanged();
-	}
 
 	public void reset() {
 		_events.clear();
@@ -71,28 +61,31 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		}
 		return s;
 	}
+	
+	private void update(Collection<Event> events) {
+		
+		_events = new ArrayList<>(events);
+		fireTableDataChanged() ; // We need to notify changes, otherwise the table does not refresh.
+	}
 
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(events);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+		_events.add(e);
 	}
 
 	@Override
-	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onReset(RoadMap map, Collection<Event> events, int time) {		
+		_events.clear();
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onRegister(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		update(events);
 	}
 }
