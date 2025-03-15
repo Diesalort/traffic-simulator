@@ -1,9 +1,12 @@
 package simulator.view;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -23,8 +26,8 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	public EventsTableModel(Controller ctrl) {
 		_events = new ArrayList<>();
 		_ctrl = ctrl;
-	}
-
+	}	
+	
 	public void addEvent(Event e) {
 		_events.add(e);
 		fireTableDataChanged();

@@ -1,15 +1,19 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import simulator.control.Controller;
 
@@ -26,6 +30,7 @@ public class MainWindow extends JFrame {
 	private void initGUI() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.setContentPane(mainPanel);
+		Border b = BorderFactory.createLineBorder(Color. black , 2); // Borde para las tablas
 
 		mainPanel.add(new ControlPanel(_ctrl), BorderLayout.PAGE_START);
 		mainPanel.add(new StatusBar(_ctrl),BorderLayout.PAGE_END);
@@ -44,18 +49,24 @@ public class MainWindow extends JFrame {
 		// tables
 		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
+		eventsView.setBorder(BorderFactory. createTitledBorder (b, "Events", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(eventsView);
 
 		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
 		vehiclesView.setPreferredSize(new Dimension(500, 200));
+		vehiclesView.setBorder(BorderFactory. createTitledBorder (b, "Vehicles", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(vehiclesView);
+
 		
 		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
 		roadsView.setPreferredSize(new Dimension(500, 200));
+		roadsView.setBorder(BorderFactory. createTitledBorder (b, "Roads", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(roadsView);
+
 		
 		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel(_ctrl)), "Junctions");
 		junctionsView.setPreferredSize(new Dimension(500, 200));
+		junctionsView.setBorder(BorderFactory. createTitledBorder (b, "Junctions", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(junctionsView);
 		
 
