@@ -44,13 +44,13 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private JSpinner _ticksSpinner;
 	private JButton _exitButton;
 
-
 	private boolean _stopped;
 
 
 	public ControlPanel(Controller ctrl) {
 
 		_ctrl = ctrl;
+		_ctrl.addObserver(this); // Añadimos ControlPanel como nuevo observador
 		_stopped = true;
 		this.setLayout(new BorderLayout()); // Con borderLayout haremos que la toolBar ocupe todo el ancho de la parte superior
 		initGUI();
@@ -100,7 +100,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 						_ctrl.reset();
 						_ctrl.loadEvents(in);
 
-
 					} catch (FileNotFoundException fnf) {
 						//TODO null? QUITAR ABBORT y poner ICONO 
 						JOptionPane.showMessageDialog(null, "File not found", "Error", JOptionPane.ABORT);
@@ -126,7 +125,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//TODO getWindowAncestor??, o metodo ContainerPanel.this.getParent()
+				//TODO En vez de ancestor usar lo de viewUtils
 				ChangeCO2ClassDialog dialog = new ChangeCO2ClassDialog((JFrame) SwingUtilities.getWindowAncestor(ControlPanel.this), null);
 				dialog.setVisible(true);
 
@@ -209,13 +208,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO en vez de ancestor, metodo getParent() ? (Ver ejemplos de JSpinner del campus)
-				int n = JOptionPane.showOptionDialog(ControlPanel.this.getParent(), "Are sure you want to quit?", "Quit",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
-				if (n == 0) {
-					System.exit(0);
-				}
+				
+				ViewUtils.quit(_exitButton);
 			}
 		});
 	}

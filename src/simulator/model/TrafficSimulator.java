@@ -13,7 +13,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	private Queue<Event> _events;
 	private int _time;
 	private List<TrafficSimObserver> _observers;
-	
+
 	public TrafficSimulator() {
 		_roadMap = new RoadMap();
 		_events = new PriorityQueue<>();
@@ -27,7 +27,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 			throw new IllegalArgumentException("Event time (" + e.getTime() + ") is earlier than current time");
 
 		this._events.add(e);
-		
+
 		for (TrafficSimObserver obs : this._observers) {
 			obs.onEventAdded(_roadMap, _events, e, _time);			
 		}
@@ -60,9 +60,9 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 
 			r.advance(_time);
 		}
-		
+
 		for (TrafficSimObserver obs : this._observers) {
-			
+
 			obs.onAdvance(_roadMap, _events, _time);
 		}
 	}
@@ -72,9 +72,9 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 		this._roadMap.reset();
 		this._events.clear();
 		this._time = 0;
-		
+
 		for (TrafficSimObserver obs : this._observers) {
-			
+
 			obs.onReset(_roadMap, _events, _time);
 		}
 	}
@@ -91,14 +91,18 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 
 	@Override
 	public void addObserver(TrafficSimObserver o) {
-		// TODO comprobar if (o != null && !_observers.contains(o)) ?? 
-		this._observers.add(o);
-		o.onRegister(_roadMap, _events, _time);	
+
+		if (!this._observers.contains(o)) {
+			this._observers.add(o);
+			o.onRegister(_roadMap, _events, _time);	
+		}
 	}
 
 	@Override
 	public void removeObserver(TrafficSimObserver o) {
-		this._observers.remove(o);
+		
+		if (this._observers.contains(o))
+			this._observers.remove(o);
 	}
 
 }
