@@ -100,12 +100,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 						_ctrl.reset();
 						_ctrl.loadEvents(in);
 
+						//TODO Intentar mejorar el mensaje del dialogo de error
 					} catch (FileNotFoundException fnf) {
-						//TODO null? QUITAR ABBORT y poner ICONO 
-						JOptionPane.showMessageDialog(null, "File not found", "Error", JOptionPane.ABORT);
+						JOptionPane.showMessageDialog(ViewUtils.getWindow(ControlPanel.this), "File not found", "Error", JOptionPane.ERROR_MESSAGE);
 					} catch (Exception ex) {
-
-						JOptionPane.showMessageDialog(null, "An error happenned: " + ex.getMessage(), "Error", JOptionPane.ABORT);
+						JOptionPane.showMessageDialog(ViewUtils.getWindow(ControlPanel.this), "An error happenned: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 
 				}

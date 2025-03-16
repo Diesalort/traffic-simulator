@@ -3,6 +3,7 @@ package simulator.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -45,39 +46,49 @@ public class MainWindow extends JFrame {
 		mapsPanel.setLayout(new BoxLayout(mapsPanel, BoxLayout.Y_AXIS));
 		viewsPanel.add(mapsPanel);
 
+		
 		// tables
-
-		//TODO Para quitar las lineas de las celdas
-		//JTable eventsTable = new JTable(new EventsTableModel(_ctrl));
-		//eventsTable.setShowGrid(false);
-		//JPanel eventsView = createViewPanel(eventsTable, "Events");
-		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
+		
+		// TODO Font defaultTablesFont = new Font("Dialog", Font.BOLD, 12);
+		
+		JTable eventsTable = new JTable(new EventsTableModel(_ctrl));
+		eventsTable.setShowGrid(false); // Para quitar las lineas de las celdas
+		eventsTable.getTableHeader().setReorderingAllowed(false); // Para no permitir intercambiar las columnas
+		JPanel eventsView = createViewPanel(eventsTable, "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(eventsView);
 
-		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
+		JTable vehiclesTable = new JTable(new VehiclesTableModel(_ctrl));
+		vehiclesTable.setShowGrid(false);
+		vehiclesTable.getTableHeader().setReorderingAllowed(false);
+		JPanel vehiclesView = createViewPanel(vehiclesTable, "Vehicles");
 		vehiclesView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(vehiclesView);
 
-
-		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
+		JTable roadsTable = new JTable(new RoadsTableModel(_ctrl));
+		roadsTable.setShowGrid(false); // Para quitar las lineas de las celdas
+		roadsTable.getTableHeader().setReorderingAllowed(false); // Para no permitir intercambiar las columnas
+		JPanel roadsView = createViewPanel(roadsTable, "Roads");
 		roadsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(roadsView);
 
-
-		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel(_ctrl)), "Junctions");
+		JTable junctionsTable = new JTable(new JunctionsTableModel(_ctrl));
+		junctionsTable.setShowGrid(false); // Para quitar las lineas de las celdas
+		junctionsTable.getTableHeader().setReorderingAllowed(false); // Para no permitir intercambiar las columnas
+		JPanel junctionsView = createViewPanel(junctionsTable, "Junctions");
 		junctionsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(junctionsView);
-
-
+		
+		
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapView);
-		// TODO add a map for MapByRoadComponent
-		JPanel mapByRoadView = createViewPanel(new MapComponent(_ctrl), "Map by Road");
-		mapView.setPreferredSize(new Dimension(500, 400));
-		mapsPanel.add(mapView);
+
+		
+		JPanel mapByRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
+		mapView.setPreferredSize(new Dimension(300, 200));
+		mapsPanel.add(mapByRoadView);
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE); //TODO antes ponia DO_NOTHING_ON_CLOSE
 		this.pack();
