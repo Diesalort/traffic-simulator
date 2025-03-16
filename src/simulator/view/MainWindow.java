@@ -30,7 +30,6 @@ public class MainWindow extends JFrame {
 	private void initGUI() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.setContentPane(mainPanel);
-		Border b = BorderFactory.createLineBorder(Color. black , 2); // Borde para las tablas
 
 		mainPanel.add(new ControlPanel(_ctrl), BorderLayout.PAGE_START);
 		mainPanel.add(new StatusBar(_ctrl),BorderLayout.PAGE_END);
@@ -54,24 +53,20 @@ public class MainWindow extends JFrame {
 		//JPanel eventsView = createViewPanel(eventsTable, "Events");
 		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
-		eventsView.setBorder(BorderFactory. createTitledBorder (b, "Events", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(eventsView);
 
 		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
 		vehiclesView.setPreferredSize(new Dimension(500, 200));
-		vehiclesView.setBorder(BorderFactory. createTitledBorder (b, "Vehicles", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(vehiclesView);
 
 
 		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
 		roadsView.setPreferredSize(new Dimension(500, 200));
-		roadsView.setBorder(BorderFactory. createTitledBorder (b, "Roads", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(roadsView);
 
 
 		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel(_ctrl)), "Junctions");
 		junctionsView.setPreferredSize(new Dimension(500, 200));
-		junctionsView.setBorder(BorderFactory. createTitledBorder (b, "Junctions", TitledBorder.LEFT, TitledBorder.TOP));
 		tablesPanel.add(junctionsView);
 
 
@@ -91,7 +86,8 @@ public class MainWindow extends JFrame {
 
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel( new BorderLayout() );
-		// TODO add a framed border to p with title
+		Border b = BorderFactory.createLineBorder(Color. black , 2); // TODO Se crea asi? Borde para las tablas
+		p.setBorder(BorderFactory. createTitledBorder(b, title, TitledBorder.LEFT, TitledBorder.TOP));
 		p.add(new JScrollPane(c));
 		return p;
 	}
