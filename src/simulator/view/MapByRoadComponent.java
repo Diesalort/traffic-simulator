@@ -136,7 +136,8 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 	private void drawWeather(Graphics g, Road r, int x2, int y) {
 
-		Image weather = loadImage(r.getWeather().toString() + ".png"); //TODO RENOMBRAR IMAGENES?
+		String weatherFile = r.getWeather().imageFile();
+		Image weather = loadImage(weatherFile);
 		g.drawImage(weather, x2 + 12, y - 17, 32, 32, this); // Imagen weather
 	}
 

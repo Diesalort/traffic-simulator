@@ -92,4 +92,9 @@ public class Controller {
 		for (int i = 0; i < n; i++)
 			this._sim.advance();
 	}
+	
+	public int getCurrentTime() { //TODO metodo nuevo para change CO2 class
+		
+		return _sim.getCurrentTime();
+	}
 }

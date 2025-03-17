@@ -46,6 +46,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private boolean _stopped;
 
+	private RoadMap _map;
+
 
 	public ControlPanel(Controller ctrl) {
 
@@ -86,9 +88,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				JFileChooser fileChooser = new JFileChooser(new File("resources")); // Abre por defecto la carpeta resources
+				JFileChooser fileChooser = new JFileChooser(new File("resources/examples")); // Abre por defecto la carpeta resources/examples
 
-				int selection = fileChooser.showOpenDialog(_fileChooserButton);
+				int selection = fileChooser.showOpenDialog(ViewUtils.getWindow(ControlPanel.this));
 
 				if (selection == JFileChooser.APPROVE_OPTION) { // Aceptar
 
@@ -114,8 +116,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private void setContClassConf() {
 
-		// SetContClass on vehicle TODO
-
 		_setContClassButton = createButton("resources/icons/co2class.png");
 		toolbar.add(_setContClassButton); // Añadimos el button a la toolBar
 
@@ -124,10 +124,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//TODO En vez de ancestor usar lo de viewUtils
-				ChangeCO2ClassDialog dialog = new ChangeCO2ClassDialog((JFrame) SwingUtilities.getWindowAncestor(ControlPanel.this), null);
-				dialog.setVisible(true);
-
+				ChangeCO2ClassDialog CO2dialog = new ChangeCO2ClassDialog(ViewUtils.getWindow(ControlPanel.this), _ctrl, _map.getVehicles());
+				CO2dialog.setLocationRelativeTo(ViewUtils.getWindow(ControlPanel.this)); //TODO intentar meter este metodo en la clase ChangeCO2ClassDialog
+				CO2dialog.setVisible(true);
 			}			
 
 		});
@@ -207,7 +206,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				ViewUtils.quit(_exitButton);
 			}
 		});
@@ -247,28 +246,29 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	}
 
 
+	private void update() {
+		
+	}
+	
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
+		_map = map;
 
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-
+		_map = map;
 	}
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-
+		_map = map;
 	}
 
 	@Override
 	public void onRegister(RoadMap map, Collection<Event> events, int time) {
-		// TODO Auto-generated method stub
-
+		_map = map;
 	}
 
 

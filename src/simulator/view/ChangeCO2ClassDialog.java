@@ -1,109 +1,136 @@
 package simulator.view;
 
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 
+import simulator.control.Controller;
+import simulator.misc.Pair;
+import simulator.model.SetContClassEvent;
 import simulator.model.Vehicle;
 
-public class ChangeCO2ClassDialog extends JDialog { //TODO
+public class ChangeCO2ClassDialog extends JDialog {
 
-	private JComboBox<String> comboBox;
-	private String desc;
-	private int indexComboBox;
+	Controller _ctrl;
+	
+	JLabel desc;
 
-	private JTextArea superiorTextArea;
+	JLabel vehicle;
+	JComboBox<String> vehiclesCombo;
 
-	private JPanel mediumPanel;
+	JLabel CO2Class;
+	JComboBox<Integer> CO2ClassCombo;
 
-	private JComboBox<String> vehiclesCombo; //TODO comboBox de vehicle o string??
-	private JComboBox<Integer> co2ClassCombo;
-	private JSpinner ticksSpinner;
+	JLabel ticks;
+	JSpinner ticksSpinner;
 
-	private JLabel vehicleLabel;
-	private JLabel co2ClassLabel;
-	private JLabel ticksLabel;
-
-
-	private JPanel inferiorPanel;
-
-
-	public ChangeCO2ClassDialog (Frame parent, ArrayList<Vehicle> vehicles){
-		super(parent,true);
+	ChangeCO2ClassDialog(Frame parent, Controller ctrl, List<Vehicle> vehicles){
+		super(parent, true);
+		_ctrl = ctrl;
+		
+		this.setTitle("Change CO2 Class");
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		this.initGUI(vehicles);
+		this.setResizable(false); // Para que no se pueda redimensionar
+		
+		List<String> vehiclesId = new ArrayList<>();
+		for (Vehicle v : vehicles) {
+
+			vehiclesId.add(v.getId());
+		}
+
+		initGUI(vehiclesId);		
 	}
 
-	private void initGUI(ArrayList<Vehicle> vehicles) {
+	private void initGUI(List<String> vehiclesId) {
 
-		// TODO Usar borderLayout y dividir en north, center, south??
-		// Haremos un mainpanel con BoxLayout vertical, en el que la primera fila contendrá un textArea y las demás un panel con un flowLayout
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-		this.setContentPane(mainPanel);
+		this.setLayout(new BorderLayout());
 
-		// Fila 1
-		superiorTextArea = new JTextArea(2, 37); // Área de 2 filas y 25 columnas
-		superiorTextArea.setText("Schedule an event to change the CO2 class of a vehicle after a given number of simulation ticks from now");
-		superiorTextArea.setLineWrap(true); // Saltos de línea automáticos
-		superiorTextArea.setWrapStyleWord(true); // Para que no se corten las palabras
-		superiorTextArea.setEditable(false);
-		superiorTextArea.setPreferredSize(new Dimension(100, 100));
-		mainPanel.add(superiorTextArea);
+		desc = new JLabel();
+		desc.setText("Schedule an event to change the CO2 class of a vehicle after a given number of simulation ticks from now");
 
-		// Fila 2
-		JPanel mediumPanel = new JPanel(new FlowLayout());
+		JPanel centerPanel = new JPanel(new FlowLayout()); //TODO FlowLayout?
+		vehicle = new JLabel ("Vehicle: ");
+		vehiclesCombo = new JComboBox<String>(vehiclesId.toArray(new String[0])); // Convertimos la lista de ids de vehiculos a un array de string, y lo pasamos al jcombobox
 
-		vehicleLabel = new JLabel("Vehicle:");
-		mediumPanel.add(vehicleLabel);
-
-		vehiclesCombo = new JComboBox<String>();
-		// Inicializamos los valores del comboBox
-		/*
-		for (int i=0; i < vehicles.size(); i++){
-			this.comboBox.addItem(vehicles.get(i).getId());
-		}
-		 */
-		mediumPanel.add(vehiclesCombo);
-
-		co2ClassLabel = new JLabel("CO2 Class:");
-
-		co2ClassCombo = new JComboBox<Integer>();
+		CO2Class = new JLabel("CO2 Class: ");
+		CO2ClassCombo = new JComboBox<Integer>();
 		for (int i = 0; i <= 10; i++) {
 
-			co2ClassCombo.addItem(i);
+			CO2ClassCombo.addItem(i);
 		}
-
-		mediumPanel.add(co2ClassLabel);
-		mediumPanel.add(co2ClassCombo);
-
-		ticksLabel = new JLabel("Ticks:");
-
-		ticksSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
 		
+		ticks = new JLabel("Ticks: ");
+		ticksSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+
+		centerPanel.add(vehicle);
+		centerPanel.add(vehiclesCombo);
+		centerPanel.add(CO2Class);
+		centerPanel.add(CO2ClassCombo);
+		centerPanel.add(ticks);
+		centerPanel.add(ticksSpinner);
 		
-		mediumPanel.add(ticksLabel);
-		mediumPanel.add(ticksSpinner);
+		JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		
+		JButton cancel = new JButton("Cancel");
+		
+		cancel.addActionListener(new ActionListener() {
 
-		mainPanel.add(mediumPanel);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ChangeCO2ClassDialog.this.setVisible(false);							
+			}
+		});
+		
+		JButton ok = new JButton("OK");
+		ok.addActionListener(new ActionListener() {
 
-		// Fila 3
-
-
-
-
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				addEvent();
+				ChangeCO2ClassDialog.this.setVisible(false);							
+			}	
+		});
+		
+		lowerPanel.add(cancel);
+		lowerPanel.add(ok);
+		
+		this.add(desc, BorderLayout.PAGE_START);
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(lowerPanel, BorderLayout.PAGE_END);
 		this.pack();
 	}
-
-
+	
+	private void addEvent() {
+		
+		String vehicleId = (String) vehiclesCombo.getSelectedItem();
+		
+		if (vehicleId == null) {
+			this.setVisible(false);
+			JOptionPane.showMessageDialog(getParent(), "A simulation must be running to add an event", "Error", JOptionPane.ERROR_MESSAGE);
+			
+		} else {
+			
+			int contClass = (Integer) CO2ClassCombo.getSelectedItem();
+			int ticks = (Integer) ticksSpinner.getValue();
+			
+			List<Pair<String, Integer>> cs = new ArrayList<>();
+			cs.add(new Pair<>(vehicleId, contClass));
+			
+			_ctrl.addEvent(new SetContClassEvent(_ctrl.getCurrentTime() + ticks, cs)); // Debemos sumar el currentTime + los ticks seleccionados			
+		}
+	}
 }

@@ -104,5 +104,10 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 		if (this._observers.contains(o))
 			this._observers.remove(o);
 	}
+	
+	public int getCurrentTime() { //TODO metodo nuevo
+		
+		return _time;
+	}
 
 }
