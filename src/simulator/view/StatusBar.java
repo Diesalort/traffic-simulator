@@ -2,7 +2,6 @@ package simulator.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.util.Collection;
 
 import javax.swing.Box;
@@ -18,6 +17,8 @@ import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
 public class StatusBar extends JPanel implements TrafficSimObserver{
+
+	private static final long serialVersionUID = 1L;
 	
 	private JLabel _timeLabel;
 	private JSeparator _separator;

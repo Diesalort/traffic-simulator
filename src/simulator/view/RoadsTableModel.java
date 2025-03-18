@@ -11,7 +11,6 @@ import simulator.model.Event;
 import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
-import simulator.model.Vehicle;
 
 public class RoadsTableModel extends AbstractTableModel implements TrafficSimObserver {
 

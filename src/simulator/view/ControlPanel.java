@@ -12,11 +12,9 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,7 +30,8 @@ import simulator.model.TrafficSimObserver;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver{
 
-
+	private static final long serialVersionUID = 1L;
+	
 	private JToolBar toolbar;
 	private Controller _ctrl;
 
@@ -47,6 +46,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private boolean _stopped;
 
 	private RoadMap _map;
+	private int _currTime;
 
 
 	public ControlPanel(Controller ctrl) {
@@ -124,11 +124,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				ChangeCO2ClassDialog CO2dialog = new ChangeCO2ClassDialog(ViewUtils.getWindow(ControlPanel.this), _ctrl, _map.getVehicles());
-				CO2dialog.setLocationRelativeTo(ViewUtils.getWindow(ControlPanel.this)); //TODO intentar meter este metodo en la clase ChangeCO2ClassDialog
-				CO2dialog.setVisible(true);
+				ChangeCO2ClassDialog changeCO2Dialog = new ChangeCO2ClassDialog(ViewUtils.getWindow(ControlPanel.this), _ctrl, _map.getVehicles(), _currTime);
+				changeCO2Dialog.setLocationRelativeTo(ViewUtils.getWindow(ControlPanel.this)); //TODO intentar meter este metodo en la clase ChangeCO2ClassDialog
+				changeCO2Dialog.setVisible(true);
 			}			
-
 		});
 	}
 
@@ -143,7 +142,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO LISTENER changeRoadWeather
+
+				ChangeWeatherDialog changeWeatherDialog = new ChangeWeatherDialog (ViewUtils.getWindow(ControlPanel.this), _ctrl, _map.getRoads(), _currTime);
+				changeWeatherDialog.setLocationRelativeTo(ViewUtils.getWindow(ControlPanel.this)); //TODO intentar meter este metodo en la clase ChangeWeatherDialog
+				changeWeatherDialog.setVisible(true);
 
 			}
 
@@ -246,29 +248,30 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	}
 
 
-	private void update() {
+	private void update(RoadMap map, int time) {
 		
+		_map = map;
+		_currTime = time;
 	}
 	
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		_map = map;
-
+		update(map, time);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		_map = map;
+		update(map, time);
 	}
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		_map = map;
+		update(map, time);
 	}
 
 	@Override
 	public void onRegister(RoadMap map, Collection<Event> events, int time) {
-		_map = map;
+		update(map, time);
 	}
 
 

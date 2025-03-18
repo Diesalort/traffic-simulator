@@ -19,120 +19,120 @@ import javax.swing.SpinnerNumberModel;
 
 import simulator.control.Controller;
 import simulator.misc.Pair;
-import simulator.model.SetContClassEvent;
-import simulator.model.Vehicle;
+import simulator.model.Road;
+import simulator.model.SetWeatherEvent;
+import simulator.model.Weather;
 
-public class ChangeCO2ClassDialog extends JDialog {
+public class ChangeWeatherDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JLabel desc;
-	private JLabel vehicle;
-	private JComboBox<String> vehiclesCombo;
-	private JLabel CO2Class;
-	private JComboBox<Integer> CO2ClassCombo;
+	private JLabel road;
+	private JComboBox<String> roadsCombo;
+	private JLabel weather;
+	private JComboBox<Weather> weatherCombo;
 	private JLabel ticks;
 	private JSpinner ticksSpinner;
-	
+
 	private Controller _ctrl;
 	private int _currTime;
 
-	ChangeCO2ClassDialog(Frame parent, Controller ctrl, List<Vehicle> vehicles, int time){
+	ChangeWeatherDialog (Frame parent, Controller ctrl, List<Road> roads, int time){
 		super(parent, true);
-		
+
 		_ctrl = ctrl;
 		_currTime = time;
-		
-		this.setTitle("Change CO2 Class");
+
+		this.setTitle("Change Road Weather");
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.setResizable(false); // Para que no se pueda redimensionar
-		
-		List<String> vehiclesId = new ArrayList<>();
-		for (Vehicle v : vehicles) {
 
-			vehiclesId.add(v.getId());
+		List<String> roadsId = new ArrayList<>();
+		for (Road r : roads) {
+
+			roadsId.add(r.getId());
 		}
 
-		initGUI(vehiclesId);		
+		initGUI(roadsId);		
 	}
 
-	private void initGUI(List<String> vehiclesId) {
+	private void initGUI(List<String> roadsId) {
 
 		this.setLayout(new BorderLayout());
 
 		desc = new JLabel();
-		desc.setText("Schedule an event to change the CO2 class of a vehicle after a given number of simulation ticks from now");
+		desc.setText("Schedule an event to change the weather of a road after a given number of simulation ticks from now");
 
 		JPanel centerPanel = new JPanel(new FlowLayout()); //TODO FlowLayout?
-		vehicle = new JLabel ("Vehicle: ");
-		vehiclesCombo = new JComboBox<String>(vehiclesId.toArray(new String[0])); // Convertimos la lista de ids de vehiculos a un array de string, y lo pasamos al jcombobox
+		road = new JLabel ("Road: ");
+		roadsCombo = new JComboBox<String>(roadsId.toArray(new String[0])); // Convertimos la lista de ids de vehiculos a un array de string, y lo pasamos al jcombobox
 
-		CO2Class = new JLabel("CO2 Class: ");
-		CO2ClassCombo = new JComboBox<Integer>();
-		for (int i = 0; i <= 10; i++) {
-
-			CO2ClassCombo.addItem(i);
-		}
+		weather = new JLabel("Weather: ");
+		weatherCombo = new JComboBox<Weather>(Weather.values());
 		
 		ticks = new JLabel("Ticks: ");
 		ticksSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
 
-		centerPanel.add(vehicle);
-		centerPanel.add(vehiclesCombo);
-		centerPanel.add(CO2Class);
-		centerPanel.add(CO2ClassCombo);
+		centerPanel.add(road);
+		centerPanel.add(roadsCombo);
+		centerPanel.add(weather);
+		centerPanel.add(weatherCombo);
 		centerPanel.add(ticks);
 		centerPanel.add(ticksSpinner);
-		
+
 		JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		
+
 		JButton cancel = new JButton("Cancel");
-		
+
 		cancel.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ChangeCO2ClassDialog.this.setVisible(false);							
+				ChangeWeatherDialog.this.setVisible(false);							
 			}
 		});
-		
+
 		JButton ok = new JButton("OK");
 		ok.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				addEvent();
-				ChangeCO2ClassDialog.this.setVisible(false);							
+				ChangeWeatherDialog.this.setVisible(false);							
 			}	
 		});
-		
+
 		lowerPanel.add(cancel);
 		lowerPanel.add(ok);
-		
+
 		this.add(desc, BorderLayout.PAGE_START);
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(lowerPanel, BorderLayout.PAGE_END);
 		this.pack();
 	}
-	
+
 	private void addEvent() {
-		
-		String vehicleId = (String) vehiclesCombo.getSelectedItem();
-		
-		if (vehicleId == null) {
+
+		String roadId = (String) roadsCombo.getSelectedItem();
+
+		if (roadId == null) {
 			this.setVisible(false);
 			JOptionPane.showMessageDialog(getParent(), "A simulation must be running to add an event", "Error", JOptionPane.ERROR_MESSAGE);
-			
+
 		} else {
-			
-			int contClass = (Integer) CO2ClassCombo.getSelectedItem();
+
+			Weather weather = (Weather) weatherCombo.getSelectedItem();
 			int ticks = (Integer) ticksSpinner.getValue();
-			
-			List<Pair<String, Integer>> cs = new ArrayList<>();
-			cs.add(new Pair<>(vehicleId, contClass));
-			
-			_ctrl.addEvent(new SetContClassEvent(_currTime + ticks, cs)); // Debemos sumar el currTime + los ticks seleccionados			
+
+			List<Pair<String, Weather>> ws = new ArrayList<>();
+			ws.add(new Pair<>(roadId, weather));
+
+			_ctrl.addEvent(new SetWeatherEvent (_currTime + ticks, ws)); // Debemos sumar el currTime + los ticks seleccionados			
 		}
 	}
+
+
+
 }

@@ -22,9 +22,10 @@ import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Vehicle;
 import simulator.model.VehicleStatus;
-import simulator.model.Weather;
 
 public class MapByRoadComponent extends JComponent implements TrafficSimObserver {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final int _JRADIUS = 10;
 
