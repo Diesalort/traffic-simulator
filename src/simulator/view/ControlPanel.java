@@ -71,6 +71,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		this.stopConf();
 		this.ticksConf();
 		toolbar.add(Box.createHorizontalGlue());
+		toolbar.addSeparator();
 		this.exitConf();
 
 		toolbar.setEnabled(false);

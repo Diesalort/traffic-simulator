@@ -55,6 +55,7 @@ public class MainWindow extends JFrame {
 		JTable eventsTable = new JTable(new EventsTableModel(_ctrl));
 		eventsTable.setShowGrid(false); // Para quitar las lineas de las celdas
 		eventsTable.getTableHeader().setReorderingAllowed(false); // Para no permitir intercambiar las columnas
+		eventsTable.getTableHeader().setResizingAllowed(false); // TODO para que las columnas no se puedan redimensionar
 		JPanel eventsView = createViewPanel(eventsTable, "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(eventsView);
@@ -62,6 +63,7 @@ public class MainWindow extends JFrame {
 		JTable vehiclesTable = new JTable(new VehiclesTableModel(_ctrl));
 		vehiclesTable.setShowGrid(false);
 		vehiclesTable.getTableHeader().setReorderingAllowed(false);
+		vehiclesTable.getTableHeader().setResizingAllowed(false);
 		JPanel vehiclesView = createViewPanel(vehiclesTable, "Vehicles");
 		vehiclesView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(vehiclesView);
@@ -69,6 +71,7 @@ public class MainWindow extends JFrame {
 		JTable roadsTable = new JTable(new RoadsTableModel(_ctrl));
 		roadsTable.setShowGrid(false); // Para quitar las lineas de las celdas
 		roadsTable.getTableHeader().setReorderingAllowed(false); // Para no permitir intercambiar las columnas
+		roadsTable.getTableHeader().setResizingAllowed(false);
 		JPanel roadsView = createViewPanel(roadsTable, "Roads");
 		roadsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(roadsView);
@@ -76,6 +79,7 @@ public class MainWindow extends JFrame {
 		JTable junctionsTable = new JTable(new JunctionsTableModel(_ctrl));
 		junctionsTable.setShowGrid(false); // Para quitar las lineas de las celdas
 		junctionsTable.getTableHeader().setReorderingAllowed(false); // Para no permitir intercambiar las columnas
+		junctionsTable.getTableHeader().setResizingAllowed(false);
 		JPanel junctionsView = createViewPanel(junctionsTable, "Junctions");
 		junctionsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(junctionsView);
@@ -88,17 +92,17 @@ public class MainWindow extends JFrame {
 
 		
 		JPanel mapByRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
-		mapView.setPreferredSize(new Dimension(300, 200));
+		mapByRoadView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapByRoadView);
 
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE); //TODO antes ponia DO_NOTHING_ON_CLOSE
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 	}
 
 	private JPanel createViewPanel(JComponent c, String title) {
-		JPanel p = new JPanel( new BorderLayout() );
-		Border b = BorderFactory.createLineBorder(Color. black , 2); // TODO Se crea asi? Borde para las tablas
+		JPanel p = new JPanel(new BorderLayout());
+		Border b = BorderFactory.createLineBorder(Color. black , 2);
 		p.setBorder(BorderFactory. createTitledBorder(b, title, TitledBorder.LEFT, TitledBorder.TOP));
 		p.add(new JScrollPane(c));
 		return p;

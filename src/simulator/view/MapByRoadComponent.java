@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.Event;
+import simulator.model.Junction;
 import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
@@ -41,9 +42,9 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 	public MapByRoadComponent(Controller ctrl) {
 
-		initGUI();
-		this.setPreferredSize(new Dimension (300, 200));
 		ctrl.addObserver(this);
+		this.setPreferredSize(new Dimension (300, 200));
+		initGUI();
 	}
 
 	private void initGUI() {
@@ -65,7 +66,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			g.setColor(Color.red);
 			g.drawString("No map yet!", getWidth() / 2 - 50, getHeight() / 2);
 		} else {
-			//updatePrefferedSize(); TODO necesario
+			//updatePrefferedSize() TODO es necesario?
 			drawMap(g);
 		}
 	}	
@@ -147,8 +148,8 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		Image contamination = loadImage("cont_" + C + ".png");
 		g.drawImage(contamination, x2 + 48, y - 17, 32, 32, this); // Imagen contamination
 	}
-	
-	
+
+
 	// loads an image from a file
 	private Image loadImage(String img) {
 		Image i = null;
@@ -157,6 +158,23 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		} catch (IOException e) {
 		}
 		return i;
+	}
+
+	// this method is used to update the preffered and actual size of the component,
+	// so when we draw outside the visible area the scrollbars show up
+	private void updatePrefferedSize() {
+		int maxW = 200;
+		int maxH = 200;
+		for (Junction j : _map.getJunctions()) {
+			maxW = Math.max(maxW, j.getX());
+			maxH = Math.max(maxH, j.getY());
+		}
+		maxW += 20;
+		maxH += 20;
+		if (maxW > getWidth() || maxH > getHeight()) {
+			setPreferredSize(new Dimension(maxW, maxH));
+			setSize(new Dimension(maxW, maxH));
+		}
 	}
 
 	public void update(RoadMap map) {
