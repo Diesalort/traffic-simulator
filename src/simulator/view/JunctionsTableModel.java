@@ -9,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.Junction;
+import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
@@ -53,10 +54,22 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 			break;
 		case 1:
 			int green = _junctions.get(rowIndex).getGreenLightIndex();
-			s = green == -1 ? "NONE" : green;
+			s = green == -1 ? "NONE" : _junctions.get(rowIndex).getInRoads().get(green);
 			break;
 		case 2:
-			s = _junctions.get(rowIndex).getInRoads();
+			
+			// TODO COMPROBAR QUE ESTO SEA ASÍ
+			StringBuilder sb = new StringBuilder("");
+			
+			List<Road> inRoads = _junctions.get(rowIndex).getInRoads();
+			
+			for (Road r : inRoads) {
+				sb.append(r + ":"); // ID de la carretera
+				sb.append(r.getVehicles() + " "); // La lista de vehículos
+			}
+			
+			s = sb.toString();
+			
 			break;
 		}
 		

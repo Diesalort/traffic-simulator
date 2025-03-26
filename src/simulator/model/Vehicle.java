@@ -211,4 +211,8 @@ public class Vehicle extends SimulatedObject {
 		return this._distance;
 	}
 
+	public Junction getJunction() {
+		
+		return this._itinerary.get(_junctionIndex);
+	}
 }

@@ -65,7 +65,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 				break;
 
 			case WAITING:
-				s = "Waiting:"; // TODO + cruce que está esperando. (Creo que hay que añadir nuevo getter en vehicle)
+				s = "Waiting:" + v.getJunction();
 				break;
 
 			case ARRIVED:

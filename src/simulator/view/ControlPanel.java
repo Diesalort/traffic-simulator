@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JToolBar;
@@ -32,7 +31,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private static final long serialVersionUID = 1L;
 	
-	private JToolBar toolbar;
+	private JToolBar _toolbar;
 	private Controller _ctrl;
 
 	private JButton _fileChooserButton;
@@ -60,31 +59,31 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private void initGUI() {
 
-		toolbar = new JToolBar();
+		_toolbar = new JToolBar();
 
 		this.fileChooserConf();
-		toolbar.addSeparator();;
+		_toolbar.addSeparator();;
 		this.setContClassConf();
 		this.changeRoadWeatherConf();
-		toolbar.addSeparator();
+		_toolbar.addSeparator();
 		this.runConf();
 		this.stopConf();
 		this.ticksConf();
-		toolbar.add(Box.createHorizontalGlue());
-		toolbar.addSeparator();
+		_toolbar.add(Box.createHorizontalGlue());
+		_toolbar.addSeparator();
 		this.exitConf();
 
-		toolbar.setEnabled(false);
-		this.add(toolbar, BorderLayout.PAGE_START);
+		_toolbar.setEnabled(false);
+		this.add(_toolbar, BorderLayout.PAGE_START);
 	}
 
 	private void fileChooserConf() {
 
 		// FileChooser
-		_fileChooserButton = createButton("resources/icons/open.png");
-		toolbar.add(_fileChooserButton); // Añadimos el button a la toolbar
+		_fileChooserButton = createButton("resources/icons/open.png", "Choose a file as simulation");
+		_toolbar.add(_fileChooserButton); // Añadimos el button a la toolbar
 
-		_fileChooserButton.addActionListener(new ActionListener() { //TODO
+		_fileChooserButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -103,13 +102,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 						_ctrl.reset();
 						_ctrl.loadEvents(in);
 
-						//TODO Intentar mejorar el mensaje del dialogo de error
 					} catch (FileNotFoundException fnf) {
-						JOptionPane.showMessageDialog(ViewUtils.getWindow(ControlPanel.this), "File not found", "Error", JOptionPane.ERROR_MESSAGE);
+						ViewUtils.showErrorMsg(ViewUtils.getWindow(ControlPanel.this), "File not found");
 					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(ViewUtils.getWindow(ControlPanel.this), "An error happenned: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						ViewUtils.showErrorMsg(ViewUtils.getWindow(ControlPanel.this), "An error happenned: " + ex.getMessage());
 					}
-
 				}
 			}
 		});
@@ -117,8 +114,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private void setContClassConf() {
 
-		_setContClassButton = createButton("resources/icons/co2class.png");
-		toolbar.add(_setContClassButton); // Añadimos el button a la toolBar
+		_setContClassButton = createButton("resources/icons/co2class.png", "Change CO2 Class of a Vehicle");
+		_toolbar.add(_setContClassButton); // Añadimos el button a la toolBar
 
 		_setContClassButton.addActionListener(new ActionListener() {
 
@@ -126,8 +123,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			public void actionPerformed(ActionEvent e) {
 
 				ChangeCO2ClassDialog changeCO2Dialog = new ChangeCO2ClassDialog(ViewUtils.getWindow(ControlPanel.this), _ctrl, _map.getVehicles(), _currTime);
-				changeCO2Dialog.setLocationRelativeTo(ViewUtils.getWindow(ControlPanel.this)); //TODO intentar meter este metodo en la clase ChangeCO2ClassDialog
-				changeCO2Dialog.setVisible(true);
 			}			
 		});
 	}
@@ -136,8 +131,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private void changeRoadWeatherConf() {
 
-		_roadWeatherButton = createButton("resources/icons/weather.png");
-		toolbar.add(_roadWeatherButton); // Añadimos el button a la toolBar
+		_roadWeatherButton = createButton("resources/icons/weather.png", "Change Weather of a Road");
+		_toolbar.add(_roadWeatherButton); // Añadimos el button a la toolBar
 
 		_roadWeatherButton.addActionListener(new ActionListener () {
 
@@ -145,9 +140,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			public void actionPerformed(ActionEvent e) {
 
 				ChangeWeatherDialog changeWeatherDialog = new ChangeWeatherDialog (ViewUtils.getWindow(ControlPanel.this), _ctrl, _map.getRoads(), _currTime);
-				changeWeatherDialog.setLocationRelativeTo(ViewUtils.getWindow(ControlPanel.this)); //TODO intentar meter este metodo en la clase ChangeWeatherDialog
-				changeWeatherDialog.setVisible(true);
-
 			}
 
 		});
@@ -156,8 +148,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private void runConf() {
 
-		_runButton = createButton("resources/icons/run.png");
-		toolbar.add(_runButton); // Añadimos el button a la toolBar
+		_runButton = createButton("resources/icons/run.png", "Run the simulator");
+		_toolbar.add(_runButton); // Añadimos el button a la toolBar
 
 		_runButton.addActionListener(new ActionListener () {
 
@@ -174,8 +166,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private void stopConf() {
 
-		_stopButton = createButton("resources/icons/stop.png");
-		toolbar.add(_stopButton); // Añadimos el button a la toolBar
+		_stopButton = createButton("resources/icons/stop.png", "Stop the simulator");
+		_toolbar.add(_stopButton); // Añadimos el button a la toolBar
 
 		_stopButton.addActionListener(new ActionListener () {
 
@@ -191,19 +183,20 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private void ticksConf() {
 
 		JLabel ticksLabel = new JLabel ("Ticks: ");
-		_ticksSpinner = new JSpinner(new SpinnerNumberModel(10, 0, 100, 1));
+		_ticksSpinner = new JSpinner(new SpinnerNumberModel(10, 0, 10000, 1));
 		_ticksSpinner.setMaximumSize(new Dimension(80, 40));
-		_ticksSpinner.setMinimumSize(new Dimension(80, 40));
+		_ticksSpinner.setMinimumSize(new Dimension(20, 40));
 		_ticksSpinner.setPreferredSize(new Dimension(80, 40));
+		_ticksSpinner.setToolTipText("Simulation tick to run: 1-10000");
 
-		toolbar.add(ticksLabel);
-		toolbar.add(_ticksSpinner);
+		_toolbar.add(ticksLabel);
+		_toolbar.add(_ticksSpinner);
 	}
 
 	private void exitConf() {
 
-		_exitButton = createButton("resources/icons/exit.png");
-		toolbar.add(_exitButton); // Añadimos el button a la toolBar
+		_exitButton = createButton("resources/icons/exit.png", "Exit the simulator");
+		_toolbar.add(_exitButton); // Añadimos el button a la toolBar
 
 		_exitButton.addActionListener(new ActionListener () {
 
@@ -221,7 +214,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 				_ctrl.run(1);
 				SwingUtilities.invokeLater(() -> run_sim(n - 1));
 			} catch (Exception e) {
-				// TODO show error message
+				// show error message
+				ViewUtils.showErrorMsg(ViewUtils.getWindow(ControlPanel.this), "An error happenned: " + e.getMessage());
 				_stopped = true;
 				enableToolbar(true);
 			}
@@ -231,14 +225,15 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		}
 	}
 
-	private JButton createButton(String iconPath) { //TODO Añadir al parametro un ActionListener para crearlos de forma generica con funciones auxiliares
+	private JButton createButton(String iconPath, String tooltipText) { //TODO Añadir al parametro un ActionListener para crearlos de forma generica con funciones auxiliares
 
 		JButton button = new JButton();		
 		button.setIcon(new ImageIcon(iconPath));
+		button.setToolTipText(tooltipText);
 		return button;
 	}
 
-	private void enableToolbar(boolean b) { //TODO se hace asi o de otra forma?
+	private void enableToolbar(boolean b) {
 
 		_fileChooserButton.setEnabled(b);
 		_setContClassButton.setEnabled(b);

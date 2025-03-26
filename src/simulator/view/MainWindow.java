@@ -50,12 +50,10 @@ public class MainWindow extends JFrame {
 		
 		// tables
 		
-		// TODO Font defaultTablesFont = new Font("Dialog", Font.BOLD, 12);
-		
 		JTable eventsTable = new JTable(new EventsTableModel(_ctrl));
 		eventsTable.setShowGrid(false); // Para quitar las lineas de las celdas
 		eventsTable.getTableHeader().setReorderingAllowed(false); // Para no permitir intercambiar las columnas
-		eventsTable.getTableHeader().setResizingAllowed(false); // TODO para que las columnas no se puedan redimensionar
+		eventsTable.getTableHeader().setResizingAllowed(false); // Para que las columnas no se puedan redimensionar
 		JPanel eventsView = createViewPanel(eventsTable, "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(eventsView);

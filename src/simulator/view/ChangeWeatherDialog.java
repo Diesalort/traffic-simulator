@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -8,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -27,64 +30,71 @@ public class ChangeWeatherDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel desc;
-	private JLabel road;
-	private JComboBox<String> roadsCombo;
-	private JLabel weather;
-	private JComboBox<Weather> weatherCombo;
-	private JLabel ticks;
-	private JSpinner ticksSpinner;
+	private JLabel _desc;
+	private JLabel _road;
+	private JComboBox<Road> _roadsCombo;
+	private JLabel _weather;
+	private JComboBox<Weather> _weatherCombo;
+	private JLabel _ticks;
+	private JSpinner _ticksSpinner;
 
 	private Controller _ctrl;
 	private int _currTime;
 
 	ChangeWeatherDialog (Frame parent, Controller ctrl, List<Road> roads, int time){
-		super(parent, true);
+		super(parent, "Change Road Weather", true);
 
 		_ctrl = ctrl;
 		_currTime = time;
 
-		this.setTitle("Change Road Weather");
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setPreferredSize(new Dimension(460, 205));
 		this.setResizable(false); // Para que no se pueda redimensionar
 
-		List<String> roadsId = new ArrayList<>();
-		for (Road r : roads) {
-
-			roadsId.add(r.getId());
-		}
-
-		initGUI(roadsId);		
+		initGUI(roads);
+		
+		// Llamarlo después de this.pack()
+		this.setLocation(parent.getX() + (parent.getWidth() - this.getWidth())/2, parent.getY() + (parent.getHeight() - this.getHeight())/2); // Para que aparezca centrado con respecto a mainWindow
+		this.setVisible(true);
 	}
 
-	private void initGUI(List<String> roadsId) {
+	private void initGUI(List<Road> roads) {
 
-		this.setLayout(new BorderLayout());
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 
-		desc = new JLabel();
-		desc.setText("Schedule an event to change the weather of a road after a given number of simulation ticks from now");
-
-		JPanel centerPanel = new JPanel(new FlowLayout()); //TODO FlowLayout?
-		road = new JLabel ("Road: ");
-		roadsCombo = new JComboBox<String>(roadsId.toArray(new String[0])); // Convertimos la lista de ids de vehiculos a un array de string, y lo pasamos al jcombobox
-
-		weather = new JLabel("Weather: ");
-		weatherCombo = new JComboBox<Weather>(Weather.values());
+		// SUPERIOR
+		JPanel superiorPanel = new JPanel(new BorderLayout());
 		
-		ticks = new JLabel("Ticks: ");
-		ticksSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+		_desc = new JLabel ("<html><p>Schedule an event to change the weather of a road after a given number of simulation ticks from now</p></html>");
+		superiorPanel.add(_desc);
+		
+		// CENTRO
+		JPanel centerPanel = new JPanel(new FlowLayout());
+		_road = new JLabel ("Road: ");
+		_roadsCombo = new JComboBox<>(roads.toArray(new Road[0])); // Casteamos roads a un array y lo añadimos en el comboBox
+		_roadsCombo.setPreferredSize(new Dimension(85, 20));
+		
+		_weather = new JLabel("Weather: ");
+		_weatherCombo = new JComboBox<Weather>(Weather.values());
+		_weatherCombo.setPreferredSize(new Dimension(85, 20));
 
-		centerPanel.add(road);
-		centerPanel.add(roadsCombo);
-		centerPanel.add(weather);
-		centerPanel.add(weatherCombo);
-		centerPanel.add(ticks);
-		centerPanel.add(ticksSpinner);
-
+		_ticks = new JLabel("Ticks: ");
+		_ticksSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+		_ticksSpinner.setPreferredSize(new Dimension(60, 20));
+		
+		centerPanel.add(_road);
+		centerPanel.add(_roadsCombo);
+		centerPanel.add(_weather);
+		centerPanel.add(_weatherCombo);
+		centerPanel.add(_ticks);
+		centerPanel.add(_ticksSpinner);
+		
+		// INFERIOR
 		JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
+		
 		JButton cancel = new JButton("Cancel");
-
+		
 		cancel.addActionListener(new ActionListener() {
 
 			@Override
@@ -92,42 +102,49 @@ public class ChangeWeatherDialog extends JDialog {
 				ChangeWeatherDialog.this.setVisible(false);							
 			}
 		});
-
+		
 		JButton ok = new JButton("OK");
 		ok.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
 				addEvent();
 				ChangeWeatherDialog.this.setVisible(false);							
 			}	
 		});
-
+		
 		lowerPanel.add(cancel);
 		lowerPanel.add(ok);
+		
+		
+		// Añadimos todo a mainPanel y creamos áreas rígidas
+		mainPanel.add(superiorPanel);
+		mainPanel.add(Box.createRigidArea(new Dimension(0,15)));
+		mainPanel.add(centerPanel);
+		mainPanel.add(Box.createRigidArea(new Dimension(0,35)));
+		mainPanel.add(lowerPanel);
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
-		this.add(desc, BorderLayout.PAGE_START);
-		this.add(centerPanel, BorderLayout.CENTER);
-		this.add(lowerPanel, BorderLayout.PAGE_END);
+		this.add(mainPanel);
 		this.pack();
 	}
 
 	private void addEvent() {
 
-		String roadId = (String) roadsCombo.getSelectedItem();
+		Road road = (Road) _roadsCombo.getSelectedItem();
 
-		if (roadId == null) {
+		if (road == null) {
 			this.setVisible(false);
-			JOptionPane.showMessageDialog(getParent(), "A simulation must be running to add an event", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(getParent(), "A valid simulation must be running to add an event", "Error", JOptionPane.ERROR_MESSAGE);
 
 		} else {
 
-			Weather weather = (Weather) weatherCombo.getSelectedItem();
-			int ticks = (Integer) ticksSpinner.getValue();
+			Weather weather = (Weather) _weatherCombo.getSelectedItem();
+			int ticks = (Integer) _ticksSpinner.getValue();
 
 			List<Pair<String, Weather>> ws = new ArrayList<>();
-			ws.add(new Pair<>(roadId, weather));
+			ws.add(new Pair<>(road.getId(), weather));
 
 			_ctrl.addEvent(new SetWeatherEvent (_currTime + ticks, ws)); // Debemos sumar el currTime + los ticks seleccionados			
 		}

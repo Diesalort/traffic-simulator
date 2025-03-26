@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -189,8 +190,8 @@ public class Junction extends SimulatedObject {
 		return this._greenLightIndex;
 	}
 	
-	public List<Road> getInRoads(){ //TODO devolver collection.unmodificable...?
+	public List<Road> getInRoads(){ // Lo devolvemos como unmodifiableList ya que no se espera que se modifique al invocar a este método
 		
-		return this._inRoads;
+		return Collections.unmodifiableList(this._inRoads);
 	}
 }
