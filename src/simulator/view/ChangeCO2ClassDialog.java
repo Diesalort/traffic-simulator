@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -16,14 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
-import simulator.control.Controller;
-import simulator.misc.Pair;
-import simulator.model.SetContClassEvent;
 import simulator.model.Vehicle;
 
 public class ChangeCO2ClassDialog extends JDialog {
@@ -33,32 +27,25 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private JLabel _desc;
 	private JLabel _vehicle;
 	private JComboBox<Vehicle> _vehiclesCombo;
+	private DefaultComboBoxModel<Vehicle> _vehiclesModel; // Modelo de vehiclesCombo para mostrar los vehículos de la simulación adecuadamente
 	private JLabel _CO2Class;
 	private JComboBox<Integer> _CO2ClassCombo;
 	private JLabel _ticks;
 	private JSpinner _ticksSpinner;
 	
-	private Controller _ctrl;
-	private int _currTime;
+	private int _choice;
 
-	ChangeCO2ClassDialog(Frame parent, Controller ctrl, List<Vehicle> vehicles, int time){
+	ChangeCO2ClassDialog(Frame parent){
 		super(parent, "Change CO2 Class", true);
-		
-		_ctrl = ctrl;
-		_currTime = time;
 		
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.setPreferredSize(new Dimension(460, 205));
 		this.setResizable(false); // Para que no se pueda redimensionar
 
-		initGUI(vehicles);		
-		
-		// Llamarlo después de this.pack()
-		this.setLocation(parent.getX() + (parent.getWidth() - this.getWidth())/2, parent.getY() + (parent.getHeight() - this.getHeight())/2); // Para que aparezca centrado con respecto a mainWindow
-		this.setVisible(true);
-	}
+		initGUI();		
+		}
 
-	private void initGUI(List<Vehicle> vehicles) {
+	private void initGUI() {
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -72,7 +59,8 @@ public class ChangeCO2ClassDialog extends JDialog {
 		// CENTRO
 		JPanel centerPanel = new JPanel(new FlowLayout());
 		_vehicle = new JLabel ("Vehicle: ");
-		_vehiclesCombo = new JComboBox<>(vehicles.toArray(new Vehicle[0])); // Casteamos vehicles a un array y lo añadimos en el comboBox
+		_vehiclesModel = new DefaultComboBoxModel<Vehicle>();
+		_vehiclesCombo = new JComboBox<>(_vehiclesModel);
 		_vehiclesCombo.setPreferredSize(new Dimension(85, 20));
 		
 		_CO2Class = new JLabel("CO2 Class: ");
@@ -103,6 +91,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				_choice = 0;
 				ChangeCO2ClassDialog.this.setVisible(false);							
 			}
 		});
@@ -112,8 +101,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				addEvent();
+				_choice = 1;
 				ChangeCO2ClassDialog.this.setVisible(false);							
 			}	
 		});
@@ -134,23 +122,34 @@ public class ChangeCO2ClassDialog extends JDialog {
 		this.pack();
 	}
 	
-	private void addEvent() {
+	void initializeDialog(List<Vehicle> vehicles) { // Pasa la lista de vehículos al combobox de vehicles cada vez que se utiliza el diálogo, y pone valores por defecto
 		
-		Vehicle vehicle = (Vehicle) _vehiclesCombo.getSelectedItem();
-		
-		if (vehicle == null) {
-			this.setVisible(false);
-			JOptionPane.showMessageDialog(getParent(), "A valid simulation must be running to add an event", "Error", JOptionPane.ERROR_MESSAGE);
-			
-		} else {
-			
-			int contClass = (Integer) _CO2ClassCombo.getSelectedItem();
-			int ticks = (Integer) _ticksSpinner.getValue();
-			
-			List<Pair<String, Integer>> cs = new ArrayList<>();
-			cs.add(new Pair<>(vehicle.getId(), contClass));
-			
-			_ctrl.addEvent(new SetContClassEvent(_currTime + ticks, cs)); // Debemos sumar el currTime + los ticks seleccionados			
+		_vehiclesModel.removeAllElements();
+		_CO2ClassCombo.setSelectedIndex(0); // Para que aparezca 0 por defecto
+		_ticksSpinner.setValue(1); // Para que aparezca el tick 1 por defecto
+		if (vehicles.size() != 0) {
+			_vehiclesModel.addAll(vehicles);
+			_vehiclesCombo.setSelectedIndex(0); // Para dejar el primer vehículo seleccionado por defecto
 		}
 	}
+	
+	int getChoice() { //0-Cancel, 1-OK
+		return _choice;
+	}
+	
+	Vehicle getSelectedVehicle() {
+		
+		return (Vehicle) _vehiclesCombo.getSelectedItem();
+	}
+	
+	int getSelectedContClass() {
+		
+		return (Integer) _CO2ClassCombo.getSelectedItem();
+	}
+	
+	int getSelectedTicks() {
+		
+		return (Integer) _ticksSpinner.getValue();
+	}
+	
 }

@@ -25,9 +25,8 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 	private JLabel _eventLabel;
 	
 	StatusBar(Controller ctrl){
-		
-		_timeLabel = new JLabel("Time: 0");
-		_eventLabel = new JLabel("Welcome!");
+		_timeLabel = new JLabel();
+		_eventLabel = new JLabel();
 		ctrl.addObserver(this);
 		initGUI();
 	}
@@ -36,6 +35,12 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 	private void initGUI() {
 		
 		this.setLayout(new BoxLayout (this, BoxLayout.LINE_AXIS));
+				
+		_timeLabel.setPreferredSize(new Dimension(70, 20));
+		_timeLabel.setMaximumSize(new Dimension(70, 20));
+		_timeLabel.setMinimumSize(new Dimension(70, 20));
+		
+		_eventLabel.setText("Welcome!");
 		
 		_separator = new JSeparator(SwingConstants.VERTICAL);
 		_separator.setPreferredSize(new Dimension(10, 20));

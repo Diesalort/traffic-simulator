@@ -62,7 +62,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		
 		_events = new ArrayList<>(events);
 		Collections.sort(_events); // Para que se muestren en el orden correcto
-		fireTableStructureChanged() ; // We need to notify changes, otherwise the table does not refresh.
+		fireTableDataChanged() ; // We need to notify changes, otherwise the table does not refresh.
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {		
 		_events.clear();
-		fireTableStructureChanged();
+		fireTableDataChanged();
 	}
 
 	@Override

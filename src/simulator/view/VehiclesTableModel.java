@@ -97,7 +97,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 	private void update(RoadMap map) {
 
 		_vehicles = new ArrayList<>(map.getVehicles());
-		fireTableStructureChanged();
+		fireTableDataChanged();
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
 		_vehicles.clear();
-		fireTableStructureChanged();
+		fireTableDataChanged();
 	}
 
 	@Override

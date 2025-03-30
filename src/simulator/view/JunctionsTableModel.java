@@ -58,7 +58,6 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 			break;
 		case 2:
 			
-			// TODO COMPROBAR QUE ESTO SEA ASÍ
 			StringBuilder sb = new StringBuilder("");
 			
 			List<Road> inRoads = _junctions.get(rowIndex).getInRoads();
@@ -79,7 +78,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	private void update(RoadMap map) {
 		
 		_junctions = new ArrayList<>(map.getJunctions());
-		fireTableStructureChanged();
+		fireTableDataChanged();
 	}
 	
 	@Override
@@ -95,7 +94,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
 		_junctions.clear();
-		fireTableStructureChanged();
+		fireTableDataChanged();
 	}
 
 	@Override

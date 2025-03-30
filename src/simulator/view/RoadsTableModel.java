@@ -76,7 +76,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	private void update(RoadMap map) {
 		
 		_roads = new ArrayList<>(map.getRoads());
-		fireTableStructureChanged();
+		fireTableDataChanged();
 	}
 	
 	@Override
@@ -92,7 +92,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
 		_roads.clear();
-		fireTableStructureChanged();
+		fireTableDataChanged();
 	}
 
 	@Override

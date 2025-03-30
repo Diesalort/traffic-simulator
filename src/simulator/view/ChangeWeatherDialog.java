@@ -6,24 +6,18 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
-import simulator.control.Controller;
-import simulator.misc.Pair;
 import simulator.model.Road;
-import simulator.model.SetWeatherEvent;
 import simulator.model.Weather;
 
 public class ChangeWeatherDialog extends JDialog {
@@ -33,32 +27,25 @@ public class ChangeWeatherDialog extends JDialog {
 	private JLabel _desc;
 	private JLabel _road;
 	private JComboBox<Road> _roadsCombo;
+	private DefaultComboBoxModel<Road> _roadsModel; // Modelo de roadsCombo para mostrar las carreteras de la simulación adecuadamente
 	private JLabel _weather;
 	private JComboBox<Weather> _weatherCombo;
 	private JLabel _ticks;
 	private JSpinner _ticksSpinner;
 
-	private Controller _ctrl;
-	private int _currTime;
+	private int _choice;
 
-	ChangeWeatherDialog (Frame parent, Controller ctrl, List<Road> roads, int time){
+	ChangeWeatherDialog (Frame parent){
 		super(parent, "Change Road Weather", true);
-
-		_ctrl = ctrl;
-		_currTime = time;
 
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.setPreferredSize(new Dimension(460, 205));
 		this.setResizable(false); // Para que no se pueda redimensionar
 
-		initGUI(roads);
-		
-		// Llamarlo después de this.pack()
-		this.setLocation(parent.getX() + (parent.getWidth() - this.getWidth())/2, parent.getY() + (parent.getHeight() - this.getHeight())/2); // Para que aparezca centrado con respecto a mainWindow
-		this.setVisible(true);
+		initGUI();
 	}
 
-	private void initGUI(List<Road> roads) {
+	private void initGUI() {
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -72,7 +59,8 @@ public class ChangeWeatherDialog extends JDialog {
 		// CENTRO
 		JPanel centerPanel = new JPanel(new FlowLayout());
 		_road = new JLabel ("Road: ");
-		_roadsCombo = new JComboBox<>(roads.toArray(new Road[0])); // Casteamos roads a un array y lo añadimos en el comboBox
+		_roadsModel = new DefaultComboBoxModel<Road>();
+		_roadsCombo = new JComboBox<>(_roadsModel);
 		_roadsCombo.setPreferredSize(new Dimension(85, 20));
 		
 		_weather = new JLabel("Weather: ");
@@ -99,6 +87,7 @@ public class ChangeWeatherDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				_choice = 0;
 				ChangeWeatherDialog.this.setVisible(false);							
 			}
 		});
@@ -108,8 +97,7 @@ public class ChangeWeatherDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				addEvent();
+				_choice = 1;
 				ChangeWeatherDialog.this.setVisible(false);							
 			}	
 		});
@@ -130,26 +118,33 @@ public class ChangeWeatherDialog extends JDialog {
 		this.pack();
 	}
 
-	private void addEvent() {
-
-		Road road = (Road) _roadsCombo.getSelectedItem();
-
-		if (road == null) {
-			this.setVisible(false);
-			JOptionPane.showMessageDialog(getParent(), "A valid simulation must be running to add an event", "Error", JOptionPane.ERROR_MESSAGE);
-
-		} else {
-
-			Weather weather = (Weather) _weatherCombo.getSelectedItem();
-			int ticks = (Integer) _ticksSpinner.getValue();
-
-			List<Pair<String, Weather>> ws = new ArrayList<>();
-			ws.add(new Pair<>(road.getId(), weather));
-
-			_ctrl.addEvent(new SetWeatherEvent (_currTime + ticks, ws)); // Debemos sumar el currTime + los ticks seleccionados			
+	void initializeDialog(List<Road> roads) { // Pasa la lista de roads al combobox de road cada vez que se utiliza el diálogo, y pone valores por defecto
+		
+		_roadsModel.removeAllElements();
+		_weatherCombo.setSelectedIndex(0); // Para que aparezca inicializada la primera opción
+		_ticksSpinner.setValue(1); // Para que aparezca incialmente 1 tick
+		if (roads.size() != 0) {
+			_roadsModel.addAll(roads);
+			_roadsCombo.setSelectedIndex(0); // Para que aparezca por defecto la primera road
 		}
 	}
-
-
-
+	
+	int getChoice() { //0-Cancel, 1-OK
+		return _choice;
+	}
+	
+	Road getSelectedRoad() {
+		
+		return (Road) _roadsCombo.getSelectedItem();
+	}
+	
+	Weather getSelectedWeather() {
+		
+		return (Weather) _weatherCombo.getSelectedItem();
+	}
+	
+	int getSelectedTicks() {
+		
+		return (Integer) _ticksSpinner.getValue();
+	}
 }
