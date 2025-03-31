@@ -26,10 +26,10 @@ public class ChangeCO2ClassDialog extends JDialog {
 	
 	private JLabel _desc;
 	private JLabel _vehicle;
-	private JComboBox<Vehicle> _vehiclesCombo;
+	private JComboBox<Vehicle> _vehiclesComboBox;
 	private DefaultComboBoxModel<Vehicle> _vehiclesModel; // Modelo de vehiclesCombo para mostrar los vehículos de la simulación adecuadamente
 	private JLabel _CO2Class;
-	private JComboBox<Integer> _CO2ClassCombo;
+	private JComboBox<Integer> _CO2ClassComboBox;
 	private JLabel _ticks;
 	private JSpinner _ticksSpinner;
 	
@@ -60,25 +60,25 @@ public class ChangeCO2ClassDialog extends JDialog {
 		JPanel centerPanel = new JPanel(new FlowLayout());
 		_vehicle = new JLabel ("Vehicle: ");
 		_vehiclesModel = new DefaultComboBoxModel<Vehicle>();
-		_vehiclesCombo = new JComboBox<>(_vehiclesModel);
-		_vehiclesCombo.setPreferredSize(new Dimension(85, 20));
+		_vehiclesComboBox = new JComboBox<>(_vehiclesModel);
+		_vehiclesComboBox.setPreferredSize(new Dimension(85, 20));
 		
 		_CO2Class = new JLabel("CO2 Class: ");
 		DefaultComboBoxModel<Integer> range = new DefaultComboBoxModel<>();
 		for (int i = 0; i <= 10; i++)
 			range.addElement(i);
 		
-		_CO2ClassCombo = new JComboBox<Integer>(range);
-		_CO2ClassCombo.setPreferredSize(new Dimension(70, 20));
+		_CO2ClassComboBox = new JComboBox<Integer>(range);
+		_CO2ClassComboBox.setPreferredSize(new Dimension(70, 20));
 		
 		_ticks = new JLabel("Ticks: ");
 		_ticksSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
 		_ticksSpinner.setPreferredSize(new Dimension(60, 20));
 		
 		centerPanel.add(_vehicle);
-		centerPanel.add(_vehiclesCombo);
+		centerPanel.add(_vehiclesComboBox);
 		centerPanel.add(_CO2Class);
-		centerPanel.add(_CO2ClassCombo);
+		centerPanel.add(_CO2ClassComboBox);
 		centerPanel.add(_ticks);
 		centerPanel.add(_ticksSpinner);
 		
@@ -125,11 +125,11 @@ public class ChangeCO2ClassDialog extends JDialog {
 	void initializeDialog(List<Vehicle> vehicles) { // Pasa la lista de vehículos al combobox de vehicles cada vez que se utiliza el diálogo, y pone valores por defecto
 		
 		_vehiclesModel.removeAllElements();
-		_CO2ClassCombo.setSelectedIndex(0); // Para que aparezca 0 por defecto
+		_CO2ClassComboBox.setSelectedIndex(0); // Para que aparezca 0 por defecto
 		_ticksSpinner.setValue(1); // Para que aparezca el tick 1 por defecto
 		if (vehicles.size() != 0) {
 			_vehiclesModel.addAll(vehicles);
-			_vehiclesCombo.setSelectedIndex(0); // Para dejar el primer vehículo seleccionado por defecto
+			_vehiclesComboBox.setSelectedIndex(0); // Para dejar el primer vehículo seleccionado por defecto
 		}
 	}
 	
@@ -139,12 +139,12 @@ public class ChangeCO2ClassDialog extends JDialog {
 	
 	Vehicle getSelectedVehicle() {
 		
-		return (Vehicle) _vehiclesCombo.getSelectedItem();
+		return (Vehicle) _vehiclesComboBox.getSelectedItem();
 	}
 	
 	int getSelectedContClass() {
 		
-		return (Integer) _CO2ClassCombo.getSelectedItem();
+		return (Integer) _CO2ClassComboBox.getSelectedItem();
 	}
 	
 	int getSelectedTicks() {

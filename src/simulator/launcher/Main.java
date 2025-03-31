@@ -191,7 +191,6 @@ public class Main {
 							: new BufferedOutputStream(new FileOutputStream(_outFile));) {
 
 				ctrl.loadEvents(in);	
-				ctrl.run(_timeLimit); //TODO es necesario por si se carga fichero con -t 300?
 			}
 		}
 
