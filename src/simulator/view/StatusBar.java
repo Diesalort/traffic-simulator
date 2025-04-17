@@ -31,7 +31,6 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 		initGUI();
 	}
 	
-	//TODO Seguro que se la puede dar la misma apariencia que la imagen sin usar setPreferredSize, maximum, minimum ni rigidArea
 	private void initGUI() {
 		
 		this.setLayout(new BoxLayout (this, BoxLayout.LINE_AXIS));

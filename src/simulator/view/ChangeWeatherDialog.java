@@ -2,7 +2,6 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,15 +48,16 @@ public class ChangeWeatherDialog extends JDialog {
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-
+		this.setContentPane(mainPanel);
+		
 		// SUPERIOR
 		JPanel superiorPanel = new JPanel(new BorderLayout());
 		
-		_desc = new JLabel ("<html><p>Schedule an event to change the weather of a road after a given number of simulation ticks from now</p></html>");
+		_desc = new JLabel ("<html><p>Schedule an event to change the weather of a road after a given number of simulation ticks from now.</p></html>");
 		superiorPanel.add(_desc);
 		
 		// CENTRO
-		JPanel centerPanel = new JPanel(new FlowLayout());
+		JPanel centerPanel = new JPanel();
 		_road = new JLabel ("Road: ");
 		_roadsModel = new DefaultComboBoxModel<Road>();
 		_roadsComboBox = new JComboBox<>(_roadsModel);
@@ -79,10 +79,9 @@ public class ChangeWeatherDialog extends JDialog {
 		centerPanel.add(_ticksSpinner);
 		
 		// INFERIOR
-		JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel lowerPanel = new JPanel();
 		
 		JButton cancel = new JButton("Cancel");
-		
 		cancel.addActionListener(new ActionListener() {
 
 			@Override
@@ -114,7 +113,6 @@ public class ChangeWeatherDialog extends JDialog {
 		mainPanel.add(lowerPanel);
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
-		this.add(mainPanel);
 		this.pack();
 	}
 

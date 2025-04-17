@@ -53,7 +53,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private JSpinner _ticksSpinner;
 	private JButton _exitButton;
 
-	private boolean _stopped;
+	private boolean _stopped; // Indica si la simulación esta ejecutándose o no
 
 	private RoadMap _map;
 	private int _currTime;
@@ -214,7 +214,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	}
 	
 	private void runConf() {
-
 
 		ActionListener runListener = new ActionListener () {
 

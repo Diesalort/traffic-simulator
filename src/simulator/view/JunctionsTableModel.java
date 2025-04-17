@@ -57,9 +57,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 			s = green == -1 ? "NONE" : _junctions.get(rowIndex).getInRoads().get(green);
 			break;
 		case 2:
-			
 			StringBuilder sb = new StringBuilder("");
-			
 			List<Road> inRoads = _junctions.get(rowIndex).getInRoads();
 			
 			for (Road r : inRoads) {
@@ -68,7 +66,6 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 			}
 			
 			s = sb.toString();
-			
 			break;
 		}
 		

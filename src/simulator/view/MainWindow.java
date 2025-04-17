@@ -20,7 +20,6 @@ import simulator.control.Controller;
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
 	private Controller _ctrl;
 
 	public MainWindow(Controller ctrl) {
@@ -49,7 +48,6 @@ public class MainWindow extends JFrame {
 
 		
 		// tables
-		
 		JTable eventsTable = new JTable(new EventsTableModel(_ctrl));
 		eventsTable.setShowGrid(false); // Para quitar las lineas de las celdas
 		eventsTable.getTableHeader().setReorderingAllowed(false); // Para no permitir intercambiar las columnas

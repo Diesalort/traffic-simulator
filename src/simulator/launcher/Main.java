@@ -127,7 +127,7 @@ public class Main {
 		}
 	}
 
-	private static void parseModeOption(CommandLine line) {
+	private static void parseModeOption(CommandLine line) throws ParseException {
 
 		if (line.hasOption("m"))
 			_mode = line.getOptionValue("m");
@@ -135,6 +135,9 @@ public class Main {
 			_mode = "gui";
 		
 		_mode = _mode.toLowerCase();
+		
+		if (!_mode.equals("gui") && !_mode.equals("console"))
+			throw new ParseException("Invalid mode: " + _mode + ". Choose 'gui' or 'console'");
 	}
 
 	private static void initFactories() {
@@ -186,9 +189,7 @@ public class Main {
 		Controller ctrl = new Controller(_sim, _eventsFactory);
 
 		if (_inFile != null) {
-			try (InputStream in = new BufferedInputStream(new FileInputStream(_inFile));
-					OutputStream out = _outFile == null ? System.out
-							: new BufferedOutputStream(new FileOutputStream(_outFile));) {
+			try (InputStream in = new BufferedInputStream(new FileInputStream(_inFile));) {
 
 				ctrl.loadEvents(in);	
 			}
