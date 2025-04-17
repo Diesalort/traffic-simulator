@@ -13,12 +13,12 @@ import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver{
+public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver {
 
 	private static final long serialVersionUID = 1L;
 
 	private List<Junction> _junctions;
-	private String[] _colNames = {"Id", "Green", "Queues" };
+	private String[] _colNames = { "Id", "Green", "Queues" };
 
 	public JunctionsTableModel(Controller ctrl) {
 		_junctions = new ArrayList<>();
@@ -59,25 +59,25 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 		case 2:
 			StringBuilder sb = new StringBuilder("");
 			List<Road> inRoads = _junctions.get(rowIndex).getInRoads();
-			
+
 			for (Road r : inRoads) {
 				sb.append(r + ":"); // ID de la carretera
-				sb.append(r.getVehicles() + " "); // La lista de vehículos
+				sb.append(r.getWaitingVehicles() + " "); // La lista de vehículos en estado WAITING
 			}
-			
+
 			s = sb.toString();
 			break;
 		}
-		
+
 		return s;
 	}
-	
+
 	private void update(RoadMap map) {
-		
+
 		_junctions = new ArrayList<>(map.getJunctions());
 		fireTableDataChanged();
 	}
-	
+
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
 		update(map);

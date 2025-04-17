@@ -29,7 +29,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 		this._events.add(e);
 
 		for (TrafficSimObserver obs : this._observers) {
-			obs.onEventAdded(_roadMap, _events, e, _time);			
+			obs.onEventAdded(_roadMap, _events, e, _time);
 		}
 	}
 
@@ -94,13 +94,13 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 
 		if (!this._observers.contains(o)) {
 			this._observers.add(o);
-			o.onRegister(_roadMap, _events, _time);	
+			o.onRegister(_roadMap, _events, _time);
 		}
 	}
 
 	@Override
 	public void removeObserver(TrafficSimObserver o) {
-		
+
 		if (this._observers.contains(o))
 			this._observers.remove(o);
 	}

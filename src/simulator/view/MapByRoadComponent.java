@@ -43,7 +43,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	public MapByRoadComponent(Controller ctrl) {
 
 		ctrl.addObserver(this);
-		this.setPreferredSize(new Dimension (300, 200));
+		this.setPreferredSize(new Dimension(300, 200));
 		initGUI();
 	}
 
@@ -69,7 +69,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			updatePrefferedSize();
 			drawMap(g);
 		}
-	}	
+	}
 
 	private void drawMap(Graphics g) {
 
@@ -80,8 +80,8 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			Road r = roads.get(i);
 
 			int x1 = 50;
-			int x2 = getWidth()-100;
-			int y = (i+1)*50;			
+			int x2 = getWidth() - 100;
+			int y = (i + 1) * 50;
 
 			drawRoad(g, r, x1, x2, y);
 			drawJunctions(g, r, x1, x2, y);
@@ -130,7 +130,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		List<Vehicle> vehicles = r.getVehicles();
 		for (Vehicle v : vehicles) {
 			if (v.getStatus() != VehicleStatus.ARRIVED) {
-				int x = x1 + (int) ((x2 - x1) * ((double) v.getLocation()/ (double) r.getLength()));
+				int x = x1 + (int) ((x2 - x1) * ((double) v.getLocation() / (double) r.getLength()));
 				// Choose a color for the vehcile's label and background, depending on its
 				// contamination class
 				int vLabelColor = (int) (25.0 * (10.0 - (double) v.getContClass()));
@@ -149,11 +149,10 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	}
 
 	private void drawContamination(Graphics g, Road r, int x2, int y) {
-		int C = (int) Math.floor(Math.min((double) r.getTotalCO2()/(1.0 + (double) r.getContLimit()),1.0) / 0.19);
+		int C = (int) Math.floor(Math.min((double) r.getTotalCO2() / (1.0 + (double) r.getContLimit()), 1.0) / 0.19);
 		Image contamination = loadImage("cont_" + C + ".png");
 		g.drawImage(contamination, x2 + 48, y - 17, 32, 32, this); // Imagen contamination
 	}
-
 
 	// loads an image from a file
 	private Image loadImage(String img) {
@@ -196,12 +195,12 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		update(map);		
+		update(map);
 	}
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		update(map);		
+		update(map);
 	}
 
 	@Override

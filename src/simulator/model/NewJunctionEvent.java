@@ -36,10 +36,10 @@ public class NewJunctionEvent extends Event {
 		Junction j = new Junction(_id, _lss, _dqs, _xCoor, _yCoor);
 		map.addJunction(j);
 	}
-	
+
 	@Override
 	public String toString() {
-		
+
 		return "New Junction '" + _id + "'";
 	}
 }

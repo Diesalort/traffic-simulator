@@ -2,14 +2,13 @@ package simulator.model;
 
 public enum Weather {
 	SUNNY, CLOUDY, RAINY, WINDY, STORM;
-	
-	
+
 	public String imageFile() {
-		
+
 		String imageFile = "";
-		
+
 		switch (this) {
-		
+
 		case SUNNY:
 			imageFile = "sun.png";
 			break;
@@ -24,9 +23,9 @@ public enum Weather {
 			break;
 		case STORM:
 			imageFile = "storm.png";
-			break;	
+			break;
 		}
-		
+
 		return imageFile;
 	}
 }

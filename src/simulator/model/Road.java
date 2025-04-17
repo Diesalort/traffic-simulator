@@ -182,4 +182,18 @@ public abstract class Road extends SimulatedObject {
 		return Collections.unmodifiableList(this._vehicles);
 	}
 
+	// Devuelve la lista de vehículos que están esperando un cruce (Para
+	// JunctionsTableModel y su representación correcta en la gui)
+	public List<Vehicle> getWaitingVehicles() {
+
+		List<Vehicle> lista = new ArrayList<>();
+		for (Vehicle v : _vehicles) {
+
+			if (v.getStatus() == VehicleStatus.WAITING)
+				lista.add(v);
+		}
+
+		return Collections.unmodifiableList(lista);
+	}
+
 }

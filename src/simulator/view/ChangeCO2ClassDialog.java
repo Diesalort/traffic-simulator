@@ -26,7 +26,8 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private JLabel _desc;
 	private JLabel _vehicle;
 	private JComboBox<Vehicle> _vehiclesComboBox;
-	private DefaultComboBoxModel<Vehicle> _vehiclesModel; // Modelo de vehiclesCombo para mostrar los vehículos de la simulación adecuadamente
+	private DefaultComboBoxModel<Vehicle> _vehiclesModel; // Modelo de vehiclesCombo para mostrar los vehículos de la
+															// simulación adecuadamente
 	private JLabel _CO2Class;
 	private JComboBox<Integer> _CO2ClassComboBox;
 	private JLabel _ticks;
@@ -34,31 +35,33 @@ public class ChangeCO2ClassDialog extends JDialog {
 
 	private int _choice;
 
-	ChangeCO2ClassDialog(Frame parent){
+	ChangeCO2ClassDialog(Frame parent) {
 		super(parent, "Change CO2 Class", true);
 
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.setPreferredSize(new Dimension(460, 205));
 		this.setResizable(false); // Para que no se pueda redimensionar
 
-		initGUI();		
+		initGUI();
 	}
 
 	private void initGUI() {
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-		this.setContentPane(mainPanel);;
-		
+		this.setContentPane(mainPanel);
+		;
+
 		// SUPERIOR
 		JPanel superiorPanel = new JPanel(new BorderLayout());
 
-		_desc = new JLabel ("<html><p>Schedule an event to change the CO2 class of a vehicle after a given number of simulation ticks from now.</p></html>");
+		_desc = new JLabel(
+				"<html><p>Schedule an event to change the CO2 class of a vehicle after a given number of simulation ticks from now.</p></html>");
 		superiorPanel.add(_desc);
 
 		// CENTRO
 		JPanel centerPanel = new JPanel();
-		_vehicle = new JLabel ("Vehicle: ");
+		_vehicle = new JLabel("Vehicle: ");
 		_vehiclesModel = new DefaultComboBoxModel<Vehicle>();
 		_vehiclesComboBox = new JComboBox<>(_vehiclesModel);
 		_vehiclesComboBox.setPreferredSize(new Dimension(85, 20));
@@ -92,7 +95,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				_choice = 0;
-				ChangeCO2ClassDialog.this.setVisible(false);							
+				ChangeCO2ClassDialog.this.setVisible(false);
 			}
 		});
 
@@ -102,26 +105,26 @@ public class ChangeCO2ClassDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				_choice = 1;
-				ChangeCO2ClassDialog.this.setVisible(false);							
-			}	
+				ChangeCO2ClassDialog.this.setVisible(false);
+			}
 		});
 
 		lowerPanel.add(cancel);
 		lowerPanel.add(ok);
 
-
 		// Añadimos todo a mainPanel y creamos áreas rígidas
 		mainPanel.add(superiorPanel);
-		mainPanel.add(Box.createRigidArea(new Dimension(0,15)));
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 		mainPanel.add(centerPanel);
-		mainPanel.add(Box.createRigidArea(new Dimension(0,35)));
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 35)));
 		mainPanel.add(lowerPanel);
 		mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
 		this.pack();
 	}
 
-	void initializeDialog(List<Vehicle> vehicles) { // Pasa la lista de vehículos al combobox de vehicles cada vez que se utiliza el diálogo, y pone valores por defecto
+	void initializeDialog(List<Vehicle> vehicles) { // Pasa la lista de vehículos al combobox de vehicles cada vez que
+													// se utiliza el diálogo, y pone valores por defecto
 
 		_vehiclesModel.removeAllElements();
 		_CO2ClassComboBox.setSelectedIndex(0); // Para que aparezca 0 por defecto
@@ -132,7 +135,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		}
 	}
 
-	int getChoice() { //0-Cancel, 1-OK
+	int getChoice() { // 0-Cancel, 1-OK
 		return _choice;
 	}
 

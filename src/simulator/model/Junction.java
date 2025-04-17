@@ -174,24 +174,25 @@ public class Junction extends SimulatedObject {
 
 		return jo;
 	}
-	
+
 	public int getX() {
-		
+
 		return this._xCoor;
 	}
-	
+
 	public int getY() {
-		
+
 		return this._yCoor;
 	}
-	
+
 	public int getGreenLightIndex() {
-		
+
 		return this._greenLightIndex;
 	}
-	
-	public List<Road> getInRoads(){ // Lo devolvemos como unmodifiableList ya que no se espera que se modifique al invocar a este método
-		
+
+	public List<Road> getInRoads() { // Lo devolvemos como unmodifiableList ya que no se espera que se modifique al
+										// invocar a este método
+
 		return Collections.unmodifiableList(this._inRoads);
 	}
 }

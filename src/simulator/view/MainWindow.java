@@ -33,7 +33,7 @@ public class MainWindow extends JFrame {
 		this.setContentPane(mainPanel);
 
 		mainPanel.add(new ControlPanel(_ctrl), BorderLayout.PAGE_START);
-		mainPanel.add(new StatusBar(_ctrl),BorderLayout.PAGE_END);
+		mainPanel.add(new StatusBar(_ctrl), BorderLayout.PAGE_END);
 
 		JPanel viewsPanel = new JPanel(new GridLayout(1, 2));
 		mainPanel.add(viewsPanel, BorderLayout.CENTER);
@@ -46,7 +46,6 @@ public class MainWindow extends JFrame {
 		mapsPanel.setLayout(new BoxLayout(mapsPanel, BoxLayout.Y_AXIS));
 		viewsPanel.add(mapsPanel);
 
-		
 		// tables
 		JTable eventsTable = new JTable(new EventsTableModel(_ctrl));
 		eventsTable.setShowGrid(false); // Para quitar las lineas de las celdas
@@ -75,14 +74,12 @@ public class MainWindow extends JFrame {
 		JPanel junctionsView = createViewPanel(junctionsTable, "Junctions");
 		junctionsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(junctionsView);
-		
-		
+
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapView);
 
-		
 		JPanel mapByRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
 		mapByRoadView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapByRoadView);
@@ -94,8 +91,8 @@ public class MainWindow extends JFrame {
 
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel(new BorderLayout());
-		Border b = BorderFactory.createLineBorder(Color. black , 2);
-		p.setBorder(BorderFactory. createTitledBorder(b, title, TitledBorder.LEFT, TitledBorder.TOP));
+		Border b = BorderFactory.createLineBorder(Color.black, 2);
+		p.setBorder(BorderFactory.createTitledBorder(b, title, TitledBorder.LEFT, TitledBorder.TOP));
 		p.add(new JScrollPane(c));
 		return p;
 	}

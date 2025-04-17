@@ -34,7 +34,7 @@ public class SetContClassEvent extends Event {
 
 	@Override
 	public String toString() {
-		
+
 		return "Change CO2 class: " + _cs;
 	}
 }

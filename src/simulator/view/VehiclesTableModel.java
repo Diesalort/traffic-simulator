@@ -12,12 +12,13 @@ import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Vehicle;
 
-public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver{
+public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver {
 
 	private static final long serialVersionUID = 1L;
 
 	private List<Vehicle> _vehicles;
-	private String[] _colNames = {"Id", "Location", "Itinerary", "CO2 Class", "Max. Speed", "Speed", "Total CO2", "Distance"};
+	private String[] _colNames = { "Id", "Location", "Itinerary", "CO2 Class", "Max. Speed", "Speed", "Total CO2",
+			"Distance" };
 
 	public VehiclesTableModel(Controller ctrl) {
 		_vehicles = new ArrayList<>();
@@ -54,7 +55,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		case 1:
 
 			Vehicle v = _vehicles.get(rowIndex);
-			switch(v.getStatus()) {
+			switch (v.getStatus()) {
 
 			case PENDING:
 				s = "Pending";

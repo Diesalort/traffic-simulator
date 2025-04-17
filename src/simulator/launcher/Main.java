@@ -92,7 +92,8 @@ public class Main {
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
 		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg()
 				.desc("Ticks to the simulator's main loop (default value is 10).").build());
-		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc("Select playing on gui or console").build());
+		cmdLineOptions.addOption(
+				Option.builder("m").longOpt("mode").hasArg().desc("Select playing on gui or console").build());
 		return cmdLineOptions;
 	}
 
@@ -133,9 +134,9 @@ public class Main {
 			_mode = line.getOptionValue("m");
 		else
 			_mode = "gui";
-		
+
 		_mode = _mode.toLowerCase();
-		
+
 		if (!_mode.equals("gui") && !_mode.equals("console"))
 			throw new ParseException("Invalid mode: " + _mode + ". Choose 'gui' or 'console'");
 	}
@@ -191,25 +192,25 @@ public class Main {
 		if (_inFile != null) {
 			try (InputStream in = new BufferedInputStream(new FileInputStream(_inFile));) {
 
-				ctrl.loadEvents(in);	
+				ctrl.loadEvents(in);
 			}
 		}
 
-		SwingUtilities.invokeLater(new Runnable() {	
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				new MainWindow(ctrl);
 			}
-		}); 
+		});
 
 	}
 
 	private static void start(String[] args) throws IOException {
 		initFactories();
 		parseArgs(args);
-		
+
 		if (_mode.equals("gui"))
-			startGUIMode(); 
+			startGUIMode();
 		else
 			startBatchMode();
 	}

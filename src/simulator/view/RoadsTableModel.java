@@ -17,7 +17,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	private static final long serialVersionUID = 1L;
 
 	private List<Road> _roads;
-	private String[] _colNames = {"Id", "Length", "Weather", "Max. Speed", "Speed Limit", "Total CO2", "CO2 Limit" };
+	private String[] _colNames = { "Id", "Length", "Weather", "Max. Speed", "Speed Limit", "Total CO2", "CO2 Limit" };
 
 	public RoadsTableModel(Controller ctrl) {
 		_roads = new ArrayList<>();
@@ -69,23 +69,23 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 		case 6:
 			s = _roads.get(rowIndex).getContLimit();
 		}
-		
+
 		return s;
 	}
 
 	private void update(RoadMap map) {
-		
+
 		_roads = new ArrayList<>(map.getRoads());
 		fireTableDataChanged();
 	}
-	
+
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
 		update(map);
 	}
 
 	@Override
-	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {	
+	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
 		update(map);
 	}
 
@@ -100,4 +100,3 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 		update(map);
 	}
 }
-

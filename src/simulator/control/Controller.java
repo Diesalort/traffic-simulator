@@ -71,24 +71,24 @@ public class Controller {
 
 		this._sim.reset();
 	}
-	
-	public void addObserver(TrafficSimObserver o){
-		
+
+	public void addObserver(TrafficSimObserver o) {
+
 		this._sim.addObserver(o);
 	}
-	
+
 	public void removeObserver(TrafficSimObserver o) {
-		
+
 		this._sim.removeObserver(o);
 	}
-	
+
 	public void addEvent(Event e) {
-		
+
 		this._sim.addEvent(e);
 	}
-	
+
 	public void run(int n) {
-		
+
 		for (int i = 0; i < n; i++)
 			this._sim.advance();
 	}
