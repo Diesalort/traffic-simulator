@@ -231,13 +231,20 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int ticks = (Integer) _ticksSpinner.getValue();
+	            SwingUtilities.invokeLater(() -> enableToolbar(false)); // Desactivamos toolbar
+	            
 				_thread = new Thread(new Runnable() {
 
 					@Override
 					public void run() {
-						enableToolbar(false);
 						long delay = ((Number) _delaySpinner.getValue()).longValue();
 						run_sim(ticks, delay);
+						
+						// Activamos toolbar y ponemos _thread a null
+						SwingUtilities.invokeLater(() -> {
+							enableToolbar(true);
+						});
+						_thread = null;
 					}				
 				});
 				
@@ -333,12 +340,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				return; // Salimos del método si ocurre error
 			}
 		}
-		
-		// Activamos toolbar y ponemos _thread a null
-		SwingUtilities.invokeLater(() -> {
-			enableToolbar(true);
-		});
-		_thread = null;
 	}
 
 	private JButton createButton(String iconPath, String tooltipText, ActionListener listener) {
