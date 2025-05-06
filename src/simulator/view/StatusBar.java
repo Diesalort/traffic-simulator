@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.Box;
@@ -10,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -54,8 +56,16 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 	}
 
 	private void update(int time, String message) {
-		_timeLabel.setText("Time: " + time);
-		_eventLabel.setText(message);
+		
+		SwingUtilities.invokeLater(new Runnable () {
+
+			@Override
+			public void run() {
+				_timeLabel.setText("Time: " + time);
+				_eventLabel.setText(message);
+			}
+		});
+		
 	}
 
 	@Override

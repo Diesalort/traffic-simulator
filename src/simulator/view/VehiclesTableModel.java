@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -18,7 +19,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	private List<Vehicle> _vehicles;
 	private String[] _colNames = { "Id", "Location", "Itinerary", "CO2 Class", "Max. Speed", "Speed", "Total CO2",
-			"Distance" };
+	"Distance" };
 
 	public VehiclesTableModel(Controller ctrl) {
 		_vehicles = new ArrayList<>();
@@ -97,8 +98,15 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	private void update(RoadMap map) {
 
-		_vehicles = new ArrayList<>(map.getVehicles());
-		fireTableDataChanged();
+		SwingUtilities.invokeLater(new Runnable () {
+
+			@Override
+			public void run() {
+
+				_vehicles = new ArrayList<>(map.getVehicles());
+				fireTableDataChanged();}
+		});
+
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -60,9 +61,15 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	private void update(Collection<Event> events) {
 
-		_events = new ArrayList<>(events);
-		Collections.sort(_events); // Para que se muestren en el orden correcto
-		fireTableDataChanged(); // We need to notify changes, otherwise the table does not refresh.
+		SwingUtilities.invokeLater(new Runnable () {
+
+			@Override
+			public void run() {
+				_events = new ArrayList<>(events);
+				Collections.sort(_events); // Para que se muestren en el orden correcto
+				fireTableDataChanged(); // We need to notify changes, otherwise the table does not refresh.
+			}
+		});
 	}
 
 	@Override

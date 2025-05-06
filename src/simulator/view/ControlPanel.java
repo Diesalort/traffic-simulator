@@ -52,8 +52,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private JButton _stopButton;
 	private JSpinner _ticksSpinner;
 	private JButton _exitButton;
+	private JSpinner _delaySpinner;
 
-	private boolean _stopped; // Indica si la simulación esta ejecutándose o no
+	private volatile Thread _thread;
 
 	private RoadMap _map;
 	private int _currTime;
@@ -68,9 +69,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 		_ctrl = ctrl;
 		_ctrl.addObserver(this); // Añadimos ControlPanel como nuevo observador
-		_stopped = true;
 		this.setLayout(new BorderLayout()); // Con borderLayout haremos que la toolBar ocupe todo el ancho de la parte
-											// superior
+		// superior
 		initGUI();
 	}
 
@@ -80,18 +80,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 		this.fileChooserConf();
 		_toolbar.addSeparator();
-		;
 		this.setContClassConf();
 		this.changeRoadWeatherConf();
 		_toolbar.addSeparator();
 		this.runConf();
 		this.stopConf();
 		this.ticksConf();
+		this.delayConf();
 		_toolbar.add(Box.createHorizontalGlue());
 		_toolbar.addSeparator();
 		this.exitConf();
 
-		_toolbar.setEnabled(false);
 		this.add(_toolbar, BorderLayout.PAGE_START);
 	}
 
@@ -104,8 +103,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			public void actionPerformed(ActionEvent e) {
 
 				JFileChooser fileChooser = new JFileChooser(new File("resources/examples")); // Abre por defecto la
-																								// carpeta
-																								// resources/examples
+				// carpeta
+				// resources/examples
 
 				int selection = fileChooser.showOpenDialog(ViewUtils.getWindow(ControlPanel.this));
 
@@ -145,7 +144,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 					_changeCO2Dialog = new ChangeCO2ClassDialog(ViewUtils.getWindow(ControlPanel.this));
 
 				_changeCO2Dialog.initializeDialog(_map.getVehicles()); // Le pasamos al jdialog la lista de vehiculos
-																		// actual
+				// actual
 				showDialog(_changeCO2Dialog); // Mostramos diálogo
 
 				if (_changeCO2Dialog.getChoice() == OK)
@@ -175,7 +174,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			cs.add(new Pair<>(v.getId(), contClass));
 
 			_ctrl.addEvent(new SetContClassEvent(_currTime + ticks, cs)); // Debemos sumar el currTime + los ticks
-																			// seleccionados
+			// seleccionados
 		}
 	}
 
@@ -190,7 +189,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 					_changeWeatherDialog = new ChangeWeatherDialog(ViewUtils.getWindow(ControlPanel.this));
 
 				_changeWeatherDialog.initializeDialog(_map.getRoads()); // Le pasamos al jdialog la lista de carreteras
-																		// actual
+				// actual
 				showDialog(_changeWeatherDialog); // Mostramos diálogo
 
 				if (_changeWeatherDialog.getChoice() == OK)
@@ -221,7 +220,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			ws.add(new Pair<>(r.getId(), weather));
 
 			_ctrl.addEvent(new SetWeatherEvent(_currTime + ticks, ws)); // Debemos sumar el currTime + los ticks
-																		// seleccionados
+			// seleccionados
 		}
 	}
 
@@ -232,9 +231,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int ticks = (Integer) _ticksSpinner.getValue();
-				_stopped = false;
-				enableToolbar(false);
-				run_sim(ticks);
+				_thread = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						enableToolbar(false);
+						long delay = ((Number) _delaySpinner.getValue()).longValue();
+						run_sim(ticks, delay);
+					}				
+				});
+				
+				_thread.start();
 			}
 
 		};
@@ -249,7 +256,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				_stopped = true;
+				if (_thread != null) {
+					_thread.interrupt();
+				}
 			}
 
 		};
@@ -271,6 +280,19 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		_toolbar.add(_ticksSpinner);
 	}
 
+	private void delayConf() {
+
+		JLabel delayLabel = new JLabel("Delay: ");
+		_delaySpinner = new JSpinner(new SpinnerNumberModel(10, 0, 1000, 1));
+		_delaySpinner.setMaximumSize(new Dimension(80, 40));
+		_delaySpinner.setMinimumSize(new Dimension(20, 40));
+		_delaySpinner.setPreferredSize(new Dimension(80, 40));
+		_delaySpinner.setToolTipText("Delay between simulation steps: 1-1000");
+
+		_toolbar.add(delayLabel);
+		_toolbar.add(_delaySpinner);
+	}
+
 	private void exitConf() {
 
 		ActionListener exitListener = new ActionListener() {
@@ -287,21 +309,36 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	}
 
-	private void run_sim(int n) {
-		if (n > 0 && !_stopped) {
+	private void run_sim(int n, long delay) {
+
+		while ( n > 0 && (!Thread.currentThread().isInterrupted()) ) {
+
 			try {
 				_ctrl.run(1);
-				SwingUtilities.invokeLater(() -> run_sim(n - 1));
+				Thread.sleep(delay);
+				n--;
+
+			} catch (InterruptedException e) {				
+				Thread.currentThread().interrupt();
 			} catch (Exception e) {
 				// show error message
-				ViewUtils.showErrorMsg(ViewUtils.getWindow(ControlPanel.this), "An error happenned: " + e.getMessage());
-				_stopped = true;
-				enableToolbar(true);
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						ViewUtils.showErrorMsg(ViewUtils.getWindow(ControlPanel.this), "An error happenned: " + e.getMessage());
+						enableToolbar(true);
+					}					
+				});
+				return; // Salimos del método si ocurre error
 			}
-		} else {
-			_stopped = true;
-			enableToolbar(true);
 		}
+		
+		// Activamos toolbar y ponemos _thread a null
+		SwingUtilities.invokeLater(() -> {
+			enableToolbar(true);
+		});
+		_thread = null;
 	}
 
 	private JButton createButton(String iconPath, String tooltipText, ActionListener listener) {
@@ -320,13 +357,20 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		_roadWeatherButton.setEnabled(b);
 		_runButton.setEnabled(b);
 		_ticksSpinner.setEnabled(b);
+		_delaySpinner.setEnabled(b);
 		_exitButton.setEnabled(b);
 	}
 
 	private void update(RoadMap map, int time) {
 
-		_map = map;
-		_currTime = time;
+		SwingUtilities.invokeLater(new Runnable () {
+
+			@Override
+			public void run() {
+				_map = map;
+				_currTime = time;
+			}
+		});
 	}
 
 	private void showDialog(JDialog d) {
@@ -334,7 +378,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		JFrame parent = (JFrame) ViewUtils.getWindow(ControlPanel.this);
 		d.setLocation(parent.getX() + (parent.getWidth() - d.getWidth()) / 2,
 				parent.getY() + (parent.getHeight() - d.getHeight()) / 2); // Para que aparezca centrado con respecto a
-																			// mainWindow
+		// mainWindow
 		d.setVisible(true);
 	}
 

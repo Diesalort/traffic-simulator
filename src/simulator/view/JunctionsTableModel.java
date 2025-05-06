@@ -2,8 +2,10 @@ package simulator.view;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -73,9 +75,15 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	}
 
 	private void update(RoadMap map) {
+		
+		SwingUtilities.invokeLater(new Runnable () {
 
-		_junctions = new ArrayList<>(map.getJunctions());
-		fireTableDataChanged();
+			@Override
+			public void run() {
+				_junctions = new ArrayList<>(map.getJunctions());
+				fireTableDataChanged();
+			}
+		});
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -75,8 +76,15 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 
 	private void update(RoadMap map) {
 
-		_roads = new ArrayList<>(map.getRoads());
-		fireTableDataChanged();
+		SwingUtilities.invokeLater(new Runnable () {
+
+			@Override
+			public void run() {
+				_roads = new ArrayList<>(map.getRoads());
+				fireTableDataChanged();
+			}
+		});
+		
 	}
 
 	@Override
