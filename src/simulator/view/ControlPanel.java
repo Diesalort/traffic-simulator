@@ -68,10 +68,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	public ControlPanel(Controller ctrl) {
 
 		_ctrl = ctrl;
-		_ctrl.addObserver(this); // Añadimos ControlPanel como nuevo observador
 		this.setLayout(new BorderLayout()); // Con borderLayout haremos que la toolBar ocupe todo el ancho de la parte
 		// superior
 		initGUI();
+		_ctrl.addObserver(this); // Añadimos ControlPanel como nuevo observador
+
 	}
 
 	private void initGUI() {
@@ -92,6 +93,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.exitConf();
 
 		this.add(_toolbar, BorderLayout.PAGE_START);
+		
+		// creación de vistas:
+		_changeCO2Dialog = new ChangeCO2ClassDialog(ViewUtils.getWindow(this));
+		_changeWeatherDialog = new ChangeWeatherDialog(ViewUtils.getWindow(this));
 	}
 
 	private void fileChooserConf() {
@@ -140,9 +145,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (_changeCO2Dialog == null)
-					_changeCO2Dialog = new ChangeCO2ClassDialog(ViewUtils.getWindow(ControlPanel.this));
-
 				_changeCO2Dialog.initializeDialog(_map.getVehicles()); // Le pasamos al jdialog la lista de vehiculos
 				// actual
 				showDialog(_changeCO2Dialog); // Mostramos diálogo
@@ -184,9 +186,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (_changeWeatherDialog == null)
-					_changeWeatherDialog = new ChangeWeatherDialog(ViewUtils.getWindow(ControlPanel.this));
 
 				_changeWeatherDialog.initializeDialog(_map.getRoads()); // Le pasamos al jdialog la lista de carreteras
 				// actual

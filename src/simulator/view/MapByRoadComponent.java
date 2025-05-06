@@ -42,9 +42,9 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 	public MapByRoadComponent(Controller ctrl) {
 
-		ctrl.addObserver(this);
 		this.setPreferredSize(new Dimension(300, 200));
 		initGUI();
+		ctrl.addObserver(this);
 	}
 
 	private void initGUI() {
