@@ -89,6 +89,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 			break;
 		case 6:
 			s = _vehicles.get(rowIndex).getTotalCO2();
+			break;
 		case 7:
 			s = _vehicles.get(rowIndex).getDistance();
 		}
